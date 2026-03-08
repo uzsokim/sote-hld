@@ -1,12 +1,12 @@
-﻿BKT-Q1#  sh run
+﻿KKT-T1# sh run
 
 !Command: show running-config
 !No configuration change since last restart
-!Time: Sun Mar  8 21:33:32 2026
+!Time: Sun Mar  8 21:39:35 2026
 
-version 9.3(10) Bios:version 05.47 
-switchname BKT-Q1
-vdc BKT-Q1 id 1
+version 9.3(10) Bios:version 05.45 
+switchname KKT-T1
+vdc KKT-T1 id 1
   limit-resource vlan minimum 16 maximum 4094
   limit-resource vrf minimum 2 maximum 4096
   limit-resource port-channel minimum 0 maximum 511
@@ -19,13 +19,13 @@ feature telnet
 cfs eth distribute
 feature ospf
 feature pim
-feature msdp
 feature interface-vlan
 feature vn-segment-vlan-based
+feature hsrp
 feature lacp
 feature vpc
 clock timezone MET 1 0
-clock summer-time MEST 5 sun mar 3:00 5 Sun Oct 2:00 60
+clock summer-time MEST 5 Sun Mar 3:00 5 Sun Oct 2:00 60
 feature nv overlay
 
 mac address-table aging-time 3600
@@ -34,15 +34,17 @@ role name readonly
   rule 2 deny command configure terminal
   rule 1 permit read  
 no password strength-check
-username admin password 5 $5$JFGKNB$tpSFtSjZQzzdx8jdx8kmLm0MeR3dRrCc/MwG2.PbRb1  role network-admin
-username mark password 5 $5$ICBMHD$kum09iLnPaiKPW1CA4lMeC.HvL74LTxKdpPP/btDde7  role readonly
+username admin password 5 $5$NBPLEJ$HD2i2LStdqm33HcpsCqbpdNZhZkZ6SaMfaaMzXlFP4/  role network-admin
+username mark password 5 $5$AJLPIN$6EdG9wfzsnk/nUzalFS3cYwtPpON4A5x1T5TI6Z.RZ3  role readonly
 username mark passphrase  lifetime 99999 warntime 14 gracetime 3
 ip domain-lookup
+logging message interface type ethernet description
 errdisable recovery interval 120
 no errdisable detect cause link-flap
 no errdisable detect cause loopback
 copp profile strict
-snmp-server user mark readonly auth md5 4962F1D7CE0F1B6D6DB148F81E7BA02EA893 priv 480AAD849F04292727E35AFB0648E76CA5A0 localizedV2key
+snmp-server user mark readonly auth md5 006588FC61F7C3B308E97A5EE4A747D6EE3A priv 365ED0E270F6CCE048BD2B51E4FA4EF0FA23 localizedV2key
+snmp-server user admin network-admin auth md5 0xaa18c7d7b0702bfeb8d8ea432a3b3cb1 priv 0xaa18c7d7b0702bfeb8d8ea432a3b3cb1 localizedkey
 rmon event 1 log trap public description FATAL(1) owner PMON@FATAL
 rmon event 2 log trap public description CRITICAL(2) owner PMON@CRITICAL
 rmon event 3 log trap public description ERROR(3) owner PMON@ERROR
@@ -56,9 +58,9 @@ ntp logging
 ip pim rp-address 172.27.0.1 group-list 239.27.0.0/16
 ip pim ssm range 232.0.0.0/8
 ip igmp ssm-translate 239.27.0.0/16 172.27.0.1
-vlan 1,9-13,21-23,61-64,66,69-71,90,96-114,117-119,121-122,125,127,141-149,151,160-161,170,180,191,201-203,205,207-212,214-220,226,228,230,281,302-305,310-312,351-352,361-362,373,383,390,400-401,403-407,409-414,418,420-42
-3,430-433,440-442,450,452,460,470-474,481-485,500-503,507-511,513-517,521-523,550-554,556,560-571,600,603,655,660-661,666,670,684-685,687,695,750-754,756,760-765
-vlan 770-774,777,781-784,798,801-804,810-812,814,817-820,848-856,858-860,890-896,901,911-912,950,982,994-997
+vlan 1,9-13,21-23,61-66,69-71,90,96-114,117-119,121-122,125,127,141-144,146-149,151,160-161,170,180,191,201-203,205,207-212,214-220,223-224,226,228,230,245,281,294-296,298,302-305,310-312,351-352,361-362,373,383,390,400-4
+01,403-414,418,420-423,430-433,440-442,450,452,460,470-474,481-485,500-504,507-511,513-517,521-523,550-554,556,560-571,600,603,655,660-661,666,670,684-685,687,695
+vlan 750-754,756,760-765,770-774,777,781-784,798,801-804,810-812,814,817-820,822-823,848-856,858-861,890-896,901,911-913,950,982,994-997,1111,2222
 vlan 9
   name VPC-LOCAL
 vlan 10
@@ -83,6 +85,8 @@ vlan 63
   name MGMT-N
 vlan 64
   name MGMT-ALETRA
+vlan 65
+  name MGMT-VMVARE1
 vlan 66
   name MGMT-VMVARE2
 vlan 69
@@ -153,12 +157,10 @@ vlan 143
   name ANDROMEDA
 vlan 144
   name HIS_TESZT
-vlan 145
-  name PACS_GE
 vlan 146
-  name PACS_GE_DICOM
+  name ERAD
 vlan 147
-  name PACS_GE_PHB
+  name ERAD-INTERNAL
 vlan 148
   name PACS_GE_MGMT
 vlan 149
@@ -209,14 +211,28 @@ vlan 219
   name RADIOMETER
 vlan 220
   name MEDMOB
+vlan 223
+  name SEFA
+vlan 224
+  name ROCHE-BELSO
 vlan 226
   name BEN-PAT
 vlan 228
   name MULTIMEX
 vlan 230
   name EFK
+vlan 245
+  name MEDBAKTER
 vlan 281
   name SZERVES
+vlan 294
+  name JIR-GYULAI
+vlan 295
+  name JIR-BAROS
+vlan 296
+  name JIR-KORANYI
+vlan 298
+  name JIR-ULLOI
 vlan 302
   name TELKONT
 vlan 303
@@ -259,6 +275,8 @@ vlan 406
   name NEUR
 vlan 407
   name TOMO
+vlan 408
+  name PANCREAS
 vlan 409
   name NOI2
 vlan 410
@@ -329,6 +347,8 @@ vlan 502
   name ORAL
 vlan 503
   name PHARMA
+vlan 504
+  name MIKRO
 vlan 507
   name BIOL
 vlan 508
@@ -483,6 +503,10 @@ vlan 819
   name BC22MGMT
 vlan 820
   name ILLES26
+vlan 822
+  name MERENYI
+vlan 823
+  name BC22
 vlan 848
   name GM
 vlan 849
@@ -507,6 +531,8 @@ vlan 859
   name SBO-MONITOR
 vlan 860
   name AITK-MONITOR
+vlan 861
+  name TRAUMA
 vlan 890
   name ORFI-MGMT
 vlan 891
@@ -527,6 +553,8 @@ vlan 911
   name HOSTSERVER
 vlan 912
   name INFSERV
+vlan 913
+  name MEDSERV
 vlan 950
   name ROKUS_950
 vlan 982
@@ -539,19 +567,22 @@ vlan 996
   name VILL-VENDEG
 vlan 997
   name VILL-BTI
+vlan 1111
+  name Flowmon
+vlan 2222
+  name SQLCLUSTER
 
 ip prefix-list loopback-core seq 10 permit 172.27.0.0/24 eq 32 
-ip prefix-list loopback-core seq 20 permit 172.27.4.0/23 eq 30 
 route-map loopback-map permit 10
   match ip address prefix-list loopback-core 
 vrf context management
   ip domain-name sotnet
   ip name-server 10.63.64.2
   ip route 0.0.0.0/0 10.63.64.1
-vpc domain 11
+vpc domain 25
   peer-switch
   role priority 1
-  peer-keepalive destination 10.63.66.12 source 10.63.66.11
+  peer-keepalive destination 10.63.66.26 source 10.63.66.25
   peer-gateway
   auto-recovery
   ip arp synchronize
@@ -566,35 +597,70 @@ interface Vlan9
   no shutdown
   mtu 9100
   no ip redirects
-  ip address 172.27.4.61/30
+  ip address 172.27.4.25/30
   no ipv6 redirects
-  ip ospf cost 110
+  ip ospf cost 220
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 2 area 172.27.0.0
   ip pim sparse-mode
 
 interface port-channel1
-  description PEER-LINK 
+  description PEER-LINK
   switchport
   switchport mode trunk
   spanning-tree port type network
   vpc peer-link
 
-interface port-channel2
+interface port-channel10
+  description SZERVERESEK
   switchport
   switchport mode trunk
-  switchport trunk allowed vlan 10-1000,1800,2000-2020
-  spanning-tree port type network
-  vpc 2
-
-interface port-channel4
-  switchport
-  switchport mode trunk
-  switchport trunk allowed vlan 10-1000,2000-2020
-  vpc 4
+  switchport trunk native vlan 69
+  switchport trunk allowed vlan 69,390,422
+  vpc 10
 
 interface port-channel11
+  description Forti Internet STUD
+  switchport
+  switchport access vlan 982
+  vpc 11
+
+interface port-channel12
+  description Forti Temp Inside
+  switchport
+  switchport access vlan 90
+  vpc 12
+
+interface port-channel13
+  description Forti Temp Outside
+  switchport
+  switchport access vlan 982
+  vpc 13
+
+interface port-channel14
+  description VPN2 Public
+  switchport
+  switchport access vlan 401
+  vpc 14
+
+interface port-channel15
+  description VPN2 Intra
+  switchport
+  switchport access vlan 474
+
+interface port-channel16
+  description VPN1 Public
+  switchport
+  switchport access vlan 401
+  vpc 16
+
+interface port-channel19
+  description Synergy
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 10-1000,1111
+  vpc 19
 
 interface nve1
   source-interface loopback0
@@ -607,6 +673,7 @@ interface nve1
   member vni 23 mcast-group 239.27.100.1
   member vni 61 mcast-group 239.27.100.1
   member vni 62 mcast-group 239.27.100.1
+  member vni 63 mcast-group 239.27.100.1
   member vni 66 mcast-group 239.27.100.1
   member vni 69 mcast-group 239.27.100.2
   member vni 70 mcast-group 239.27.100.1
@@ -702,12 +769,9 @@ interface nve1
   member vni 418 mcast-group 239.27.100.3
   member vni 420 mcast-group 239.27.100.3
   member vni 421 mcast-group 239.27.100.1
-  member vni 422 mcast-group 239.27.4.22
   member vni 423 mcast-group 239.27.100.2
-  member vni 430 mcast-group 239.27.4.30
   member vni 431 mcast-group 239.27.100.2
   member vni 432 mcast-group 239.27.100.3
-  member vni 433 mcast-group 239.27.4.33
   member vni 440 mcast-group 239.27.100.2
   member vni 441 mcast-group 239.27.100.2
   member vni 442 mcast-group 239.27.100.2
@@ -728,6 +792,7 @@ interface nve1
   member vni 501 mcast-group 239.27.100.4
   member vni 502 mcast-group 239.27.100.4
   member vni 503 mcast-group 239.27.100.4
+  member vni 504 mcast-group 239.27.100.4
   member vni 507 mcast-group 239.27.100.4
   member vni 508 mcast-group 239.27.100.4
   member vni 509 mcast-group 239.27.100.4
@@ -825,142 +890,305 @@ interface nve1
   member vni 997 mcast-group 239.27.100.1
 
 interface Ethernet1/1
+  description PHARMA szerver
   switchport
+  switchport access vlan 503
+  speed 100
+  duplex full
 
 interface Ethernet1/2
+  description PHARMA2
+  switchport
+  switchport access vlan 503
 
 interface Ethernet1/3
+  description Flowmon tes(z)t
+  switchport
+  switchport mode trunk
+  switchport access vlan 503
+  switchport trunk allowed vlan 10-1000
 
 interface Ethernet1/4
+  description PHARMA mento szerver
+  switchport
+  switchport access vlan 503
 
 interface Ethernet1/5
+  description Radiometer
+  switchport
+  switchport access vlan 219
 
 interface Ethernet1/6
+  description OKK
+  switchport
+  switchport access vlan 418
 
 interface Ethernet1/7
+  description HDMEDI
+  switchport
+  switchport access vlan 856
 
 interface Ethernet1/8
+  description PI-PACS
+  switchport
+  switchport access vlan 414
 
 interface Ethernet1/9
+  description PHRAMA-G
+  switchport
+  switchport access vlan 503
 
 interface Ethernet1/10
+  description PHRAMA-G
+  switchport
+  switchport access vlan 503
 
 interface Ethernet1/11
+  description WLC HA
+  switchport
+  switchport access vlan 71
 
 interface Ethernet1/12
+  description PHILIPS RADI
+  switchport
+  switchport access vlan 114
 
 interface Ethernet1/13
+  description PHILIPS RADI
+  switchport
+  switchport access vlan 114
 
 interface Ethernet1/14
+  description PHILIPS RADI
+  switchport
+  switchport access vlan 114
 
 interface Ethernet1/15
+  description RADI PHILIPS
+  switchport
+  switchport access vlan 418
 
 interface Ethernet1/16
+  description RADI PHILIPS
+  switchport
+  switchport access vlan 418
 
 interface Ethernet1/17
+  description EOK TSM
+  switchport
+  switchport access vlan 750
+  spanning-tree port type edge
 
 interface Ethernet1/18
+  description EOK TSM
+  switchport
+  switchport access vlan 750
+  spanning-tree port type edge
 
 interface Ethernet1/19
+  description RADI PHILIPS
+  switchport
+  switchport access vlan 418
 
 interface Ethernet1/20
+  description Avaya
+  switchport
+  switchport access vlan 303
 
 interface Ethernet1/21
+  description PHILIPS RADI
+  switchport
+  switchport access vlan 114
 
 interface Ethernet1/22
+  description RADI Qnap
+  switchport
+  switchport access vlan 418
+  switchport trunk allowed vlan 418
 
 interface Ethernet1/23
+  description RADI Qnap
+  switchport
+  switchport access vlan 418
+  switchport trunk allowed vlan 418
 
 interface Ethernet1/24
+  description RADI DoseWatch
+  switchport
+  switchport access vlan 418
 
 interface Ethernet1/25
+  description PACS
   switchport
-  switchport mode trunk
-  switchport trunk allowed vlan 10-1000,2000-2020
-  channel-group 4 mode active
+  switchport access vlan 113
 
 interface Ethernet1/26
-  description VXLAN-CORE
-  mtu 9100
-  no ip redirects
-  ip address 172.27.4.106/30
-  no ipv6 redirects
-  ip ospf cost 110
-  ip ospf network point-to-point
-  no ip ospf passive-interface
-  ip router ospf 2 area 172.27.0.0
-  ip pim sparse-mode
-  no shutdown
 
 interface Ethernet1/27
-  description VXLAN-CORE
-  mtu 9100
-  no ip redirects
-  ip address 172.27.4.85/30
-  no ipv6 redirects
-  ip ospf cost 110
-  ip ospf network point-to-point
-  no ip ospf passive-interface
-  ip router ospf 2 area 172.27.0.0
-  ip pim sparse-mode
-  no shutdown
 
 interface Ethernet1/28
-  description VXLAN-CORE
-  mtu 9100
-  no ip redirects
-  ip address 172.27.4.93/30
-  no ipv6 redirects
-  ip ospf cost 110
-  ip ospf network point-to-point
-  no ip ospf passive-interface
-  ip router ospf 2 area 172.27.0.0
-  ip pim sparse-mode
-  no shutdown
+  switchport
+  switchport monitor
 
 interface Ethernet1/29
-  description NEXUS Gerinc
-  switchport
-  switchport mode trunk
-  switchport trunk allowed vlan 10-1000,1800,2000-2020
-  channel-group 2 mode active
 
 interface Ethernet1/30
+
+interface Ethernet1/31
+  switchport
+  switchport access vlan 911
+
+interface Ethernet1/32
+  description FORTI HA2
+  switchport
+  switchport access vlan 70
+
+interface Ethernet1/33
+  description ures
+  switchport
+  switchport access vlan 401
+
+interface Ethernet1/34
+  description ures
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 69,390,431,687,753
+
+interface Ethernet1/35
+  description IBM_VIO_MGMT
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 10-1000
+
+interface Ethernet1/36
+  description IBM_VIO_MGMT
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 10-1000
+
+interface Ethernet1/37
+  description IBM HMC1
+  switchport
+  switchport access vlan 107
+
+interface Ethernet1/38
+  description IBM HMC1
+  switchport
+  switchport access vlan 107
+
+interface Ethernet1/39
+  description IBM HMC1
+  switchport
+  switchport access vlan 107
+
+interface Ethernet1/40
+  description VPN1 Public
+  switchport
+  switchport access vlan 401
+  channel-group 16 mode passive
+
+interface Ethernet1/41
+  description VPN2 Public
+  switchport
+  switchport access vlan 401
+  channel-group 14 mode passive
+
+interface Ethernet1/42
+  description VPN2 Intra
+  switchport
+  switchport access vlan 474
+  channel-group 15 mode passive
+
+interface Ethernet1/43
+  description MGMT-TRUNK
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 10-1000
+
+interface Ethernet1/44
+  description KKT-Synology
+  switchport
+  switchport access vlan 61
+
+interface Ethernet1/45
+  description Forti Temp Outside
+  switchport
+  switchport access vlan 982
+  channel-group 13 mode active
+
+interface Ethernet1/46
+  description Forti Temp Inside
+  switchport
+  switchport access vlan 90
+  channel-group 12 mode active
+
+interface Ethernet1/47
+  description Forti Internet STUD
+  switchport
+  switchport access vlan 982
+  channel-group 11 mode passive
+
+interface Ethernet1/48
+  description SZERVERESEK
+  switchport
+  switchport mode trunk
+  switchport trunk native vlan 69
+  switchport trunk allowed vlan 69,390,422
+  channel-group 10 mode active
+
+interface Ethernet1/49
+  description Synergy
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 10-1000,1111,2222
+
+interface Ethernet1/50
+  description Ideiglenes Trunk
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 1-1000,1111,2222
+
+interface Ethernet1/51
   description VXLAN-CORE
   mtu 9100
-  no ip redirects
-  ip address 172.27.4.73/30
-  no ipv6 redirects
-  ip ospf cost 110
+  ip address 172.27.4.30/30
+  ip ospf cost 200
   ip ospf network point-to-point
   no ip ospf passive-interface
   ip router ospf 2 area 172.27.0.0
   ip pim sparse-mode
   no shutdown
 
-interface Ethernet1/31
-  description PEER-LINK 
+interface Ethernet1/52
+  description VXLAN-CORE
+  mtu 9100
+  ip address 172.27.4.34/30
+  ip ospf cost 200
+  ip ospf network point-to-point
+  no ip ospf passive-interface
+  ip router ospf 2 area 172.27.0.0
+  ip pim sparse-mode
+  no shutdown
+
+interface Ethernet1/53
+  description PEER-LINK
   switchport
   switchport mode trunk
   channel-group 1 mode active
 
-interface Ethernet1/32
-  description PEER-LINK 
+interface Ethernet1/54
+  description PEER-LINK
   switchport
   switchport mode trunk
   channel-group 1 mode active
-
-interface Ethernet1/33
-
-interface Ethernet1/34
 
 interface mgmt0
   vrf member management
-  ip address 10.63.66.11/21
+  ip address 10.63.66.25/21
 
 interface loopback0
-  ip address 172.27.0.11/32
-  ip address 172.27.0.111/32 secondary
+  ip address 172.27.0.25/32
+  ip address 172.27.0.125/32 secondary
   ip router ospf 2 area 172.27.0.0
   ip pim sparse-mode
   ip igmp join-group 239.27.0.1
@@ -972,14 +1200,17 @@ cli alias name c conf t
 line console
 line vty
   exec-timeout 120
-  absolute-timeout 120
 boot nxos bootflash:/nxos.9.3.10.bin 
 router ospf 2
-  router-id 172.27.0.11
+  router-id 172.27.0.25
   log-adjacency-changes detail
   table-map loopback-map filter
   passive-interface default
 no system default switchport shutdown
+monitor session 1 
+  source vlan 390,560,563 both
+  destination interface Ethernet1/28
+  no shut
 
 logging server 10.33.111.70 6 port 1514 use-vrf management
 logging source-interface mgmt0
@@ -987,7 +1218,7 @@ logging timestamp milliseconds
 logging origin-id string NEXUS
 
 
-BKT-Q1#     sh int statu
+KKT-T1#     sh int statu
 
 --------------------------------------------------------------------------------
 Port          Name               Status    Vlan      Duplex  Speed   Type
@@ -997,48 +1228,73 @@ mgmt0         --                 connected routed    full    1000    --
 --------------------------------------------------------------------------------
 Port          Name               Status    Vlan      Duplex  Speed   Type
 --------------------------------------------------------------------------------
-Eth1/1        --                 xcvrAbsen 1         auto    auto    --         
-Eth1/2        --                 xcvrAbsen routed    auto    auto    --         
-Eth1/3        --                 xcvrAbsen routed    auto    auto    --         
-Eth1/4        --                 xcvrAbsen routed    auto    auto    --         
-Eth1/5        --                 xcvrAbsen routed    auto    auto    --         
-Eth1/6        --                 xcvrAbsen routed    auto    auto    --         
-Eth1/7        --                 xcvrAbsen routed    auto    auto    --         
-Eth1/8        --                 xcvrAbsen routed    auto    auto    --         
-Eth1/9        --                 xcvrAbsen routed    auto    auto    --         
-Eth1/10       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/11       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/12       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/13       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/14       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/15       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/16       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/17       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/18       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/19       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/20       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/21       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/22       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/23       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/24       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/25       --                 connected trunk     full    100G    QSFP-100G-LR4
-Eth1/26       VXLAN-CORE         connected routed    full    100G    QSFP-100G-LR4
-Eth1/27       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
-Eth1/28       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
-Eth1/29       NEXUS Gerinc       connected trunk     full    100G    QSFP-100G-CR4
-Eth1/30       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
-Eth1/31       PEER-LINK          connected trunk     full    100G    QSFP-100G-CR4
-Eth1/32       PEER-LINK          connected trunk     full    100G    QSFP-100G-CR4
-Eth1/33       --                 xcvrAbsen routed    auto    auto    --         
-Eth1/34       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/1        PHARMA szerver     notconnec 503       full    100     10g        
+Eth1/2        PHARMA2            notconnec 503       auto    auto    10g        
+Eth1/3        Flowmon tes(z)t    notconnec trunk     auto    auto    10g        
+Eth1/4        PHARMA mento szerv notconnec 503       auto    auto    10g        
+Eth1/5        Radiometer         notconnec 219       auto    auto    10g        
+Eth1/6        OKK                notconnec 418       auto    auto    10g        
+Eth1/7        HDMEDI             notconnec 856       auto    auto    10g        
+Eth1/8        PI-PACS            notconnec 414       auto    auto    10g        
+Eth1/9        PHRAMA-G           notconnec 503       auto    auto    10g        
+Eth1/10       PHRAMA-G           notconnec 503       auto    auto    10g        
+Eth1/11       WLC HA             connected 71        full    1000    10g        
+Eth1/12       PHILIPS RADI       notconnec 114       auto    auto    10g        
+Eth1/13       PHILIPS RADI       notconnec 114       auto    auto    10g        
+Eth1/14       PHILIPS RADI       notconnec 114       auto    auto    10g        
+Eth1/15       RADI PHILIPS       notconnec 418       auto    auto    10g        
+Eth1/16       RADI PHILIPS       notconnec 418       auto    auto    10g        
+Eth1/17       EOK TSM            notconnec 750       auto    auto    10g        
+Eth1/18       EOK TSM            notconnec 750       auto    auto    10g        
+Eth1/19       RADI PHILIPS       notconnec 418       auto    auto    10g        
+Eth1/20       Avaya              notconnec 303       auto    auto    10g        
+Eth1/21       PHILIPS RADI       notconnec 114       auto    auto    10g        
+Eth1/22       RADI Qnap          notconnec 418       auto    auto    10g        
+Eth1/23       RADI Qnap          notconnec 418       auto    auto    10g        
+Eth1/24       RADI DoseWatch     notconnec 418       auto    auto    10g        
+Eth1/25       PACS               connected 113       full    1000    10g        
+Eth1/26       --                 disabled  routed    auto    auto    10g        
+Eth1/27       --                 disabled  routed    auto    auto    10g        
+Eth1/28       --                 notconnec 1         auto    auto    10g        
+Eth1/29       --                 disabled  routed    auto    auto    10g        
+Eth1/30       --                 disabled  routed    auto    auto    10g        
+Eth1/31       --                 notconnec 911       auto    auto    10g        
+Eth1/32       FORTI HA2          connected 70        full    1000    10g        
+Eth1/33       ures               notconnec 401       auto    auto    10g        
+Eth1/34       ures               intFailEr trunk     auto    auto    10g        
+Eth1/35       IBM_VIO_MGMT       notconnec trunk     auto    auto    10g        
+Eth1/36       IBM_VIO_MGMT       notconnec trunk     auto    auto    10g        
+Eth1/37       IBM HMC1           connected 107       full    1000    10g        
+Eth1/38       IBM HMC1           connected 107       full    1000    10g        
+Eth1/39       IBM HMC1           connected 107       full    1000    10g        
+Eth1/40       VPN1 Public        intFailEr 401       auto    auto    10g        
+Eth1/41       VPN2 Public        intFailEr 401       auto    auto    10g        
+Eth1/42       VPN2 Intra         notconnec 474       auto    auto    10g        
+Eth1/43       MGMT-TRUNK         connected trunk     full    1000    10g        
+Eth1/44       KKT-Synology       connected 61        full    10G     10g        
+Eth1/45       Forti Temp Outside notconnec 982       auto    auto    10g        
+Eth1/46       Forti Temp Inside  intFailEr 90        auto    auto    10g        
+Eth1/47       Forti Internet STU intFailEr 982       auto    auto    10g        
+Eth1/48       SZERVERESEK        intFailEr trunk     auto    auto    10g        
+Eth1/49       Synergy            connected trunk     full    40G     QSFP-40G-CR4
+Eth1/50       Ideiglenes Trunk   connected trunk     full    100G    QSFP-100G-CR4
+Eth1/51       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
+Eth1/52       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
+Eth1/53       PEER-LINK          connected trunk     full    100G    QSFP-100G-CR4
+Eth1/54       PEER-LINK          connected trunk     full    100G    QSFP-100G-CR4
 
 --------------------------------------------------------------------------------
 Port          Name               Status    Vlan      Duplex  Speed   Type
 --------------------------------------------------------------------------------
 Po1           PEER-LINK          connected trunk     full    100G    --         
-Po2           --                 connected trunk     full    100G    --         
-Po4           --                 connected trunk     full    100G    --         
-Po11          --                 noOperMem routed    auto    auto    --         
+Po10          SZERVERESEK        noOperMem trunk     auto    auto    --         
+Po11          Forti Internet STU noOperMem 982       auto    auto    --         
+Po12          Forti Temp Inside  noOperMem 90        auto    auto    --         
+Po13          Forti Temp Outside noOperMem 982       auto    auto    --         
+Po14          VPN2 Public        noOperMem 401       auto    auto    --         
+Po15          VPN2 Intra         noOperMem 474       auto    auto    --         
+Po16          VPN1 Public        noOperMem 401       auto    auto    --         
+Po19          Synergy            noOperMem trunk     auto    auto    --         
 
 --------------------------------------------------------------------------------
 Port          Name               Status    Vlan      Duplex  Speed   Type
@@ -1055,7 +1311,7 @@ Vlan9         VXLAN-CORE         connected routed    auto    auto    --
 Port          Name               Status    Vlan      Duplex  Speed   Type
 --------------------------------------------------------------------------------
 nve1          --                 disabled  --        auto    auto    --         
-BKT-Q1#  sh int desc
+KKT-T1#     sh int desc
 
 -------------------------------------------------------------------------------
 Interface                Description                                            
@@ -1065,48 +1321,73 @@ mgmt0                    --
 -------------------------------------------------------------------------------
 Port          Type   Speed   Description
 -------------------------------------------------------------------------------
-Eth1/1        eth    100G    --
-Eth1/2        eth    100G    --
-Eth1/3        eth    100G    --
-Eth1/4        eth    100G    --
-Eth1/5        eth    100G    --
-Eth1/6        eth    100G    --
-Eth1/7        eth    100G    --
-Eth1/8        eth    100G    --
-Eth1/9        eth    100G    --
-Eth1/10       eth    100G    --
-Eth1/11       eth    100G    --
-Eth1/12       eth    100G    --
-Eth1/13       eth    100G    --
-Eth1/14       eth    100G    --
-Eth1/15       eth    100G    --
-Eth1/16       eth    100G    --
-Eth1/17       eth    100G    --
-Eth1/18       eth    100G    --
-Eth1/19       eth    100G    --
-Eth1/20       eth    100G    --
-Eth1/21       eth    100G    --
-Eth1/22       eth    100G    --
-Eth1/23       eth    100G    --
-Eth1/24       eth    100G    --
-Eth1/25       eth    100G    --
-Eth1/26       eth    100G    VXLAN-CORE
-Eth1/27       eth    100G    VXLAN-CORE
-Eth1/28       eth    100G    VXLAN-CORE
-Eth1/29       eth    100G    NEXUS Gerinc
-Eth1/30       eth    100G    VXLAN-CORE
-Eth1/31       eth    100G    PEER-LINK 
-Eth1/32       eth    100G    PEER-LINK 
-Eth1/33       eth    10G     --
-Eth1/34       eth    10G     --
+Eth1/1        eth    10G     PHARMA szerver
+Eth1/2        eth    10G     PHARMA2
+Eth1/3        eth    10G     Flowmon tes(z)t
+Eth1/4        eth    10G     PHARMA mento szerver
+Eth1/5        eth    10G     Radiometer
+Eth1/6        eth    10G     OKK
+Eth1/7        eth    10G     HDMEDI
+Eth1/8        eth    10G     PI-PACS
+Eth1/9        eth    10G     PHRAMA-G
+Eth1/10       eth    10G     PHRAMA-G
+Eth1/11       eth    10G     WLC HA
+Eth1/12       eth    10G     PHILIPS RADI
+Eth1/13       eth    10G     PHILIPS RADI
+Eth1/14       eth    10G     PHILIPS RADI
+Eth1/15       eth    10G     RADI PHILIPS
+Eth1/16       eth    10G     RADI PHILIPS
+Eth1/17       eth    10G     EOK TSM
+Eth1/18       eth    10G     EOK TSM
+Eth1/19       eth    10G     RADI PHILIPS
+Eth1/20       eth    10G     Avaya
+Eth1/21       eth    10G     PHILIPS RADI
+Eth1/22       eth    10G     RADI Qnap
+Eth1/23       eth    10G     RADI Qnap
+Eth1/24       eth    10G     RADI DoseWatch
+Eth1/25       eth    10G     PACS
+Eth1/26       eth    10G     --
+Eth1/27       eth    10G     --
+Eth1/28       eth    10G     --
+Eth1/29       eth    10G     --
+Eth1/30       eth    10G     --
+Eth1/31       eth    10G     --
+Eth1/32       eth    10G     FORTI HA2
+Eth1/33       eth    10G     ures
+Eth1/34       eth    10G     ures
+Eth1/35       eth    10G     IBM_VIO_MGMT
+Eth1/36       eth    10G     IBM_VIO_MGMT
+Eth1/37       eth    10G     IBM HMC1
+Eth1/38       eth    10G     IBM HMC1
+Eth1/39       eth    10G     IBM HMC1
+Eth1/40       eth    10G     VPN1 Public
+Eth1/41       eth    10G     VPN2 Public
+Eth1/42       eth    10G     VPN2 Intra
+Eth1/43       eth    10G     MGMT-TRUNK
+Eth1/44       eth    10G     KKT-Synology
+Eth1/45       eth    10G     Forti Temp Outside
+Eth1/46       eth    10G     Forti Temp Inside
+Eth1/47       eth    10G     Forti Internet STUD
+Eth1/48       eth    10G     SZERVERESEK
+Eth1/49       eth    40G     Synergy
+Eth1/50       eth    100G    Ideiglenes Trunk
+Eth1/51       eth    100G    VXLAN-CORE
+Eth1/52       eth    100G    VXLAN-CORE
+Eth1/53       eth    100G    PEER-LINK
+Eth1/54       eth    100G    PEER-LINK
 
 -------------------------------------------------------------------------------
 Interface                Description                                            
 -------------------------------------------------------------------------------
-Po1                      PEER-LINK 
-Po2                      --
-Po4                      --
-Po11                     --
+Po1                      PEER-LINK
+Po10                     SZERVERESEK
+Po11                     Forti Internet STUD
+Po12                     Forti Temp Inside
+Po13                     Forti Temp Outside
+Po14                     VPN2 Public
+Po15                     VPN2 Intra
+Po16                     VPN1 Public
+Po19                     Synergy
 
 -------------------------------------------------------------------------------
 Interface                Description                                            
@@ -1118,16 +1399,16 @@ Interface                Description
 -------------------------------------------------------------------------------
 Vlan1                    --
 Vlan9                    VXLAN-CORE
-BKT-Q1# sh cdp nei de
+KKT-T1#   sh cdp nei de
 ----------------------------------------
-Device ID:SW2-MGMT.sotnet
+Device ID:SW1-MGMT.sotnet
 VTP Management Domain Name: sotnet
 
 Interface address(es): 1
-    IPv4 Address: 10.63.64.167
+    IPv4 Address: 10.63.64.163
 Platform: cisco C9200L-48T-4G, Capabilities: Switch IGMP Filtering 
-Interface: mgmt0, Port ID (outgoing port): GigabitEthernet1/0/2
-Holdtime: 154 sec
+Interface: mgmt0, Port ID (outgoing port): GigabitEthernet1/0/5
+Holdtime: 176 sec
 
 Version:
 Cisco IOS Software [Cupertino], Catalyst L3 Switch Software (CAT9K_LITE_IOSXE), Version 17.8.1, RELEASE SOFTWARE (fc2)
@@ -1140,21 +1421,61 @@ Advertisement Version: 2
 Native VLAN: 69
 Duplex: full
 Mgmt address(es):
-    IPv4 Address: 10.63.64.167
-Local Interface MAC: c4:4d:84:81:15:fa
-Remote Interface MAC: 6c:8b:d3:c8:6c:82
+    IPv4 Address: 10.63.64.163
+Local Interface MAC: a4:78:06:fd:c8:70
+Remote Interface MAC: 6c:8b:d3:c8:6a:85
 ----------------------------------------
-Device ID:ROKUS-Q1(FDO25432572)
-System Name: ROKUS-Q1
+Device ID:SW1-MGMT.sotnet
+VTP Management Domain Name: sotnet
 
 Interface address(es): 1
-    IPv4 Address: 10.63.66.27
-Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
-Interface: Ethernet1/25, Port ID (outgoing port): Ethernet1/1
-Holdtime: 166 sec
+    IPv4 Address: 10.63.64.163
+Platform: cisco C9200L-48T-4G, Capabilities: Switch IGMP Filtering 
+Interface: Ethernet1/43, Port ID (outgoing port): GigabitEthernet1/1/1
+Holdtime: 165 sec
 
 Version:
-Cisco Nexus Operating System (NX-OS) Software, Version 10.5(4)
+Cisco IOS Software [Cupertino], Catalyst L3 Switch Software (CAT9K_LITE_IOSXE), Version 17.8.1, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2022 by Cisco Systems, Inc.
+Compiled Sat 09-Apr-22 00:34 by mcpre
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+Mgmt address(es):
+    IPv4 Address: 10.63.64.163
+Local Interface MAC: a4:78:06:fd:c8:a2
+Remote Interface MAC: 6c:8b:d3:c8:6a:b1
+----------------------------------------
+Device ID:005056a9b4ca
+System Name: prime
+
+Interface address(es): 1
+    IPv4 Address: 10.33.111.76
+Platform: Cisco-VM-SPID, Capabilities: Host
+Interface: Ethernet1/49, Port ID (outgoing port): eth0
+Holdtime: 143 sec
+
+Version:
+Cisco Application Deployment Engine OS version: 3.1.0.001 Copyright (c) 2025 Cisco Systems.
+
+Advertisement Version: 2
+Local Interface MAC: a4:78:06:fd:c8:a8
+Remote Interface MAC: 00:50:56:a9:b4:ca
+----------------------------------------
+Device ID:KKT-S1.sotnet(FDO25432FQH)
+System Name: KKT-S1
+
+Interface address(es): 1
+    IPv4 Address: 172.27.5.1
+Platform: N9K-C93180YC-FX, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/50, Port ID (outgoing port): Ethernet1/50
+Holdtime: 168 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
 
 Advertisement Version: 2
 
@@ -1163,18 +1484,18 @@ Duplex: full
 
 MTU: 1500
 Mgmt address(es):
-    IPv4 Address: 10.63.66.27
-Local Interface MAC: c4:4d:84:81:16:1a
-Remote Interface MAC: a4:78:06:35:50:2a
+    IPv4 Address: 10.63.66.23
+Local Interface MAC: a4:78:06:fd:c8:ac
+Remote Interface MAC: 38:fd:f8:1c:65:7c
 ----------------------------------------
 Device ID:KKT-Q1.sotnet(FDO2543258Z)
 System Name: KKT-Q1
 
 Interface address(es): 1
-    IPv4 Address: 172.27.4.105
+    IPv4 Address: 172.27.4.29
 Platform: N9K-C9332C, Capabilities: Router Switch Supports-STP-Dispute
-Interface: Ethernet1/26, Port ID (outgoing port): Ethernet1/26
-Holdtime: 145 sec
+Interface: Ethernet1/51, Port ID (outgoing port): Ethernet1/27
+Holdtime: 143 sec
 
 Version:
 Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
@@ -1185,17 +1506,17 @@ Duplex: full
 MTU: 9100
 Mgmt address(es):
     IPv4 Address: 10.63.66.21
-Local Interface MAC: c4:4d:84:81:16:1b
+Local Interface MAC: a4:78:06:fd:c8:b0
 Remote Interface MAC: c4:4d:84:81:16:b9
 ----------------------------------------
-Device ID:BKT-T1.sotnet(FDO25390M0D)
-System Name: BKT-T1
+Device ID:KKT-Q2.sotnet(FDO254325A7)
+System Name: KKT-Q2
 
 Interface address(es): 1
-    IPv4 Address: 172.27.4.86
-Platform: N9K-C93108TC-FX, Capabilities: Router Switch Supports-STP-Dispute
-Interface: Ethernet1/27, Port ID (outgoing port): Ethernet1/51
-Holdtime: 164 sec
+    IPv4 Address: 172.27.4.33
+Platform: N9K-C9332C, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet1/52, Port ID (outgoing port): Ethernet1/27
+Holdtime: 175 sec
 
 Version:
 Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
@@ -1205,39 +1526,18 @@ Duplex: full
 
 MTU: 9100
 Mgmt address(es):
-    IPv4 Address: 10.63.66.15
-Local Interface MAC: c4:4d:84:81:16:1c
-Remote Interface MAC: a4:78:06:fd:be:77
+    IPv4 Address: 10.63.66.22
+Local Interface MAC: a4:78:06:fd:c8:b4
+Remote Interface MAC: a4:78:06:35:50:57
 ----------------------------------------
-Device ID:BKT-T2.sotnet(FDO25390LU8)
-System Name: BKT-T2
+Device ID:KKT-T2.sotnet(FDO25390LQ2)
+System Name: KKT-T2
 
 Interface address(es): 1
-    IPv4 Address: 172.27.4.94
-Platform: N9K-C93108TC-FX, Capabilities: Router Switch Supports-STP-Dispute
-Interface: Ethernet1/28, Port ID (outgoing port): Ethernet1/51
-Holdtime: 163 sec
-
-Version:
-Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
-
-Advertisement Version: 2
-Duplex: full
-
-MTU: 9100
-Mgmt address(es):
-    IPv4 Address: 10.63.66.16
-Local Interface MAC: c4:4d:84:81:16:1d
-Remote Interface MAC: a4:78:06:fd:e5:d7
-----------------------------------------
-Device ID:BKT-S1.sotnet(FDO25440DQH)
-System Name: BKT-S1
-
-Interface address(es): 1
-    IPv4 Address: 172.27.4.57
-Platform: N9K-C93180YC-FX, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
-Interface: Ethernet1/29, Port ID (outgoing port): Ethernet1/51
-Holdtime: 134 sec
+    IPv4 Address: 172.27.4.26
+Platform: N9K-C93108TC-FX, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/53, Port ID (outgoing port): Ethernet1/53
+Holdtime: 178 sec
 
 Version:
 Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
@@ -1249,39 +1549,18 @@ Duplex: full
 
 MTU: 1500
 Mgmt address(es):
-    IPv4 Address: 10.63.66.13
-Local Interface MAC: c4:4d:84:81:16:1e
-Remote Interface MAC: 38:fd:f8:1c:39:07
+    IPv4 Address: 10.63.66.26
+Local Interface MAC: a4:78:06:fd:c8:b8
+Remote Interface MAC: 00:00:00:00:00:00
 ----------------------------------------
-Device ID:BKT-S2.sotnet(FDO25432081)
-System Name: BKT-S2
+Device ID:KKT-T2.sotnet(FDO25390LQ2)
+System Name: KKT-T2
 
 Interface address(es): 1
-    IPv4 Address: 172.27.4.74
-Platform: N9K-C93180YC-FX, Capabilities: Router Switch Supports-STP-Dispute
-Interface: Ethernet1/30, Port ID (outgoing port): Ethernet1/51
-Holdtime: 149 sec
-
-Version:
-Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
-
-Advertisement Version: 2
-Duplex: full
-
-MTU: 9100
-Mgmt address(es):
-    IPv4 Address: 10.63.66.14
-Local Interface MAC: c4:4d:84:81:16:1f
-Remote Interface MAC: 68:87:c6:e4:cf:a7
-----------------------------------------
-Device ID:BKT-Q2.sotnet(FDO2543257J)
-System Name: BKT-Q2
-
-Interface address(es): 1
-    IPv4 Address: 172.27.4.62
-Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
-Interface: Ethernet1/31, Port ID (outgoing port): Ethernet1/31
-Holdtime: 163 sec
+    IPv4 Address: 172.27.4.26
+Platform: N9K-C93108TC-FX, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/54, Port ID (outgoing port): Ethernet1/54
+Holdtime: 167 sec
 
 Version:
 Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
@@ -1293,143 +1572,75 @@ Duplex: full
 
 MTU: 1500
 Mgmt address(es):
-    IPv4 Address: 10.63.66.12
-Local Interface MAC: c4:4d:84:81:16:20
-Remote Interface MAC: c4:4d:84:81:16:2f
-----------------------------------------
-Device ID:BKT-Q2.sotnet(FDO2543257J)
-System Name: BKT-Q2
-
-Interface address(es): 1
-    IPv4 Address: 172.27.4.62
-Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
-Interface: Ethernet1/32, Port ID (outgoing port): Ethernet1/32
-Holdtime: 163 sec
-
-Version:
-Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
-
-Advertisement Version: 2
-
-Native VLAN: 1
-Duplex: full
-
-MTU: 1500
-Mgmt address(es):
-    IPv4 Address: 10.63.66.12
-Local Interface MAC: c4:4d:84:81:16:21
-Remote Interface MAC: c4:4d:84:81:16:2f
-BKT-Q1#   sh ip route
+    IPv4 Address: 10.63.66.26
+Local Interface MAC: a4:78:06:fd:c8:bc
+Remote Interface MAC: a4:78:06:fd:e1:27
+KKT-T1#      sh ip route
 IP Route Table for VRF "default"
 '*' denotes best ucast next-hop
 '**' denotes best mcast next-hop
 '[x/y]' denotes [preference/metric]
 '%<string>' in via output denotes VRF <string>
 
-172.27.0.1/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/111], 2y15w, ospf-2, intra
-172.27.0.11/32, ubest/mbest: 2/0, attached
-    *via 172.27.0.11, Lo0, [0/0], 2y15w, local
-    *via 172.27.0.11, Lo0, [0/0], 2y15w, direct
+172.27.0.1/32, ubest/mbest: 2/0
+    *via 172.27.4.29, Eth1/51, [110/201], 2y15w, ospf-2, intra
+    *via 172.27.4.33, Eth1/52, [110/201], 2y15w, ospf-2, intra
+172.27.0.11/32, ubest/mbest: 1/0
+    *via 172.27.4.29, Eth1/51, [110/311], 2y15w, ospf-2, intra
 172.27.0.12/32, ubest/mbest: 1/0
-    *via 172.27.4.62, Vlan9, [110/111], 4w5d, ospf-2, intra
-172.27.0.13/32, ubest/mbest: 2/0
-    *via 172.27.4.62, Vlan9, [110/221], 4w5d, ospf-2, intra
-    *via 172.27.4.74, Eth1/30, [110/221], 4w5d, ospf-2, intra
+    *via 172.27.4.29, Eth1/51, [110/421], 4w5d, ospf-2, intra
+172.27.0.13/32, ubest/mbest: 1/0
+    *via 172.27.4.29, Eth1/51, [110/531], 4w5d, ospf-2, intra
 172.27.0.14/32, ubest/mbest: 1/0
-    *via 172.27.4.74, Eth1/30, [110/111], 1y7w, ospf-2, intra
+    *via 172.27.4.29, Eth1/51, [110/421], 1y7w, ospf-2, intra
 172.27.0.15/32, ubest/mbest: 1/0
-    *via 172.27.4.86, Eth1/27, [110/111], 2y15w, ospf-2, intra
+    *via 172.27.4.29, Eth1/51, [110/421], 2y15w, ospf-2, intra
 172.27.0.16/32, ubest/mbest: 1/0
-    *via 172.27.4.94, Eth1/28, [110/111], 2y15w, ospf-2, intra
+    *via 172.27.4.29, Eth1/51, [110/421], 2y15w, ospf-2, intra
 172.27.0.21/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/111], 2y15w, ospf-2, intra
+    *via 172.27.4.29, Eth1/51, [110/201], 2y15w, ospf-2, intra
 172.27.0.22/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/221], 2y15w, ospf-2, intra
-172.27.0.23/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/211], 2y15w, ospf-2, intra
-172.27.0.24/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/211], 2y15w, ospf-2, intra
-172.27.0.25/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/211], 2y15w, ospf-2, intra
+    *via 172.27.4.33, Eth1/52, [110/201], 2y15w, ospf-2, intra
+172.27.0.23/32, ubest/mbest: 2/0
+    *via 172.27.4.29, Eth1/51, [110/301], 2y15w, ospf-2, intra
+    *via 172.27.4.33, Eth1/52, [110/301], 2y15w, ospf-2, intra
+172.27.0.24/32, ubest/mbest: 2/0
+    *via 172.27.4.29, Eth1/51, [110/301], 2y15w, ospf-2, intra
+    *via 172.27.4.33, Eth1/52, [110/301], 2y15w, ospf-2, intra
+172.27.0.25/32, ubest/mbest: 2/0, attached
+    *via 172.27.0.25, Lo0, [0/0], 3y4w, local
+    *via 172.27.0.25, Lo0, [0/0], 3y4w, direct
 172.27.0.26/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/211], 2y15w, ospf-2, intra
-172.27.0.111/32, ubest/mbest: 2/0, attached
-    *via 172.27.0.111, Lo0, [0/0], 2y15w, local
-    *via 172.27.0.111, Lo0, [0/0], 2y15w, direct
+    *via 172.27.4.26, Vlan9, [110/221], 3y4w, ospf-2, intra
+172.27.0.111/32, ubest/mbest: 1/0
+    *via 172.27.4.29, Eth1/51, [110/311], 2y15w, ospf-2, intra
 172.27.0.113/32, ubest/mbest: 1/0
-    *via 172.27.4.74, Eth1/30, [110/111], 1y7w, ospf-2, intra
-172.27.0.115/32, ubest/mbest: 2/0
-    *via 172.27.4.86, Eth1/27, [110/111], 2y15w, ospf-2, intra
-    *via 172.27.4.94, Eth1/28, [110/111], 2y15w, ospf-2, intra
-172.27.0.121/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/111], 2y15w, ospf-2, intra
-172.27.0.123/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/211], 2y15w, ospf-2, intra
-172.27.0.125/32, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/211], 2y15w, ospf-2, intra
-172.27.4.0/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/210], 2y15w, ospf-2, intra
-172.27.4.4/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/310], 2y15w, ospf-2, intra
-172.27.4.8/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/210], 2y15w, ospf-2, intra
-172.27.4.12/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/310], 2y15w, ospf-2, intra
-172.27.4.16/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/220], 2y15w, ospf-2, intra
-172.27.4.20/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/320], 2y15w, ospf-2, intra
-172.27.4.24/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/430], 2y15w, ospf-2, intra
-172.27.4.28/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/210], 2y15w, ospf-2, intra
-172.27.4.32/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/320], 2y15w, ospf-2, intra
-172.27.4.36/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/210], 2y15w, ospf-2, intra
-172.27.4.40/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/310], 2y15w, ospf-2, intra
-172.27.4.52/30, ubest/mbest: 1/0
-    *via 172.27.4.74, Eth1/30, [110/220], 1y7w, ospf-2, intra
-172.27.4.56/30, ubest/mbest: 2/0
-    *via 172.27.4.62, Vlan9, [110/620], 4w5d, ospf-2, intra
-    *via 172.27.4.74, Eth1/30, [110/620], 4w5d, ospf-2, intra
-172.27.4.60/30, ubest/mbest: 1/0, attached
-    *via 172.27.4.61, Vlan9, [0/0], 2y15w, direct
-172.27.4.61/32, ubest/mbest: 1/0, attached
-    *via 172.27.4.61, Vlan9, [0/0], 2y15w, local
-172.27.4.68/30, ubest/mbest: 1/0
-    *via 172.27.4.62, Vlan9, [110/220], 2y15w, ospf-2, intra
-172.27.4.72/30, ubest/mbest: 1/0, attached
-    *via 172.27.4.73, Eth1/30, [0/0], 1y7w, direct
-172.27.4.73/32, ubest/mbest: 1/0, attached
-    *via 172.27.4.73, Eth1/30, [0/0], 1y7w, local
-172.27.4.80/30, ubest/mbest: 2/0
-    *via 172.27.4.86, Eth1/27, [110/220], 2y15w, ospf-2, intra
-    *via 172.27.4.94, Eth1/28, [110/220], 2y15w, ospf-2, intra
-172.27.4.84/30, ubest/mbest: 1/0, attached
-    *via 172.27.4.85, Eth1/27, [0/0], 2y15w, direct
-172.27.4.85/32, ubest/mbest: 1/0, attached
-    *via 172.27.4.85, Eth1/27, [0/0], 2y15w, local
-172.27.4.88/30, ubest/mbest: 1/0
-    *via 172.27.4.86, Eth1/27, [110/210], 35w5d, ospf-2, intra
-172.27.4.92/30, ubest/mbest: 1/0, attached
-    *via 172.27.4.93, Eth1/28, [0/0], 2y15w, direct
-172.27.4.93/32, ubest/mbest: 1/0, attached
-    *via 172.27.4.93, Eth1/28, [0/0], 2y15w, local
-172.27.4.96/30, ubest/mbest: 1/0
-    *via 172.27.4.94, Eth1/28, [110/210], 2y15w, ospf-2, intra
-172.27.4.104/30, ubest/mbest: 1/0, attached
-    *via 172.27.4.106, Eth1/26, [0/0], 2y15w, direct
-172.27.4.106/32, ubest/mbest: 1/0, attached
-    *via 172.27.4.106, Eth1/26, [0/0], 2y15w, local
-172.27.5.0/30, ubest/mbest: 1/0
-    *via 172.27.4.105, Eth1/26, [110/1210], 43w4d, ospf-2, intra
+    *via 172.27.4.29, Eth1/51, [110/421], 2y15w, ospf-2, intra
+172.27.0.115/32, ubest/mbest: 1/0
+    *via 172.27.4.29, Eth1/51, [110/421], 2y15w, ospf-2, intra
+172.27.0.121/32, ubest/mbest: 2/0
+    *via 172.27.4.29, Eth1/51, [110/201], 2y15w, ospf-2, intra
+    *via 172.27.4.33, Eth1/52, [110/201], 2y15w, ospf-2, intra
+172.27.0.123/32, ubest/mbest: 2/0
+    *via 172.27.4.29, Eth1/51, [110/301], 2y15w, ospf-2, intra
+    *via 172.27.4.33, Eth1/52, [110/301], 2y15w, ospf-2, intra
+172.27.0.125/32, ubest/mbest: 2/0, attached
+    *via 172.27.0.125, Lo0, [0/0], 3y4w, local
+    *via 172.27.0.125, Lo0, [0/0], 3y4w, direct
+172.27.4.24/30, ubest/mbest: 1/0, attached
+    *via 172.27.4.25, Vlan9, [0/0], 3y4w, direct
+172.27.4.25/32, ubest/mbest: 1/0, attached
+    *via 172.27.4.25, Vlan9, [0/0], 3y4w, local
+172.27.4.28/30, ubest/mbest: 1/0, attached
+    *via 172.27.4.30, Eth1/51, [0/0], 2y15w, direct
+172.27.4.30/32, ubest/mbest: 1/0, attached
+    *via 172.27.4.30, Eth1/51, [0/0], 2y15w, local
+172.27.4.32/30, ubest/mbest: 1/0, attached
+    *via 172.27.4.34, Eth1/52, [0/0], 2y15w, direct
+172.27.4.34/32, ubest/mbest: 1/0, attached
+    *via 172.27.4.34, Eth1/52, [0/0], 2y15w, local
 
-BKT-Q1#   sh lldp nei
-            ^
-% Invalid command at '^' marker.
-BKT-Q1# show lldp nei
-              ^
-% Invalid command at '^' marker.
+KKT-T1#    sh vrf
+VRF-Name                           VRF-ID State   Reason                        
+default                                 1 Up      --                            
+management                              2 Up      --                            

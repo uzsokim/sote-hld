@@ -1,8 +1,8 @@
-﻿BKT-Q2# sh run
+﻿BKT-Q2#   sh run
 
 !Command: show running-config
 !No configuration change since last restart
-!Time: Sun Mar  8 20:35:34 2026
+!Time: Sun Mar  8 21:30:43 2026
 
 version 9.3(10) Bios:version 05.47 
 switchname BKT-Q2
@@ -972,4 +972,418 @@ logging source-interface mgmt0
 logging timestamp milliseconds
 logging origin-id string NEXUS
 
+
+BKT-Q2#     sh int statu
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+mgmt0         --                 connected routed    full    1000    --         
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Eth1/1        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/2        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/3        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/4        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/5        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/6        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/7        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/8        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/9        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/10       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/11       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/12       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/13       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/14       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/15       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/16       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/17       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/18       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/19       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/20       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/21       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/22       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/23       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/24       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/25       --                 connected trunk     full    100G    QSFP-100G-LR4
+Eth1/26       --                 notconnec routed    auto    auto    QSFP-100G-LR4
+Eth1/27       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
+Eth1/28       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
+Eth1/29       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
+Eth1/30       NEXUS Gerinc       connected trunk     full    100G    QSFP-100G-CR4
+Eth1/31       PEER-LINK          connected trunk     full    100G    QSFP-100G-CR4
+Eth1/32       PEER-LINK          connected trunk     full    100G    QSFP-100G-CR4
+Eth1/33       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/34       --                 xcvrAbsen routed    auto    auto    --         
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Po1           PEER-LINK          connected trunk     full    100G    --         
+Po2           NEXUS Gerinc       connected trunk     full    100G    --         
+Po4           --                 connected trunk     full    100G    --         
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Lo0           --                 connected routed    auto    auto    --         
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Vlan1         --                 down      routed    auto    auto    --
+Vlan9         VXLAN-CORE         connected routed    auto    auto    --
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+nve1          --                 disabled  --        auto    auto    --         
+BKT-Q2# sh int desc
+
+-------------------------------------------------------------------------------
+Interface                Description                                            
+-------------------------------------------------------------------------------
+mgmt0                    --
+
+-------------------------------------------------------------------------------
+Port          Type   Speed   Description
+-------------------------------------------------------------------------------
+Eth1/1        eth    100G    --
+Eth1/2        eth    100G    --
+Eth1/3        eth    100G    --
+Eth1/4        eth    100G    --
+Eth1/5        eth    100G    --
+Eth1/6        eth    100G    --
+Eth1/7        eth    100G    --
+Eth1/8        eth    100G    --
+Eth1/9        eth    100G    --
+Eth1/10       eth    100G    --
+Eth1/11       eth    100G    --
+Eth1/12       eth    100G    --
+Eth1/13       eth    100G    --
+Eth1/14       eth    100G    --
+Eth1/15       eth    100G    --
+Eth1/16       eth    100G    --
+Eth1/17       eth    100G    --
+Eth1/18       eth    100G    --
+Eth1/19       eth    100G    --
+Eth1/20       eth    100G    --
+Eth1/21       eth    100G    --
+Eth1/22       eth    100G    --
+Eth1/23       eth    100G    --
+Eth1/24       eth    100G    --
+Eth1/25       eth    100G    --
+Eth1/26       eth    100G    --
+Eth1/27       eth    100G    VXLAN-CORE
+Eth1/28       eth    100G    VXLAN-CORE
+Eth1/29       eth    100G    VXLAN-CORE
+Eth1/30       eth    100G    NEXUS Gerinc
+Eth1/31       eth    100G    PEER-LINK 
+Eth1/32       eth    100G    PEER-LINK 
+Eth1/33       eth    10G     --
+Eth1/34       eth    10G     --
+
+-------------------------------------------------------------------------------
+Interface                Description                                            
+-------------------------------------------------------------------------------
+Po1                      PEER-LINK 
+Po2                      NEXUS Gerinc
+Po4                      --
+
+-------------------------------------------------------------------------------
+Interface                Description                                            
+-------------------------------------------------------------------------------
+Lo0                      --
+
+-------------------------------------------------------------------------------
+Interface                Description                                            
+-------------------------------------------------------------------------------
+Vlan1                    --
+Vlan9                    VXLAN-CORE
+BKT-Q2# sh cdp nei de
+----------------------------------------
+Device ID:SW2-MGMT.sotnet
+VTP Management Domain Name: sotnet
+
+Interface address(es): 1
+    IPv4 Address: 10.63.64.167
+Platform: cisco C9200L-48T-4G, Capabilities: Switch IGMP Filtering 
+Interface: mgmt0, Port ID (outgoing port): GigabitEthernet1/0/4
+Holdtime: 140 sec
+
+Version:
+Cisco IOS Software [Cupertino], Catalyst L3 Switch Software (CAT9K_LITE_IOSXE), Version 17.8.1, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2022 by Cisco Systems, Inc.
+Compiled Sat 09-Apr-22 00:34 by mcpre
+
+Advertisement Version: 2
+
+Native VLAN: 69
+Duplex: full
+Mgmt address(es):
+    IPv4 Address: 10.63.64.167
+Local Interface MAC: c4:4d:84:81:16:28
+Remote Interface MAC: 6c:8b:d3:c8:6c:84
+----------------------------------------
+Device ID:ROKUS-Q2(FDO2543257G)
+System Name: ROKUS-Q2
+
+Interface address(es): 1
+    IPv4 Address: 10.63.66.28
+Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/25, Port ID (outgoing port): Ethernet1/1
+Holdtime: 132 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 10.5(4)
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+
+MTU: 1500
+Mgmt address(es):
+    IPv4 Address: 10.63.66.28
+Local Interface MAC: c4:4d:84:81:16:48
+Remote Interface MAC: c4:4d:84:81:19:3e
+----------------------------------------
+Device ID:BKT-T1.sotnet(FDO25390M0D)
+System Name: BKT-T1
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.90
+Platform: N9K-C93108TC-FX, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet1/27, Port ID (outgoing port): Ethernet1/52
+Holdtime: 150 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9100
+Mgmt address(es):
+    IPv4 Address: 10.63.66.15
+Local Interface MAC: c4:4d:84:81:16:4a
+Remote Interface MAC: a4:78:06:fd:be:77
+----------------------------------------
+Device ID:BKT-T2.sotnet(FDO25390LU8)
+System Name: BKT-T2
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.98
+Platform: N9K-C93108TC-FX, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet1/28, Port ID (outgoing port): Ethernet1/52
+Holdtime: 150 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9100
+Mgmt address(es):
+    IPv4 Address: 10.63.66.16
+Local Interface MAC: c4:4d:84:81:16:4b
+Remote Interface MAC: a4:78:06:fd:e5:d7
+----------------------------------------
+Device ID:BKT-S1.sotnet(FDO25440DQH)
+System Name: BKT-S1
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.70
+Platform: N9K-C93180YC-FX, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet1/29, Port ID (outgoing port): Ethernet1/52
+Holdtime: 150 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9100
+Mgmt address(es):
+    IPv4 Address: 10.63.66.13
+Local Interface MAC: c4:4d:84:81:16:4c
+Remote Interface MAC: 38:fd:f8:1c:39:07
+----------------------------------------
+Device ID:BKT-S2.sotnet(FDO25432081)
+System Name: BKT-S2
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.54
+Platform: N9K-C93180YC-FX, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/30, Port ID (outgoing port): Ethernet1/52
+Holdtime: 135 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+
+MTU: 1500
+Mgmt address(es):
+    IPv4 Address: 10.63.66.14
+Local Interface MAC: c4:4d:84:81:16:4d
+Remote Interface MAC: 68:87:c6:e4:cf:a7
+----------------------------------------
+Device ID:BKT-Q1.sotnet(FDO2543257K)
+System Name: BKT-Q1
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.61
+Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/31, Port ID (outgoing port): Ethernet1/31
+Holdtime: 135 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+
+MTU: 1500
+Mgmt address(es):
+    IPv4 Address: 10.63.66.11
+Local Interface MAC: c4:4d:84:81:16:4e
+Remote Interface MAC: c4:4d:84:81:16:01
+----------------------------------------
+Device ID:BKT-Q1.sotnet(FDO2543257K)
+System Name: BKT-Q1
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.61
+Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/32, Port ID (outgoing port): Ethernet1/32
+Holdtime: 135 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+
+MTU: 1500
+Mgmt address(es):
+    IPv4 Address: 10.63.66.11
+Local Interface MAC: c4:4d:84:81:16:4f
+Remote Interface MAC: c4:4d:84:81:16:01
+BKT-Q2#   sh ip route
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+172.27.0.1/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/221], 2y15w, ospf-2, intra
+172.27.0.11/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/111], 2y15w, ospf-2, intra
+172.27.0.12/32, ubest/mbest: 2/0, attached
+    *via 172.27.0.12, Lo0, [0/0], 4w5d, local
+    *via 172.27.0.12, Lo0, [0/0], 4w5d, direct
+172.27.0.13/32, ubest/mbest: 1/0
+    *via 172.27.4.70, Eth1/29, [110/111], 2y15w, ospf-2, intra
+172.27.0.14/32, ubest/mbest: 2/0
+    *via 172.27.4.61, Vlan9, [110/221], 4w5d, ospf-2, intra
+    *via 172.27.4.70, Eth1/29, [110/221], 4w5d, ospf-2, intra
+172.27.0.15/32, ubest/mbest: 1/0
+    *via 172.27.4.90, Eth1/27, [110/111], 35w5d, ospf-2, intra
+172.27.0.16/32, ubest/mbest: 1/0
+    *via 172.27.4.98, Eth1/28, [110/111], 2y15w, ospf-2, intra
+172.27.0.21/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/221], 2y15w, ospf-2, intra
+172.27.0.22/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/331], 2y15w, ospf-2, intra
+172.27.0.23/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/321], 2y15w, ospf-2, intra
+172.27.0.24/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/321], 2y15w, ospf-2, intra
+172.27.0.25/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/321], 2y15w, ospf-2, intra
+172.27.0.26/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/321], 2y15w, ospf-2, intra
+172.27.0.111/32, ubest/mbest: 2/0, attached
+    *via 172.27.0.111, Lo0, [0/0], 4w5d, local
+    *via 172.27.0.111, Lo0, [0/0], 4w5d, direct
+172.27.0.113/32, ubest/mbest: 1/0
+    *via 172.27.4.70, Eth1/29, [110/111], 2y15w, ospf-2, intra
+172.27.0.115/32, ubest/mbest: 2/0
+    *via 172.27.4.90, Eth1/27, [110/111], 35w5d, ospf-2, intra
+    *via 172.27.4.98, Eth1/28, [110/111], 2y15w, ospf-2, intra
+172.27.0.121/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/221], 2y15w, ospf-2, intra
+172.27.0.123/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/321], 2y15w, ospf-2, intra
+172.27.0.125/32, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/321], 2y15w, ospf-2, intra
+172.27.4.0/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/320], 2y15w, ospf-2, intra
+172.27.4.4/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/420], 2y15w, ospf-2, intra
+172.27.4.8/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/320], 2y15w, ospf-2, intra
+172.27.4.12/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/420], 2y15w, ospf-2, intra
+172.27.4.16/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/330], 2y15w, ospf-2, intra
+172.27.4.20/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/430], 2y15w, ospf-2, intra
+172.27.4.24/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/540], 2y15w, ospf-2, intra
+172.27.4.28/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/320], 2y15w, ospf-2, intra
+172.27.4.32/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/430], 2y15w, ospf-2, intra
+172.27.4.36/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/320], 2y15w, ospf-2, intra
+172.27.4.40/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/420], 2y15w, ospf-2, intra
+172.27.4.52/30, ubest/mbest: 1/0
+    *via 172.27.4.70, Eth1/29, [110/220], 1y7w, ospf-2, intra
+172.27.4.56/30, ubest/mbest: 1/0
+    *via 172.27.4.70, Eth1/29, [110/510], 2y15w, ospf-2, intra
+172.27.4.60/30, ubest/mbest: 1/0, attached
+    *via 172.27.4.62, Vlan9, [0/0], 2y15w, direct
+172.27.4.62/32, ubest/mbest: 1/0, attached
+    *via 172.27.4.62, Vlan9, [0/0], 2y15w, local
+172.27.4.68/30, ubest/mbest: 1/0, attached
+    *via 172.27.4.69, Eth1/29, [0/0], 2y15w, direct
+172.27.4.69/32, ubest/mbest: 1/0, attached
+    *via 172.27.4.69, Eth1/29, [0/0], 2y15w, local
+172.27.4.72/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/220], 1y7w, ospf-2, intra
+172.27.4.80/30, ubest/mbest: 2/0
+    *via 172.27.4.90, Eth1/27, [110/220], 35w5d, ospf-2, intra
+    *via 172.27.4.98, Eth1/28, [110/220], 2y15w, ospf-2, intra
+172.27.4.84/30, ubest/mbest: 1/0
+    *via 172.27.4.90, Eth1/27, [110/210], 35w5d, ospf-2, intra
+172.27.4.88/30, ubest/mbest: 1/0, attached
+    *via 172.27.4.89, Eth1/27, [0/0], 35w5d, direct
+172.27.4.89/32, ubest/mbest: 1/0, attached
+    *via 172.27.4.89, Eth1/27, [0/0], 35w5d, local
+172.27.4.92/30, ubest/mbest: 1/0
+    *via 172.27.4.98, Eth1/28, [110/210], 2y15w, ospf-2, intra
+172.27.4.96/30, ubest/mbest: 1/0, attached
+    *via 172.27.4.97, Eth1/28, [0/0], 2y15w, direct
+172.27.4.97/32, ubest/mbest: 1/0, attached
+    *via 172.27.4.97, Eth1/28, [0/0], 2y15w, local
+172.27.4.104/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/220], 2y15w, ospf-2, intra
+172.27.5.0/30, ubest/mbest: 1/0
+    *via 172.27.4.61, Vlan9, [110/1320], 43w4d, ospf-2, intra
 
