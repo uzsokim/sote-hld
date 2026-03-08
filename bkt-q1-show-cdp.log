@@ -1,0 +1,230 @@
+﻿BKT-Q1# sh cdp
+              ^
+% Incomplete command at '^' marker.
+BKT-Q1# sh cdp nei
+Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater,
+                  V - VoIP-Phone, D - Remotely-Managed-Device,
+                  s - Supports-STP-Dispute
+
+Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
+SW2-MGMT.sotnet     mgmt0          165    S I       C9200L-48T-4G Gig1/0/2      
+ROKUS-Q1(FDO25432572)
+                    Eth1/25        154    R S I s   N9K-C9332C    Eth1/1        
+KKT-Q1.sotnet(FDO2543258Z)
+                    Eth1/26        133    R S s     N9K-C9332C    Eth1/26       
+BKT-T1.sotnet(FDO25390M0D)
+                    Eth1/27        153    R S s     N9K-C93108TC- Eth1/51       
+BKT-T2.sotnet(FDO25390LU8)
+                    Eth1/28        152    R S s     N9K-C93108TC- Eth1/51       
+BKT-S1.sotnet(FDO25440DQH)
+                    Eth1/29        122    R S I s   N9K-C93180YC- Eth1/51       
+BKT-S2.sotnet(FDO25432081)
+                    Eth1/30        137    R S s     N9K-C93180YC- Eth1/51       
+BKT-Q2.sotnet(FDO2543257J)
+                    Eth1/31        152    R S I s   N9K-C9332C    Eth1/31       
+BKT-Q2.sotnet(FDO2543257J)
+                    Eth1/32        152    R S I s   N9K-C9332C    Eth1/32       
+
+Total entries displayed: 9
+BKT-Q1# sh cdp nei de
+----------------------------------------
+Device ID:SW2-MGMT.sotnet
+VTP Management Domain Name: sotnet
+
+Interface address(es): 1
+    IPv4 Address: 10.63.64.167
+Platform: cisco C9200L-48T-4G, Capabilities: Switch IGMP Filtering 
+Interface: mgmt0, Port ID (outgoing port): GigabitEthernet1/0/2
+Holdtime: 162 sec
+
+Version:
+Cisco IOS Software [Cupertino], Catalyst L3 Switch Software (CAT9K_LITE_IOSXE), Version 17.8.1, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2022 by Cisco Systems, Inc.
+Compiled Sat 09-Apr-22 00:34 by mcpre
+
+Advertisement Version: 2
+
+Native VLAN: 69
+Duplex: full
+Mgmt address(es):
+    IPv4 Address: 10.63.64.167
+Local Interface MAC: c4:4d:84:81:15:fa
+Remote Interface MAC: 6c:8b:d3:c8:6c:82
+----------------------------------------
+Device ID:ROKUS-Q1(FDO25432572)
+System Name: ROKUS-Q1
+
+Interface address(es): 1
+    IPv4 Address: 10.63.66.27
+Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/25, Port ID (outgoing port): Ethernet1/1
+Holdtime: 151 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 10.5(4)
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+
+MTU: 1500
+Mgmt address(es):
+    IPv4 Address: 10.63.66.27
+Local Interface MAC: c4:4d:84:81:16:1a
+Remote Interface MAC: a4:78:06:35:50:2a
+----------------------------------------
+Device ID:KKT-Q1.sotnet(FDO2543258Z)
+System Name: KKT-Q1
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.105
+Platform: N9K-C9332C, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet1/26, Port ID (outgoing port): Ethernet1/26
+Holdtime: 130 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9100
+Mgmt address(es):
+    IPv4 Address: 10.63.66.21
+Local Interface MAC: c4:4d:84:81:16:1b
+Remote Interface MAC: c4:4d:84:81:16:b9
+----------------------------------------
+Device ID:BKT-T1.sotnet(FDO25390M0D)
+System Name: BKT-T1
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.86
+Platform: N9K-C93108TC-FX, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet1/27, Port ID (outgoing port): Ethernet1/51
+Holdtime: 149 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9100
+Mgmt address(es):
+    IPv4 Address: 10.63.66.15
+Local Interface MAC: c4:4d:84:81:16:1c
+Remote Interface MAC: a4:78:06:fd:be:77
+----------------------------------------
+Device ID:BKT-T2.sotnet(FDO25390LU8)
+System Name: BKT-T2
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.94
+Platform: N9K-C93108TC-FX, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet1/28, Port ID (outgoing port): Ethernet1/51
+Holdtime: 149 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9100
+Mgmt address(es):
+    IPv4 Address: 10.63.66.16
+Local Interface MAC: c4:4d:84:81:16:1d
+Remote Interface MAC: a4:78:06:fd:e5:d7
+----------------------------------------
+Device ID:BKT-S1.sotnet(FDO25440DQH)
+System Name: BKT-S1
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.57
+Platform: N9K-C93180YC-FX, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/29, Port ID (outgoing port): Ethernet1/51
+Holdtime: 179 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+
+MTU: 1500
+Mgmt address(es):
+    IPv4 Address: 10.63.66.13
+Local Interface MAC: c4:4d:84:81:16:1e
+Remote Interface MAC: 38:fd:f8:1c:39:07
+----------------------------------------
+Device ID:BKT-S2.sotnet(FDO25432081)
+System Name: BKT-S2
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.74
+Platform: N9K-C93180YC-FX, Capabilities: Router Switch Supports-STP-Dispute
+Interface: Ethernet1/30, Port ID (outgoing port): Ethernet1/51
+Holdtime: 134 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 9100
+Mgmt address(es):
+    IPv4 Address: 10.63.66.14
+Local Interface MAC: c4:4d:84:81:16:1f
+Remote Interface MAC: 68:87:c6:e4:cf:a7
+----------------------------------------
+Device ID:BKT-Q2.sotnet(FDO2543257J)
+System Name: BKT-Q2
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.62
+Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/31, Port ID (outgoing port): Ethernet1/31
+Holdtime: 149 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+
+MTU: 1500
+Mgmt address(es):
+    IPv4 Address: 10.63.66.12
+Local Interface MAC: c4:4d:84:81:16:20
+Remote Interface MAC: c4:4d:84:81:16:2f
+----------------------------------------
+Device ID:BKT-Q2.sotnet(FDO2543257J)
+System Name: BKT-Q2
+
+Interface address(es): 1
+    IPv4 Address: 172.27.4.62
+Platform: N9K-C9332C, Capabilities: Router Switch IGMP Filtering Supports-STP-Dispute
+Interface: Ethernet1/32, Port ID (outgoing port): Ethernet1/32
+Holdtime: 149 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 9.3(10)
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+
+MTU: 1500
+Mgmt address(es):
+    IPv4 Address: 10.63.66.12
+Local Interface MAC: c4:4d:84:81:16:21
+Remote Interface MAC: c4:4d:84:81:16:2f

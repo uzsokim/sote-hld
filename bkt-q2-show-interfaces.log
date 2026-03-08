@@ -1,0 +1,67 @@
+﻿BKT-Q2#   sh int statu
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+mgmt0         --                 connected routed    full    1000    --         
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Eth1/1        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/2        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/3        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/4        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/5        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/6        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/7        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/8        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/9        --                 xcvrAbsen routed    auto    auto    --         
+Eth1/10       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/11       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/12       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/13       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/14       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/15       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/16       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/17       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/18       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/19       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/20       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/21       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/22       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/23       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/24       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/25       --                 connected trunk     full    100G    QSFP-100G-LR4
+Eth1/26       --                 notconnec routed    auto    auto    QSFP-100G-LR4
+Eth1/27       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
+Eth1/28       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
+Eth1/29       VXLAN-CORE         connected routed    full    100G    QSFP-100G-CR4
+Eth1/30       NEXUS Gerinc       connected trunk     full    100G    QSFP-100G-CR4
+Eth1/31       PEER-LINK          connected trunk     full    100G    QSFP-100G-CR4
+Eth1/32       PEER-LINK          connected trunk     full    100G    QSFP-100G-CR4
+Eth1/33       --                 xcvrAbsen routed    auto    auto    --         
+Eth1/34       --                 xcvrAbsen routed    auto    auto    --         
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Po1           PEER-LINK          connected trunk     full    100G    --         
+Po2           NEXUS Gerinc       connected trunk     full    100G    --         
+Po4           --                 connected trunk     full    100G    --         
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Lo0           --                 connected routed    auto    auto    --         
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Vlan1         --                 down      routed    auto    auto    --
+Vlan9         VXLAN-CORE         connected routed    auto    auto    --
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+nve1          --                 disabled  --        auto    auto    --         
