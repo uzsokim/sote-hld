@@ -18,7 +18,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 DNAC_HOST     = "10.8.11.100"
 DNAC_PORT     = 443
 DNAC_USER     = "admin"           # ← módosítsd szükség szerint
-DNAC_PASSWORD = "your_password"   # ← módosítsd szükség szerint
+DNAC_PASSWORD = "Cisco123!"   # ← módosítsd szükség szerint
 BASE_URL      = f"https://{DNAC_HOST}:{DNAC_PORT}"
 
 
