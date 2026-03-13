@@ -1,0 +1,761 @@
+Semmelweis Egyetem
+
+**Hálózati Infrastruktúra**
+
+**Dokumentáció és Elemzés**
+
+Fizikai · Layer 2 · Layer 3 · Routing · Kockázatelemzés
+
+Dátum: 2026. március 9.
+
+Forrás: eszköz log fájlok (sh run, sh int status, sh ip route, sh ip
+eigrp topology, sh ip bgp summary, sh ip ospf database)
+
+# 1. Összefoglaló
+
+Ez a dokumentum a Semmelweis Egyetem campushálózatának részletes műszaki
+leírását tartalmazza, amelyet az eszközökön futtatott parancs-kimenetek
+(log fájlok) elemzése alapján állítottunk össze. A hálózat három fő
+campust kapcsol össze: a Belgyógyászati és Klinikai Tömböt (BKT), a
+Klinikai Komplexum Tömböt (KKT), valamint a NET Egészségtudományi Kart
+(NET/NKATA).
+
+A gerinchálózat modern, több rétegű architektúrára épül: a legacy Cisco
+Catalyst alapú core routingot (BKATA, KKATA, NKATA) egy korszerű Cisco
+Nexus VXLAN fabric infrastruktúra egészíti ki. A két szint párhuzamosan
+üzemel, egymással szorosan integráltan. Az internet-hozzáférés
+redundáns: NIIF/HBONE kapcsolaton keresztül a BKATA, KIFU kapcsolaton
+keresztül a NKATA biztosítja a külső elérhetőséget.
+
+# 2. Eszközök és leltár
+
+A hálózatban az alábbi eszközök azonosíthatók a log fájlok alapján:
+
+## 2.1. Core / Gerinc eszközök (Legacy Catalyst)
+
+  -------------- -------------- -------------- ----------------- -----------------
+  **Hostname**   **Platform**   **Router-ID /  **Szerepkör**     **Campus**
+                                IP**                             
+
+  BKATA          Cisco Catalyst OSPF:          Core L3 switch +  BKT campus
+                 6500/4500      10.10.255.2 /  Internet GW (BGP) 
+                 (IOS)          BGP:                             
+                                193.6.209.21 /                   
+                                EIGRP:                           
+                                193.6.209.21                     
+
+  KKATA          Cisco Catalyst EIGRP:         Core L3 switch    KKT campus
+                 6500/4500      193.6.209.20   (EIGRP only, no   
+                 (IOS)                         BGP)              
+
+  NKATA          Cisco Catalyst BGP:           Core L3 switch +  NET campus
+                 6500/4500      193.6.209.17 / Internet GW (BGP, 
+                 (IOS)          EIGRP:         KIFU)             
+                                193.6.209.17                     
+  -------------- -------------- -------------- ----------------- -----------------
+
+## 2.2. Nexus VXLAN Fabric eszközök
+
+Az összes Nexus eszköz Cisco NX-OS operációs rendszert futtat és a
+172.27.0.0/24 loopback tartomány alapján épül fel a VXLAN underlay OSPF
+Process 2 (Area 172.27.0.0) segítségével.
+
+  -------------- ---------- ---------------- ----------------- --------------- --------------
+  **Hostname**   **NX-OS    **Loopback0**    **Anycast         **Szerepkör**   **Campus**
+                 verzió**                    Loopback**                        
+
+  BKT-Q1         9.3(10)    172.27.0.11/32   172.27.0.111/32   VXLAN Leaf (vPC BKT campus
+                                                               pair 1)         
+
+  BKT-Q2         9.3(10)    172.27.0.12/32   172.27.0.111/32   VXLAN Leaf (vPC BKT campus
+                                                               pair 1)         
+
+  BKT-S1         9.3(10)    172.27.0.13/32   172.27.0.113/32   VXLAN Spine     BKT campus
+                                                               (vPC pair 2)    
+
+  BKT-S2         9.3(10)    172.27.0.14/32   172.27.0.113/32   VXLAN Spine     BKT campus
+                                                               (vPC pair 2)    
+
+  BKT-T2         9.3(10)    172.27.0.16/32   172.27.0.115/32   Border/Tenant   BKT campus
+                                                               L3 GW           
+
+  KKT-Q1         9.3(10)    172.27.0.21/32   172.27.0.121/32   VXLAN Leaf (vPC KKT campus
+                                                               pair 3)         
+
+  KKT-Q2         9.3(10)    172.27.0.22/32   172.27.0.121/32   VXLAN Leaf (vPC KKT campus
+                                                               pair 3)         
+
+  KKT-S1         9.3(10)    172.27.0.23/32   172.27.0.123/32   VXLAN Spine     KKT campus
+                                                               (vPC pair 4)    
+
+  KKT-S2         9.3(10)    172.27.0.24/32   172.27.0.123/32   VXLAN Spine     KKT campus
+                                                               (vPC pair 4)    
+
+  KKT-T1         9.3(10)    172.27.0.25/32   172.27.0.125/32   Border/Tenant   KKT campus
+                                                               L3 GW           
+
+  KKT-T2         9.3(10)    172.27.0.26/32   172.27.0.125/32   Border/Tenant   KKT campus
+                                                               L3 GW           
+
+  NET-S1         10.3(5)    172.27.0.34/32   \-                NET campus      NET campus
+                                                               Nexus gerinc    
+  -------------- ---------- ---------------- ----------------- --------------- --------------
+
+## 2.3. Ismert külső / peremhálózati eszközök
+
+Az alábbi eszközök ugyan nem szerepelnek önálló log fájlként, de a core
+eszközök konfigurációjából és CDP/routing adatokból azonosíthatók:
+
+  ------------------ ------------------ ------------------- ------------------
+  **Eszköz /         **Kapcsolat**      **Szerepkör**       **VLAN /
+  csoport**                                                 Interface**
+
+  Fortinet tűzfal    BKATA Gi10-11,     Internet-tűzfal, HA VLAN 982
+  (BKT)              Po6-8 / BKT-S1     páros               (Internet), 69
+                                                            (MGMT), 70 (HA),
+                                                            90
+
+  Fortinet tűzfal    KKATA Gi3/14-15 /  Internet-tűzfal, HA VLAN 982, 69, 70
+  (KKT)              KKT-S1             páros               
+
+  PaloAlto VPN (BKT) BKT-S1 Eth1/29-30  VPN gateway         Dedikált VPN
+                                        (internet +         interface
+                                        intranet leg)       
+
+  WLC (Wireless LAN  BKATA Gi10/33-34,  WiFi vezérlő        VLAN 69 (Service),
+  Controller)        BKT-S1 / KKT-S1    (WLC5520 / 9800),   71 (HA), 390
+                                        HA páros            (WiFi)
+
+  HP ESX             BKATA Gi6, Gi10,   VMware ESXi         Trunk (több VLAN)
+  szerverfarmok      Gi11 (Po10-18)     hypervisors,        
+                                        vSAN/iSCSI          
+
+  HP Alletra         BKT-S1 Eth1/33-34  All-flash storage   VLAN 64 (iSCSI
+  (storage)                             array               MGMT)
+
+  IBM Power / HMC    BKATA Gi11/36-37,  IBM Power LPAR      VLAN 107, 117
+                     KKATA Gi3/1-4      szerverek, HMC      
+                                        konzol              
+
+  BTik               BKATA Te12/1-2     Külső intézet,      Trunk
+  (Biotechnológiai   (2x10G)            trunk kapcsolat     
+  intézet)                                                  
+
+  NIIF / HBONE       BKATA Te13/2 (10G) Egyetemi internet   VLAN 14 (SRTG),
+                                        gerinc (AS 1955)    BGP uplink
+
+  KIFU Internet      NKATA Te9/2 (10G)  Alternatív internet Trunk
+                                        kapcsolat (AS 2012) 
+
+  ELTE (NASA inside) NKATA Gi4/48       Szomszéd intézmény  VLAN 30 (ELTE)
+                                        kapcsolat           
+  ------------------ ------------------ ------------------- ------------------
+
+# 3. Fizikai topológia
+
+A hálózat három campus-t fog össze, amelyek mindegyike saját
+gerinc-kapcsolókkal rendelkezik. A campusok között 10 Gigabit optikai
+összeköttetések biztosítják a kapcsolatot.
+
+![](media/image1.png){width="6.2in" height="6.2in"}
+
+## 3.1. Campusok közötti kapcsolatok (Inter-campus)
+
+A három campus gerinc eszközei a következőképpen kapcsolódnak egymáshoz:
+
+  ------------- ------------- -------------- -------------- ---------------
+  **Forrás      **Port**      **Cél eszköz** **Cél port     **Sebesség /
+  eszköz**                                   (becsült)**    Típus**
+
+  BKATA         Te13/1        NET-S1 (via    Eth1/47        10G /
+                (\*\*\* KKT   KKT campus)    (\*\*\* KKT    10Gbase-LR SM
+                10G)                         10G)           optika
+
+  NKATA         Te9/3 (\*\*\* NET-S1         Eth1/48        10G /
+                KKT 10G)                     (NKATA)        10Gbase-LR SM
+                                                            optika
+
+  NET-S1 (BKT   Eth1/46       BKATA          Te13/3 (\*\*\* 10G /
+  ág)           (BKATA 10G)                  NET 10G,       10Gbase-LR SM
+                                             notconnect)    optika
+
+  KKATA         Te9/1 (VXLAN  NET-S1 / VXLAN Eth1/47        10G /
+                fele)         core           (\*\*\* KKT    10Gbase-SR MM
+                                             10G)           optika
+
+  NKATA         Te9/4 (Nexus) NET-S1         Eth1/48        10G /
+                                                            10Gbase-SR MM
+                                                            optika
+
+  NET-S1        Eth1/49-50    Ismeretlen     (becsült)      100G / QSFP28
+                (NEXUS 100G   Nexus eszköz                  
+                Gerinc)       (100G uplink)                 
+  ------------- ------------- -------------- -------------- ---------------
+
+## 3.2. BKT campus belső fizikai topológia
+
+A BKT (Budapesti Klinikai Tömb) campus gerinche a BKATA Cisco Catalyst
+switch köré szervezett. A Nexus fabric (BKT-Q1/Q2 leaf, BKT-S1/S2 spine,
+BKT-T2 border) VPC párokba szervezve biztosítja a redundáns kapcsolatot
+a szerverek és a core felé.
+
+-   BKATA (Cisco Catalyst, IOS) -- fő campus core switch és L3 routing
+    eszköz
+
+    -   BKATA -- BKT-S1/S2 kapcsolat: Te12/1, Te12/2 (2x10G trunk, BTik
+        felirat -- valójában a Nexus spine irányába)
+
+    -   BKATA -- SZAJSEB, NOI1, KIE, ETK Vas u., GYER2, HOGYES,
+        Mikszáth: 1G optikai kapcsolatok (Gi2/x)
+
+    -   BKATA -- VIO MGMT (virtualizációs menedzsment switch): Gi2/23,
+        Gi10/32, Gi10/45, Gi10/46
+
+    -   BKATA -- HP ESX szerverfarmok: Po10 (ESX1), Po12 (ESX2), Po14
+        (ESX3), Po18 (ESX-ORA) -- 1G EtherChannel
+
+    -   BKATA -- BWIC (Building Wireless Infrastructure Controller): Po1
+        -- 1G EtherChannel
+
+    -   BKT-S1 és BKT-S2: vPC peer-pair, VPC PEER-LINK port-channel1
+        (redundáns trunk)
+
+    -   BKT-Q1 és BKT-Q2: vPC pair, leaf szintű switchek, VXLAN VTEP
+        funkcióval
+
+    -   BKT-S1 -- PaloAlto VPN: Eth1/29 (internet), Eth1/30 (intranet
+        oldal)
+
+    -   BKT-S1 -- HP Alletra storage: Eth1/33-34 (iSCSI)
+
+    -   BKT-S1 -- WLC (Cisco WLC-PROD1): Eth1/31-32
+
+## 3.3. KKT campus belső fizikai topológia
+
+A KKT (Klinikai Komplexum Tömb) campus struktúrája hasonló a BKT-hez:
+egy régi Cisco Catalyst core (KKATA) és egy modern Nexus VXLAN fabric
+(KKT-Q1/Q2, KKT-S1/S2, KKT-T1/T2) alkotja a gerinchálózatot.
+
+-   KKATA (Cisco Catalyst, IOS) -- fő campus core switch
+
+    -   KKATA -- épületszintű hozzáférés: Fa1/x portok 100Mbps FX MM
+        optikán (backup linkek)
+
+    -   KKATA -- Te9/1 (VXLAN fele): kapcsolat a Nexus fabric felé
+
+    -   KKATA -- KKT klinikaépületek: BALASSA, GYER1, BEL1, UROL, NEUR,
+        NOI2, FULO, PSYCH, SEB1, KOKI, RADI stb.
+
+    -   KKATA -- Fortinet tűzfal: Gi3/14-15 (982 VLAN, Internet)
+
+    -   KKT-S1 -- EOIP tunnel eszközök: Eth1/2-4 (VPN tunneling)
+
+    -   KKT-S1 -- NKATA kapcsolat: Eth1/6
+
+    -   KKT-S1 -- BKATA kapcsolat: Eth1/8
+
+    -   KKT-S1 -- KKATA kapcsolat: Eth1/9
+
+    -   KKT-S1 -- WLC9800: Eth1/16, WLC-PROD2: Eth1/19-20
+
+    -   KKT-S1 -- IBM POWER szerverek: Eth1/27-30
+
+    -   KKT-T1 -- PHARMA szerver, PHARMA2, Flowmon, PI-PACS, Radiometer,
+        OKK, HDMEDI: Eth1/1-8
+
+## 3.4. NET campus belső fizikai topológia
+
+A NET (NET Egészségtudományi Kar) campus a NKATA Cisco Catalyst core
+switche köré szervezett, amelyhez a Nexus NET-S1 csatlakozik.
+
+-   NKATA (Cisco Catalyst, IOS) -- fő campus core switch
+
+    -   NKATA -- Intézeti épületek: Gi2/x portokon 1G SX optikán: LEPENY
+        (zöld és barna épület), NET Fsz., BIOL, GYHAT, MAGTUD, KORTAN,
+        MIKRO, ORAL, DIAKCENTRUM, IMMUN labor
+
+    -   NKATA -- NIIF kapcsolat: Gi2/1 (routed port, 1G SX) -- internet
+        gerinc felé
+
+    -   NKATA -- KIFU internet: Te9/2 (10G LR) -- elsődleges internet
+        uplink
+
+    -   NKATA -- KKT kapcsolat: Te9/3 (10G)
+
+    -   NKATA -- NET-S1 Nexus: Te9/4 (10G SR)
+
+    -   NKATA -- ELTE kapcsolat: Gi4/48 (100Mbps) -- szomszéd intézmény
+
+    -   NKATA -- NWIC (NWIC1/NWIC2): Gi4/19, Gi4/29 -- hálózati
+        tároló/backup
+
+    -   NET-S1 -- MARKUSOVSZKY KOLLEGIUM: Eth1/1 (trunk)
+
+    -   NET-S1 -- DC (szervetermi kapcsolat): Eth1/2
+
+    -   NET-S1 -- VXLAN-CORE: Eth1/54 (L3, MTU 9100, PIM)
+
+# 4. Layer 2 topológia -- VLAN architektúra
+
+A hálózatban 802.1Q trunk technológiát alkalmaznak a VLAN-ok átvitelére.
+A VLAN névtér egységes az egész szervezeten belül, a trunk portok
+explicit VLAN-listával vannak konfigurálva. A Nexus eszközök VPC
+(Virtual Port Channel) alapú redundancia mellett VXLAN (Virtual
+Extensible LAN) overlay hálózatot üzemeltetnek.
+
+![](media/image2.png){width="6.2in" height="6.2in"}
+
+## 4.1. Kulcsfontosságú VLAN-ok
+
+  ------------ ------------------- ------------------------ -----------------------
+  **VLAN ID**  **Név**             **Szerepkör / Leírás**   **Megtalálható
+                                                            eszközökön**
+
+  10           BKT-KKT             Inter-campus gerinc      BKATA, BKT-S1/S2,
+                                   (BKT--KKT campus         KKT-S1/S2, NET-S1
+                                   összekötő)               
+
+  11           EOK-BKT             EOK és BKT campus        BKATA (Gi2/2 TKATA),
+                                   közötti összeköttetés    NET-S1
+
+  12           KKT-NET             KKT és NET campus        NKATA, KKT-S1/S2,
+                                   összekötő gerinc VLAN    NET-S1
+
+  13           OSPF-GERINC         OSPF underlay/gerinc     BKATA (FW-OSPF), összes
+                                   VLAN, L3 routing         Nexus
+                                   céljaira                 
+
+  20           BKT-NET / GERINC    BKT és NET campus        BKATA, NKATA (EIGRP
+               BKT-NET             közötti gerinc összekötő peer VLAN)
+
+  61           MGMT-B              Menedzsment hálózat --   BKATA, BKT-S1/S2,
+                                   BKT campus eszközei      BKT-Q1/Q2
+
+  62           MGMT-K              Menedzsment hálózat --   KKATA, KKT-S1/S2,
+                                   KKT campus eszközei      NET-S1
+
+  63           MGMT-N              Menedzsment hálózat --   NKATA, NET-S1
+                                   NET campus eszközei      
+
+  69           MGMT-SE             Általános SE menedzsment Minden campus,
+                                   VLAN (WLC, Forti MGMT)   trunk-okon átvive
+
+  70           FORTI-HA            Fortinet tűzfal High     BKATA, KKATA
+                                   Availability (HA         
+                                   heartbeat)               
+
+  71           WLC-HA              Cisco WLC High           BKATA, KKT-T1
+                                   Availability heartbeat   
+                                   VLAN                     
+
+  90/91        FIREWALL / NKATA-FW Tűzfal belső interface   BKATA (Vl90), NKATA
+                                   VLAN-ok                  (Vl91)
+
+  97/98/99     EUREST/Semmelweis   Bérlő/partner hálózatok  BKATA
+               KFT                 (EUREST étkezde, SE KFT) 
+
+  100          BKT-GERINC          BKT campus belső gerinc  BKATA, Nexus
+                                   VLAN                     
+
+  101          BEHIVO              Bejövő/dialup hálózat    BKATA
+                                   (C-AS5350)               
+
+  106          BKTSERVERS          BKT szerver VLAN (JIR,   BKATA Gi11/21
+                                   klinikai IT)             
+
+  113          PACS                Radiológiai képtárolás   BKATA, KKATA (SUN PACS)
+                                   (PACS/RIS rendszerek)    
+
+  160/984      IP TELEFON BKT /    VoIP telefónia VLAN-ok   BKATA, trunk-okon
+               VOIP                                         
+
+  303          TELKOZPONT          Telefonközpont / AVAYA   NKATA, KKATA
+                                   PABX hálózat             
+
+  390          Cisco CAP WIFI      Cisco Aironet AP vezérlő Minden campus,
+                                   VLAN (capwap)            trunkokon
+
+  431          Bizttech / Fizikai  KANTECH beléptető és     BKATA, KKATA, NKATA
+               biztonság           video megfigyelő         
+                                   rendszer                 
+
+  500--599     NET campus          NET campus tanszéki      NKATA, NET-S1
+               intézetek           VLAN-ok (PHARMA, BIOL,   
+                                   GYHAT stb.)              
+
+  560--571     VXLAN mapped        VXLAN overlay tenant     Minden Nexus
+                                   VLAN-ok (egységes az     
+                                   egész fabrickben)        
+
+  982          Forti Internet      Internet-oldali VLAN     BKATA, KKATA, trunkokon
+                                   (Fortinet outside        
+                                   interface)               
+
+  2000--2020   VXLAN VNI mapped    VXLAN Virtual Network    Nexus fabric-ban
+                                   Identifier overlay       
+                                   VLAN-ok                  
+  ------------ ------------------- ------------------------ -----------------------
+
+## 4.2. Spanning Tree és redundancia
+
+A halozatban 802.1Q trunk portok on modban uzemelnek (DTP nelkul,
+statikus konfiguráció). A Nexus eszkozok VPC (Virtual Port Channel)
+technologiat alkalmaznak, ami aktív-aktív redundanciat biztosit a
+port-channel linkeken:
+
+-   BKT-Q1 / BKT-Q2: vPC pair -- közös port-channel portscsoportok
+    hozzáférési eszközök felé
+
+-   BKT-S1 / BKT-S2: vPC pair -- spine szintű eszközök, peer-link
+    port-channel1-en
+
+-   KKT-Q1 / KKT-Q2: vPC pair
+
+-   KKT-S1 / KKT-S2: vPC pair
+
+A BKATA Cisco Catalyst eszközön több trunkon cross-connect kapcsolat van
+a Nexus fabric felé (Te12/1-2 és Te13/1 portok).
+
+## 4.3. VXLAN overlay
+
+A Nexus fabric VXLAN MP-BGP EVPN alapú overlay-t alkalmaz. Az underlay
+routing OSPF Process 2 (Area 172.27.0.0) gondoskodik a loopback-IP-k
+elérhetőségéről, amelyekre a VXLAN VTEP (Virtual Tunnel Endpoint)
+funkció épül. A multicast csoportok (239.27.100.x) a BUM
+(Broadcast/Unknown/Multicast) forgalom kezeléséhez szükségesek. PIM
+Sparse Mode és RP (172.27.0.1) konfigurálva van minden Nexus eszközön.
+
+# 5. Layer 3 topológia -- Routing
+
+## 5.1. Routing protokollok áttekintése
+
+A hálózatban négy routing mechanizmus él párhuzamosan:
+
+![](media/image3.png){width="6.2in" height="6.2in"}
+
+  --------------- -------------- ------------------------ --------------------
+  **Protokoll**   **Scope /      **Résztvevő eszközök**   **Redistribúció**
+                  hatókör**                               
+
+  EIGRP AS 10     Campus gerinc  BKATA, KKATA, NKATA (IOS Redistributálva:
+                  (legacy)       eszközök)                connected, static,
+                                                          BGP, OSPF → EIGRP
+                                                          (BKATA)
+
+  OSPF Process 1  Tűzfal-core    BKATA (10.10.255.2),     OSPF 1 → EIGRP
+                  összekötő      Fortinet tűzfal          redistributálva
+                  (BKATA)        (10.10.255.1)            BKATA-n
+
+  OSPF Process 2  VXLAN underlay BKT-S1/S2, BKT-Q1/Q2,    Csak loopback és p2p
+                  fabric         BKT-T2, KKT-S1/S2,       linkek (172.27.x.x
+                                 KKT-Q1/Q2, KKT-T1/T2,    prefix-list)
+                                 NET-S1                   
+
+  BGP AS 65008    Internet       BKATA (193.6.209.21),    BGP → EIGRP
+                  peering + iBGP NKATA (193.6.209.17), +  redistributálva
+                                 belső peer-ek            BKATA-n
+
+  Statikus        Default        Minden Nexus (mgmt VRF), BKATA default:
+  routing         route +        BKATA (default gw)       193.6.209.49 (NIIF)
+                  specifikus                              → network
+                                                          195.111.97.0
+  --------------- -------------- ------------------------ --------------------
+
+## 5.2. EIGRP elemzés
+
+### EIGRP AS 10 -- Campus gerinc routing
+
+Az EIGRP AS 10 a három campus core eszköz (BKATA, KKATA, NKATA) közötti
+fő routing protokoll. A neighbor kapcsolatok a gerinc VLAN-okon
+keresztül épülnek fel:
+
+-   BKATA ↔ NKATA: Vlan20 (BKT-NET gerinc VLAN, 193.6.209.x/30
+    alhálózat)
+
+-   BKATA ↔ KKATA: Vlan10 (BKT-KKT gerinc VLAN)
+
+-   KKATA ↔ NKATA: Vlan12 (KKT-NET gerinc VLAN)
+
+Konfiguráció jellemzői:
+
+-   K-értékek: K1=1, K2=0, K3=1, K4=0, K5=0 (bandwidth + delay alapú
+    metrika, standard)
+
+-   Maximum hopcount: 100
+
+-   Variance: 1 (nincs unequal-cost load balancing)
+
+-   NSF (Non-Stop Forwarding) aware, de disabled
+
+A BKATA az EIGRP-be a következőket redistributálja: connected, static,
+BGP 65008, OSPF 1. Ez azt jelenti, hogy az internetes és tűzfal mögötti
+útvonalak a campus EIGRP doménbe is beküldetnek. Az EIGRP route-filter
+(eigrp-kut-tunnel) a Vlan901, Vlan902 és Tunnel1 interfészek szűrésére
+szolgál -- ezek valószínűleg VPN tunnel interfészek a KUT (Klinikai
+Urológiai Tömb?) irányába.
+
+## 5.3. OSPF elemzés
+
+### OSPF Process 1 -- Tűzfal-core integráció (BKATA)
+
+Az OSPF Process 1 egy szűk körű, dedikált OSPF domain, amely kizárólag a
+BKATA és a Fortinet tűzfal között működik:
+
+-   Area: 10.10.255.1 (egyetlen terület, nem backbone)
+
+-   Router ID-k: BKATA = 10.10.255.2, Fortinet tűzfal = 10.10.255.1
+
+-   Network link states: a 10.10.255.2 ADV Router hirdeti (tehát BKATA a
+    DR)
+
+-   VLAN 13 (FW-OSPF) az összekötő interfész a tűzfal felé
+
+Az OSPF Process 1 Type-5 External LSA-k segítségével az EIGRP/BGP
+útvonalakat hirdet vissza a tűzfal felé, illetve a tűzfal mögötti
+útvonalakat veszi át. Ez a biztonsági architektúra tipikus eleme: a
+campus routing és az internet/tűzfal zóna routing szétválasztva.
+
+### OSPF Process 2 -- VXLAN underlay fabric
+
+Az OSPF Process 2 kizárólag a Nexus VXLAN fabric eszközein fut. Egyetlen
+area konfiguráció:
+
+-   Area: 172.27.0.0 (egyetlen, nem backbone area -- ez konfigurációs
+    anomália!)
+
+-   Loopback interface-ek (172.27.0.x/32) és VXLAN core p2p linkek
+    (172.27.4.x/30) az OSPF-ban
+
+-   Point-to-point hálózat típus a p2p linken (Eth1/54, Vlan9
+    interfészek)
+
+-   PIM Sparse Mode minden OSPF-os interfészen (multicast routing a
+    VXLAN BUM forgalomhoz)
+
+-   Router ID-k: BKT-Q1=172.27.0.11, BKT-Q2=172.27.0.12,
+    BKT-S1=172.27.0.13, BKT-S2=172.27.0.14, BKT-T2=172.27.0.16,
+    KKT-Q1=172.27.0.21, KKT-Q2=172.27.0.22, KKT-S1=172.27.0.23,
+    KKT-S2=172.27.0.24, KKT-T1=172.27.0.25, KKT-T2=172.27.0.26,
+    NET-S1=172.27.0.34
+
+## 5.4. BGP elemzés
+
+### BGP AS 65008 -- Intézményi autonóm rendszer
+
+A Semmelweis Egyetem hálózata AS 65008 alatt működik. A BGP két campus
+eszközön fut: BKATA és NKATA.
+
+### BKATA BGP (Router ID: 193.6.209.21)
+
+  -------------- -------- ---------------- ------------------ ------------------
+  **BGP          **AS**   **Típus**        **Állapot /        **Szerepkör**
+  Neighbor**                               Uptime**           
+
+  193.6.209.14   65008    iBGP (belső      UP (47w4d) -- 8    iBGP RR client /
+                          peer)            prefix fogadva     belső peer
+                                                              (valószínű route
+                                                              reflector)
+
+  193.6.209.22   65008    iBGP             Active (nem        Inaktív iBGP peer
+                                           kapcsolódott)      (tartalék/régi
+                                                              konfig)
+
+  193.6.209.23   65008    iBGP             Active (3y29w --   Inaktív iBGP peer
+                                           régen sem volt UP) 
+
+  193.6.209.49   1955     eBGP --          UP (5d21h) -- 1310 Elsődleges
+                          NIIF/HBONE       prefix fogadva     internet upstream
+                                                              (HBONE)
+
+  193.6.209.50   1955     eBGP --          Idle (Admin) -- le Tartalék HBONE
+                          NIIF/HBONE       van tiltva         peer (admin
+                                                              shutdown)
+  -------------- -------- ---------------- ------------------ ------------------
+
+### NKATA BGP (Router ID: 193.6.209.17)
+
+  --------------- -------- -------------- ------------------ --------------------
+  **BGP           **AS**   **Típus**      **Állapot /        **Szerepkör**
+  Neighbor**                              Uptime**           
+
+  192.153.18.81   2012     eBGP -- KIFU   UP (21w1d) -- 0    Másodlagos internet
+                                          prefix fogadva     upstream
+                                                             (KIFU/HUNGARNET)
+
+  193.6.209.13    65008    iBGP           UP (47w4d) -- 12   Belső iBGP peer
+                                          prefix fogadva     (valószínű route
+                                                             reflector)
+
+  193.6.209.22    65008    iBGP           Active (soha nem   Inaktív iBGP peer
+                                          volt UP)           
+
+  193.6.209.233   1955     eBGP -- NIIF   Idle (Admin) -- le Tartalék NIIF peer
+                                          van tiltva         (inaktív)
+  --------------- -------- -------------- ------------------ --------------------
+
+BGP összefoglalás: A BKATA a fő internet GW (HBONE/NIIF, \~1310 prefix),
+a NKATA másodlagos (KIFU, 0 prefix fogadva -- aszimmetrikus
+konfiguráció). Az iBGP peering 193.6.209.13 és 193.6.209.14-gyel zajlik
+-- ezek valószínűleg route reflector eszközök (esetleg maguk a BKATA és
+NKATA egymással, vagy egy dedikált RR). A 193.6.209.22/23 inaktív peerek
+rontják a BGP konvergenciát és felesleges overhead-et generálnak.
+
+## 5.5. Statikus routing
+
+Statikus útvonalak a következő helyeken azonosíthatók:
+
+-   BKATA default route: gateway of last resort = 193.6.209.49 → network
+    195.111.97.0 (NIIF/HBONE upstream)
+
+-   Nexus eszközök management VRF-ben: ip route 0.0.0.0/0 10.63.64.1 --
+    a menedzsment hálózat (10.63.64.x/21) default route-ja
+
+-   NKATA Vlan20 felé: EIGRP-n keresztül tanul útvonalakat, de statikus
+    összefoglalókra utaló nyomok is vannak a BKATA OSPF database-ben
+
+-   OSPF Process 1 Type-5 External LSA-k: statikus útvonalak
+    redistributálva (pl. 10.0.0.0, 10.1.0.0, 10.3.0.0 stb.)
+
+# 6. Kockázatelemzés
+
+Az alábbiakban a hálózati konfigurációban azonosított kockázatokat
+ismertetjük súlyosság szerint csoportosítva. A kockázatok azonosítása
+kizárólag a rendelkezésre álló log fájlok alapján történt; fizikai
+ellenőrzés és teljes konfiguráció audit további kockázatokat tárhat fel.
+
+## 6.1. Kritikus kockázatok
+
+> 🔴 Internet redundancia hiánya éles üzemben: A BKATA HBONE upstream
+> peerje (193.6.209.50) admin shutdown állapotban van. A NKATA KIFU-s
+> peerje (193.6.209.233 AS1955) szintén admin shutdown. Ha a BKATA
+> 193.6.209.49-es uplink meghibásodik, az internet-kapcsolat kieshet. A
+> KIFU-s peer (192.153.18.81) 0 prefixet hirdet NKATA felé -- a KIFU
+> kapcsolat útvonal-fogadás szempontjából nem üzemel.
+>
+> 🔴 BGP inaktív peer-ek konvergencia kockázata: A BKATA 193.6.209.22/23
+> és NKATA 193.6.209.22 iBGP peerek Active/Never állapotban vannak. Ezek
+> felesleges BGP reconnect kísérleteket generálnak (scan interval 60s),
+> CPU overhead-et okoznak, és konfigurációs rendetlenségre utalnak. A
+> 193.6.209.23 peer 3 éve nem csatlakozott -- biztonsági szempontból is
+> kockázatos (obsolete konfig).
+>
+> 🔴 OSPF Process 2 -- nem backbone area: A VXLAN fabric OSPF Process
+> 2-ben egyetlen area van (172.27.0.0), és ez nem az Area 0 (backbone).
+> Ha később multi-area OSPF-re kellene bővíteni, az area 172.27.0.0 nem
+> lehet backbone area -- ez architektúrális tervezési hibára utal, ami
+> jövőbeni bővítést nehezít.
+>
+> 🔴 Te13/3 (\*\*\* NET 10G) -- notconnect: A BKATA és NET-S1 közötti
+> 10G link nem aktív (notconnect). Ez azt jelenti, hogy a BKT--NET
+> campus összeköttetés egyirányú (csak NET-S1 → BKATA irányban, Eth1/46
+> porton) -- nincs valódi fizikai redundancia a két campus között ezen a
+> linken.
+
+## 6.2. Közepes kockázatok
+
+> 🟡 Legacy Cisco IOS eszközök (BKATA, KKATA, NKATA): A Catalyst
+> 6500/4500 sorozatú eszközök várhatóan elavult hardveren futnak
+> (100BaseFX MM portok, 1G uplinkok). Az IOS verziók nincsenek a log
+> fájlokban egyértelműen feltüntetve, de a platform kora biztonsági
+> frissítések és support szempontjából aggályos lehet.
+>
+> 🟡 KKATA BGP nem aktív -- routing centralizáció: A KKATA nem futtat
+> BGP-t. Ez azt jelenti, hogy a KKT campus teljesen a BKATA-tól függ az
+> internet/external routing szempontjából. A KKATA egyetlen EIGRP-re
+> támaszkodik, nincs közvetlen internet backup lehetőség a KKT campus
+> szintjén.
+>
+> 🟡 Notconnect és disabled portok: Számos interfész notconnect vagy
+> disabled állapotban van (pl. BKATA Gi2/1 NIIF HBONE disabled -- No
+> Transceiver; Gi2/6 BOR No Transceiver; Gi2/24 BC22 notconnect stb.).
+> Ezek potenciálisan inaktív, de engedélyezett portok, amelyek
+> biztonsági kockázatot jelenthetnek (port-security, VLAN leakage).
+>
+> 🟡 Több független VLAN trunk nem filterelt: A BKATA Gi2/23 (VIO MGMT)
+> port VLAN 1-4094 (összes VLAN) átvitelre van konfigurálva. Ez VLAN
+> hopping vagy hálózati szegmentáció sérülési kockázatot jelent.
+> Hasonlóan, a BKATA Te13/1 (KKT 10G) és Te13/2 (NIIF HBONE) trunk
+> portok nagyon széles VLAN-listával üzemelnek.
+>
+> 🟡 BWIC (Wireless Infrastructure) Po1 -- sok VLAN trunk: A BWIC-hez
+> vezető Po1 link VLAN
+> 61,100,110-111,118,122,191,203,210,214-215,401,404,413,471-473,481-482,503,517,753
+> VLAN-okat visz. Ha a BWIC kompromittálódik, széles hálózati
+> szegmensekhez férhet hozzá.
+>
+> 🟡 VoIP és klinikaai rendszerek azonos fabric-on: A VLAN 160/984 (IP
+> telefon), VLAN 113 (PACS radiológia), VLAN 431
+> (biztonsági/kamerarendszer), és a normál adathálózat ugyanazon Nexus
+> fabric-on fut, csak VLAN szegmentációval elválasztva. Robustus L3
+> tűzfal szegmentáció nélkül kockázatos kritikus orvosi rendszerek
+> számára.
+>
+> 🟡 EIGRP NSF disabled: Non-Stop Forwarding le van tiltva (EIGRP NSF
+> disabled) mind a három campus core eszközön. Core szoftverfrissítés
+> esetén routing interruption következik be.
+
+## 6.3. Alacsony kockázatok / Javítási javaslatok
+
+> 🟢 OSPF Area 0 hiánya a VXLAN fabric-ban: Érdemes megfontolni a VXLAN
+> underlay OSPF backbone area-ra (Area 0) migrálását, hogy jövőbeli
+> bővítéskor (pl. inter-area útvonalak, OSPF ABR) ne okozzon problémát a
+> jelenlegi konfiguráció.
+>
+> 🟢 Inaktív BGP peer-ek eltávolítása: A 193.6.209.22, 193.6.209.23
+> (BKATA) és 193.6.209.22, 193.6.209.233 (NKATA) soha nem aktív BGP peer
+> konfigurációkat célszerű eltávolítani vagy határozottan shutdown
+> állapotban dokumentálni.
+>
+> 🟢 Notconnect portok letiltása: A notconnect állapotú, de VLAN-ba
+> sorolt portokat célszerű shutdown paranccsal adminisztrálisan
+> letiltani a biztonsági kockázat csökkentése érdekében.
+>
+> 🟢 Trunk VLAN szűrés szigorítása: A \'allow all\' (1-4094) trunk
+> konfigurációk helyett explicit VLAN-listát célszerű alkalmazni minden
+> trunk porton, a szükséges VLAN-ok pontos meghatározásával.
+>
+> 🟢 Menedzsment VLAN elkülönítése: A 10.63.x.x menedzsment hálózat
+> (mgmt0 interfészek Nexus-on) különálló VRF-ben (management VRF) van,
+> ami helyes megközelítés -- ezt érdemes következetesen fenntartani
+> minden eszközön.
+>
+> 🟢 NTP konfiguráció: Minden Nexus eszköz az ntp.sotnet belső NTP
+> szervert használja, ami helyes. A BKATA/KKATA/NKATA NTP konfigurációja
+> a log fájlokból nem egyértelműen látható -- ezeket ellenőrizni
+> szükséges.
+>
+> 🟢 EIGRP filter-lista ellenőrzése: Az eigrp-kut-tunnel route-map
+> filtert (Vlan901, Vlan902, Tunnel1) dokumentálni és rendszeresen
+> felülvizsgálni szükséges -- ezek VPN tunnel interfészek, amelyek
+> szűrése kritikus lehet a biztonságos routing szempontjából.
+
+## 6.4. Összesítő kockázati mátrix
+
+  ---------------------- ------------------ ----------- --------------------------
+  **Kockázat**           **Valószínűség**   **Hatás**   **Javasolt intézkedés**
+
+  Internet uplink single Közepes            Kritikus    BKATA 193.6.209.50 peer
+  point of failure                                      aktiválása; KIFU
+  (BKATA)                                               prefix-fogadás
+                                                        engedélyezése NKATA-n
+
+  Inaktív BGP peer-ek    Magas              Közepes     Eltávolítani vagy
+  konfigurációs overhead                                shutdown-ozni a soha nem
+                                                        csatlakozó peer-eket
+
+  Te13/3 (BKT-NET 10G)   Közepes            Magas       Fizikailag ellenőrizni,
+  notconnect --                                         száloptika hibát keresni,
+  redundancia hiánya                                    SFP cserét fontolni
+
+  Szegmentáció --        Közepes            Magas       L3 firewall policy-k
+  PACS/VoIP/biztonsági                                  bevezetése a kritikus
+  és adatforgalom egy                                   orvosi rendszerek körül
+  fabric-on                                             
+
+  Legacy Catalyst        Magas              Közepes     Migrációs terv kidolgozása
+  eszközök elavulása                                    a BKATA/KKATA/NKATA
+                                                        Nexus-ra cserélésére
+
+  Notconnect portok      Alacsony           Közepes     Port-security policy
+  biztonsági kockázata                                  alkalmazása, shutdown
+  ---------------------- ------------------ ----------- --------------------------
