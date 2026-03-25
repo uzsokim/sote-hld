@@ -1,0 +1,1275 @@
+{
+  "ftd8.lab.local": {
+    "alap_adatok": {
+      "deploymentStatus": "DEPLOYED",
+      "id": "2250d132-fd12-11f0-b43d-87faf648ada1",
+      "type": "Device",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1"
+      },
+      "name": "ftd8.lab.local",
+      "description": "NOT SUPPORTED",
+      "model": "Cisco Firepower Threat Defense for KVM",
+      "modelId": "B",
+      "modelNumber": "75",
+      "modelType": "Sensor",
+      "healthStatus": "red",
+      "healthMessage": "Interface 'GigabitEthernet0/1.20' is not receiving any packets<br>Interface 'GigabitEthernet0/1.10' is not receiving any packets<br>Interface 'GigabitEthernet0/0' is not receiving any packets",
+      "sw_version": "7.4.2",
+      "healthPolicy": {
+        "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+        "name": "Initial_Health_Policy 2024-11-18 16:53:50",
+        "type": "HealthPolicy"
+      },
+      "accessPolicy": {
+        "name": "FTD-HA-Policy",
+        "id": "005056b3-6bc0-0ed3-0000-068719574303",
+        "type": "AccessPolicy"
+      },
+      "advanced": {
+        "enableOGS": true
+      },
+      "hostName": "10.81.145.18",
+      "license_caps": [
+        "ESSENTIALS",
+        "MALWARE_DEFENSE",
+        "IPS",
+        "URL"
+      ],
+      "performanceTier": "FTDv5",
+      "keepLocalEvents": false,
+      "prohibitPacketTransfer": false,
+      "isConnected": true,
+      "ftdMode": "ROUTED",
+      "analyticsOnly": false,
+      "metadata": {
+        "readOnly": {
+          "state": false
+        },
+        "inventoryData": {
+          "cpuCores": "1 CPU (4 cores)",
+          "cpuType": "CPU Xeon E5 series 2300 MHz",
+          "memoryInMB": "8192 MB RAM"
+        },
+        "deviceSerialNumber": "9A4X8X0QF83",
+        "domain": {
+          "name": "Global",
+          "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+          "type": "Domain"
+        },
+        "containerDetails": {
+          "id": "c6addda4-fd19-11f0-8d87-8c0a74898213",
+          "type": "DeviceHAPair",
+          "name": "ftd-ha",
+          "role": "SECONDARY",
+          "status": "Standby"
+        },
+        "isPartOfContainer": true,
+        "isMultiInstance": false,
+        "snortVersion": "3.1.53.200-107",
+        "vdbVersion": "Build 416 - 2025-10-07 07:27:06.0",
+        "lspVersion": "lsp-rel-20260323-2001",
+        "clusterBootstrapSupported": true,
+        "universalZeroTrustSupported": false,
+        "coreProfile": "Default"
+      },
+      "snortEngine": "SNORT3",
+      "isMCDManaged": false,
+      "managementState": "MANAGED"
+    },
+    "fizikai_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574465"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574465",
+        "name": "GigabitEthernet0/0"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574466"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574466",
+        "name": "GigabitEthernet0/1"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574467"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574467",
+        "name": "GigabitEthernet0/2"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574468"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574468",
+        "name": "GigabitEthernet0/3"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574469"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574469",
+        "name": "Management0/0"
+      }
+    ],
+    "szub_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/subinterfaces/005056B3-6BC0-0ed3-0000-068719576180"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719576180"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/subinterfaces/005056B3-6BC0-0ed3-0000-068719576181"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719576181"
+      }
+    ],
+    "redundans_interfeszek": [],
+    "etherchannel_interfeszek": [],
+    "statikus_utvonalak_v4": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/routing/ipv4staticroutes/005056B3-6BC0-0ed3-0000-068719576398",
+          "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/2250d132-fd12-11f0-b43d-87faf648ada1/routing/staticroutes"
+        },
+        "type": "IPv4StaticRoute",
+        "id": "005056B3-6BC0-0ed3-0000-068719576398"
+      }
+    ],
+    "statikus_utvonalak_v6": []
+  },
+  "ftd7.lab.local": {
+    "alap_adatok": {
+      "deploymentStatus": "DEPLOYED",
+      "id": "f9dd1cb0-fd11-11f0-bffd-e35ae2d029af",
+      "type": "Device",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af"
+      },
+      "name": "ftd7.lab.local",
+      "description": "NOT SUPPORTED",
+      "model": "Cisco Firepower Threat Defense for KVM",
+      "modelId": "B",
+      "modelNumber": "75",
+      "modelType": "Sensor",
+      "healthStatus": "red",
+      "healthMessage": "Interface 'GigabitEthernet0/1.20' is not receiving any packets<br>Interface 'GigabitEthernet0/1.10' is not receiving any packets<br>Interface 'GigabitEthernet0/0' is not receiving any packets",
+      "sw_version": "7.4.2",
+      "healthPolicy": {
+        "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+        "name": "Initial_Health_Policy 2024-11-18 16:53:50",
+        "type": "HealthPolicy"
+      },
+      "accessPolicy": {
+        "name": "FTD-HA-Policy",
+        "id": "005056b3-6bc0-0ed3-0000-068719574303",
+        "type": "AccessPolicy"
+      },
+      "advanced": {
+        "enableOGS": true
+      },
+      "hostName": "10.81.145.17",
+      "license_caps": [
+        "ESSENTIALS",
+        "MALWARE_DEFENSE",
+        "IPS",
+        "URL"
+      ],
+      "performanceTier": "FTDv5",
+      "keepLocalEvents": false,
+      "prohibitPacketTransfer": false,
+      "isConnected": true,
+      "ftdMode": "ROUTED",
+      "analyticsOnly": false,
+      "metadata": {
+        "readOnly": {
+          "state": false
+        },
+        "inventoryData": {
+          "cpuCores": "1 CPU (4 cores)",
+          "cpuType": "CPU Xeon E5 series 2300 MHz",
+          "memoryInMB": "8192 MB RAM"
+        },
+        "deviceSerialNumber": "9AXL8QRVEFQ",
+        "domain": {
+          "name": "Global",
+          "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+          "type": "Domain"
+        },
+        "containerDetails": {
+          "id": "c6addda4-fd19-11f0-8d87-8c0a74898213",
+          "type": "DeviceHAPair",
+          "name": "ftd-ha",
+          "role": "PRIMARY",
+          "status": "Active"
+        },
+        "isPartOfContainer": true,
+        "isMultiInstance": false,
+        "snortVersion": "3.1.53.200-107",
+        "vdbVersion": "Build 416 - 2025-10-07 07:27:06.0",
+        "lspVersion": "lsp-rel-20260323-2001",
+        "clusterBootstrapSupported": true,
+        "universalZeroTrustSupported": false,
+        "coreProfile": "Default"
+      },
+      "snortEngine": "SNORT3",
+      "isMCDManaged": false,
+      "managementState": "MANAGED"
+    },
+    "fizikai_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574465"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574465",
+        "name": "GigabitEthernet0/0"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574466"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574466",
+        "name": "GigabitEthernet0/1"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574467"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574467",
+        "name": "GigabitEthernet0/2"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574468"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574468",
+        "name": "GigabitEthernet0/3"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719574469"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719574469",
+        "name": "Management0/0"
+      }
+    ],
+    "szub_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/subinterfaces/005056B3-6BC0-0ed3-0000-068719576180"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719576180"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/subinterfaces/005056B3-6BC0-0ed3-0000-068719576181"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719576181"
+      }
+    ],
+    "redundans_interfeszek": [],
+    "etherchannel_interfeszek": [],
+    "statikus_utvonalak_v4": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/routing/ipv4staticroutes/005056B3-6BC0-0ed3-0000-068719576398",
+          "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/f9dd1cb0-fd11-11f0-bffd-e35ae2d029af/routing/staticroutes"
+        },
+        "type": "IPv4StaticRoute",
+        "id": "005056B3-6BC0-0ed3-0000-068719576398"
+      }
+    ],
+    "statikus_utvonalak_v6": []
+  },
+  "ftd3.lab.local": {
+    "alap_adatok": {
+      "deploymentStatus": "DEPLOYED",
+      "id": "64100026-fa9b-11f0-91ba-a68689b265fe",
+      "type": "Device",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe"
+      },
+      "name": "ftd3.lab.local",
+      "description": "NOT SUPPORTED",
+      "model": "Cisco Firepower Threat Defense for KVM",
+      "modelId": "B",
+      "modelNumber": "75",
+      "modelType": "Sensor",
+      "healthStatus": "red",
+      "healthMessage": "Interface 'GigabitEthernet0/1.20' is not receiving any packets<br>Interface 'GigabitEthernet0/1.10' is not receiving any packets",
+      "sw_version": "7.4.2",
+      "healthPolicy": {
+        "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+        "name": "Initial_Health_Policy 2024-11-18 16:53:50",
+        "type": "HealthPolicy"
+      },
+      "accessPolicy": {
+        "name": "FTD3-Policy",
+        "id": "005056b3-6bc0-0ed3-0000-068719488595",
+        "type": "AccessPolicy"
+      },
+      "advanced": {
+        "enableOGS": true
+      },
+      "hostName": "10.81.145.13",
+      "license_caps": [
+        "ESSENTIALS",
+        "MALWARE_DEFENSE",
+        "SECURE_CLIENT_PREMIER_ADVANTAGE",
+        "IPS",
+        "URL"
+      ],
+      "performanceTier": "FTDv5",
+      "keepLocalEvents": false,
+      "prohibitPacketTransfer": false,
+      "isConnected": true,
+      "ftdMode": "ROUTED",
+      "analyticsOnly": false,
+      "metadata": {
+        "readOnly": {
+          "state": false
+        },
+        "inventoryData": {
+          "cpuCores": "1 CPU (4 cores)",
+          "cpuType": "CPU Xeon E5 series 2300 MHz",
+          "memoryInMB": "8192 MB RAM"
+        },
+        "deviceSerialNumber": "9AC3CAKFMUB",
+        "domain": {
+          "name": "Global",
+          "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+          "type": "Domain"
+        },
+        "isMultiInstance": false,
+        "snortVersion": "3.1.53.200-107",
+        "vdbVersion": "Build 416 - 2025-10-07 07:27:06.0",
+        "lspVersion": "lsp-rel-20260323-2001",
+        "clusterBootstrapSupported": true,
+        "universalZeroTrustSupported": false,
+        "coreProfile": "Default"
+      },
+      "snortEngine": "SNORT3",
+      "isMCDManaged": false,
+      "managementState": "MANAGED"
+    },
+    "fizikai_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488752"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488752",
+        "name": "GigabitEthernet0/0"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488753"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488753",
+        "name": "GigabitEthernet0/1"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488754"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488754",
+        "name": "GigabitEthernet0/2"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488755"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488755",
+        "name": "GigabitEthernet0/3"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488756"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488756",
+        "name": "Management0/0"
+      }
+    ],
+    "szub_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/subinterfaces/005056B3-6BC0-0ed3-0000-068719492602"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719492602"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/subinterfaces/005056B3-6BC0-0ed3-0000-068719492603"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719492603"
+      }
+    ],
+    "redundans_interfeszek": [],
+    "etherchannel_interfeszek": [],
+    "statikus_utvonalak_v4": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/routing/ipv4staticroutes/005056B3-6BC0-0ed3-0000-068719501574",
+          "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/64100026-fa9b-11f0-91ba-a68689b265fe/routing/staticroutes"
+        },
+        "type": "IPv4StaticRoute",
+        "id": "005056B3-6BC0-0ed3-0000-068719501574"
+      }
+    ],
+    "statikus_utvonalak_v6": []
+  },
+  "ftd2.lab.local": {
+    "alap_adatok": {
+      "deploymentStatus": "DEPLOYED",
+      "id": "6359b654-fa9b-11f0-9474-ce25e5b552ff",
+      "type": "Device",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff"
+      },
+      "name": "ftd2.lab.local",
+      "description": "NOT SUPPORTED",
+      "model": "Cisco Firepower Threat Defense for KVM",
+      "modelId": "B",
+      "modelNumber": "75",
+      "modelType": "Sensor",
+      "healthStatus": "red",
+      "healthMessage": "Interface 'GigabitEthernet0/1.20' is not receiving any packets<br>Interface 'GigabitEthernet0/1.10' is not receiving any packets",
+      "sw_version": "7.4.2",
+      "healthPolicy": {
+        "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+        "name": "Initial_Health_Policy 2024-11-18 16:53:50",
+        "type": "HealthPolicy"
+      },
+      "accessPolicy": {
+        "name": "FTD2-Policy",
+        "id": "005056b3-6bc0-0ed3-0000-068719487186",
+        "type": "AccessPolicy"
+      },
+      "advanced": {
+        "enableOGS": true
+      },
+      "hostName": "10.81.145.12",
+      "license_caps": [
+        "ESSENTIALS",
+        "MALWARE_DEFENSE",
+        "SECURE_CLIENT_PREMIER_ADVANTAGE",
+        "IPS",
+        "URL"
+      ],
+      "performanceTier": "FTDv5",
+      "keepLocalEvents": false,
+      "prohibitPacketTransfer": false,
+      "isConnected": true,
+      "ftdMode": "ROUTED",
+      "analyticsOnly": false,
+      "metadata": {
+        "readOnly": {
+          "state": false
+        },
+        "inventoryData": {
+          "cpuCores": "1 CPU (4 cores)",
+          "cpuType": "CPU Xeon E5 series 2300 MHz",
+          "memoryInMB": "8192 MB RAM"
+        },
+        "deviceSerialNumber": "9AARQ9C1LBF",
+        "domain": {
+          "name": "Global",
+          "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+          "type": "Domain"
+        },
+        "isMultiInstance": false,
+        "snortVersion": "3.1.53.200-107",
+        "vdbVersion": "Build 416 - 2025-10-07 07:27:06.0",
+        "lspVersion": "lsp-rel-20260323-2001",
+        "clusterBootstrapSupported": true,
+        "universalZeroTrustSupported": false,
+        "coreProfile": "Default"
+      },
+      "snortEngine": "SNORT3",
+      "isMCDManaged": false,
+      "managementState": "MANAGED"
+    },
+    "fizikai_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488108"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488108",
+        "name": "GigabitEthernet0/0"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488109"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488109",
+        "name": "GigabitEthernet0/1"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488110"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488110",
+        "name": "GigabitEthernet0/2"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488111"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488111",
+        "name": "GigabitEthernet0/3"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719488112"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719488112",
+        "name": "Management0/0"
+      }
+    ],
+    "szub_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/subinterfaces/005056B3-6BC0-0ed3-0000-068719498223"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719498223"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/subinterfaces/005056B3-6BC0-0ed3-0000-068719498224"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719498224"
+      }
+    ],
+    "redundans_interfeszek": [],
+    "etherchannel_interfeszek": [],
+    "statikus_utvonalak_v4": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/routing/ipv4staticroutes/005056B3-6BC0-0ed3-0000-068719501056",
+          "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6359b654-fa9b-11f0-9474-ce25e5b552ff/routing/staticroutes"
+        },
+        "type": "IPv4StaticRoute",
+        "id": "005056B3-6BC0-0ed3-0000-068719501056"
+      }
+    ],
+    "statikus_utvonalak_v6": []
+  },
+  "ftd4.lab.local": {
+    "alap_adatok": {
+      "deploymentStatus": "DEPLOYED",
+      "id": "3043f1b6-fa9c-11f0-b616-97b82cd51765",
+      "type": "Device",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765"
+      },
+      "name": "ftd4.lab.local",
+      "description": "NOT SUPPORTED",
+      "model": "Cisco Firepower Threat Defense for KVM",
+      "modelId": "B",
+      "modelNumber": "75",
+      "modelType": "Sensor",
+      "healthStatus": "red",
+      "healthMessage": "Interface 'GigabitEthernet0/1.10' is not receiving any packets",
+      "sw_version": "7.4.2",
+      "healthPolicy": {
+        "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+        "name": "Initial_Health_Policy 2024-11-18 16:53:50",
+        "type": "HealthPolicy"
+      },
+      "accessPolicy": {
+        "name": "FTD4-Policy",
+        "id": "005056b3-6bc0-0ed3-0000-068719489765",
+        "type": "AccessPolicy"
+      },
+      "advanced": {
+        "enableOGS": true
+      },
+      "hostName": "10.81.145.14",
+      "license_caps": [
+        "ESSENTIALS",
+        "MALWARE_DEFENSE",
+        "SECURE_CLIENT_PREMIER_ADVANTAGE",
+        "IPS",
+        "URL"
+      ],
+      "performanceTier": "FTDv5",
+      "keepLocalEvents": false,
+      "prohibitPacketTransfer": false,
+      "isConnected": true,
+      "ftdMode": "ROUTED",
+      "analyticsOnly": false,
+      "metadata": {
+        "readOnly": {
+          "state": false
+        },
+        "inventoryData": {
+          "cpuCores": "1 CPU (4 cores)",
+          "cpuType": "CPU Xeon E5 series 2300 MHz",
+          "memoryInMB": "8192 MB RAM"
+        },
+        "deviceSerialNumber": "9A8DU53AKVK",
+        "domain": {
+          "name": "Global",
+          "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+          "type": "Domain"
+        },
+        "isMultiInstance": false,
+        "snortVersion": "3.1.53.200-107",
+        "vdbVersion": "Build 416 - 2025-10-07 07:27:06.0",
+        "lspVersion": "lsp-rel-20260323-2001",
+        "clusterBootstrapSupported": true,
+        "universalZeroTrustSupported": false,
+        "coreProfile": "Default"
+      },
+      "snortEngine": "SNORT3",
+      "isMCDManaged": false,
+      "managementState": "MANAGED"
+    },
+    "fizikai_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490085"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490085",
+        "name": "GigabitEthernet0/0"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490086"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490086",
+        "name": "GigabitEthernet0/1"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490087"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490087",
+        "name": "GigabitEthernet0/2"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490088"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490088",
+        "name": "GigabitEthernet0/3"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490089"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490089",
+        "name": "Management0/0"
+      }
+    ],
+    "szub_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/subinterfaces/005056B3-6BC0-0ed3-0000-068719495229"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719495229"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/subinterfaces/005056B3-6BC0-0ed3-0000-068719495228"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719495228"
+      }
+    ],
+    "redundans_interfeszek": [],
+    "etherchannel_interfeszek": [],
+    "statikus_utvonalak_v4": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/routing/ipv4staticroutes/005056B3-6BC0-0ed3-0000-068719501079",
+          "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/3043f1b6-fa9c-11f0-b616-97b82cd51765/routing/staticroutes"
+        },
+        "type": "IPv4StaticRoute",
+        "id": "005056B3-6BC0-0ed3-0000-068719501079"
+      }
+    ],
+    "statikus_utvonalak_v6": []
+  },
+  "ftd1.lab.local": {
+    "alap_adatok": {
+      "deploymentStatus": "DEPLOYED",
+      "id": "4f010824-fa9b-11f0-879b-8cb74eb0077e",
+      "type": "Device",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e"
+      },
+      "name": "ftd1.lab.local",
+      "description": "NOT SUPPORTED",
+      "model": "Cisco Firepower Threat Defense for KVM",
+      "modelId": "B",
+      "modelNumber": "75",
+      "modelType": "Sensor",
+      "healthStatus": "red",
+      "healthMessage": "Interface 'GigabitEthernet0/1.20' is not receiving any packets<br>Interface 'GigabitEthernet0/1.10' is not receiving any packets",
+      "sw_version": "7.4.2",
+      "healthPolicy": {
+        "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+        "name": "Initial_Health_Policy 2024-11-18 16:53:50",
+        "type": "HealthPolicy"
+      },
+      "accessPolicy": {
+        "name": "FTD1-Policy",
+        "id": "005056b3-6bc0-0ed3-0000-068719486617",
+        "type": "AccessPolicy"
+      },
+      "advanced": {
+        "enableOGS": true
+      },
+      "hostName": "10.81.145.11",
+      "license_caps": [
+        "ESSENTIALS",
+        "MALWARE_DEFENSE",
+        "SECURE_CLIENT_PREMIER_ADVANTAGE",
+        "IPS",
+        "URL"
+      ],
+      "performanceTier": "FTDv5",
+      "keepLocalEvents": false,
+      "prohibitPacketTransfer": false,
+      "isConnected": true,
+      "ftdMode": "ROUTED",
+      "analyticsOnly": false,
+      "metadata": {
+        "readOnly": {
+          "state": false
+        },
+        "inventoryData": {
+          "cpuCores": "1 CPU (4 cores)",
+          "cpuType": "CPU Xeon E5 series 2300 MHz",
+          "memoryInMB": "8192 MB RAM"
+        },
+        "deviceSerialNumber": "9AJF0XTAFWQ",
+        "domain": {
+          "name": "Global",
+          "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+          "type": "Domain"
+        },
+        "isMultiInstance": false,
+        "snortVersion": "3.1.53.200-107",
+        "vdbVersion": "Build 416 - 2025-10-07 07:27:06.0",
+        "lspVersion": "lsp-rel-20260323-2001",
+        "clusterBootstrapSupported": true,
+        "universalZeroTrustSupported": false,
+        "coreProfile": "Default"
+      },
+      "snortEngine": "SNORT3",
+      "isMCDManaged": false,
+      "managementState": "MANAGED"
+    },
+    "fizikai_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719486822"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719486822",
+        "name": "GigabitEthernet0/0"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719486823"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719486823",
+        "name": "GigabitEthernet0/1"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719486824"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719486824",
+        "name": "GigabitEthernet0/2"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719486825"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719486825",
+        "name": "GigabitEthernet0/3"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719486826"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719486826",
+        "name": "Management0/0"
+      }
+    ],
+    "szub_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/subinterfaces/005056B3-6BC0-0ed3-0000-068719490612"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719490612"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/subinterfaces/005056B3-6BC0-0ed3-0000-068719490613"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719490613"
+      }
+    ],
+    "redundans_interfeszek": [],
+    "etherchannel_interfeszek": [],
+    "statikus_utvonalak_v4": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/routing/ipv4staticroutes/005056B3-6BC0-0ed3-0000-068719498630",
+          "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/4f010824-fa9b-11f0-879b-8cb74eb0077e/routing/staticroutes"
+        },
+        "type": "IPv4StaticRoute",
+        "id": "005056B3-6BC0-0ed3-0000-068719498630"
+      }
+    ],
+    "statikus_utvonalak_v6": []
+  },
+  "ftd5.lab.local": {
+    "alap_adatok": {
+      "deploymentStatus": "DEPLOYED",
+      "id": "6235afee-fa9b-11f0-88ae-df582d0c2664",
+      "type": "Device",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664"
+      },
+      "name": "ftd5.lab.local",
+      "description": "NOT SUPPORTED",
+      "model": "Cisco Firepower Threat Defense for KVM",
+      "modelId": "B",
+      "modelNumber": "75",
+      "modelType": "Sensor",
+      "healthStatus": "red",
+      "healthMessage": "Interface 'GigabitEthernet0/1.20' is not receiving any packets<br>Interface 'GigabitEthernet0/1.10' is not receiving any packets",
+      "sw_version": "7.4.2",
+      "healthPolicy": {
+        "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+        "name": "Initial_Health_Policy 2024-11-18 16:53:50",
+        "type": "HealthPolicy"
+      },
+      "accessPolicy": {
+        "name": "FTD5-Policy",
+        "id": "005056b3-6bc0-0ed3-0000-068719489085",
+        "type": "AccessPolicy"
+      },
+      "advanced": {
+        "enableOGS": true
+      },
+      "hostName": "10.81.145.15",
+      "license_caps": [
+        "ESSENTIALS",
+        "MALWARE_DEFENSE",
+        "SECURE_CLIENT_PREMIER_ADVANTAGE",
+        "IPS",
+        "URL"
+      ],
+      "performanceTier": "FTDv5",
+      "keepLocalEvents": false,
+      "prohibitPacketTransfer": false,
+      "isConnected": true,
+      "ftdMode": "ROUTED",
+      "analyticsOnly": false,
+      "metadata": {
+        "readOnly": {
+          "state": false
+        },
+        "inventoryData": {
+          "cpuCores": "1 CPU (4 cores)",
+          "cpuType": "CPU Xeon E5 series 2300 MHz",
+          "memoryInMB": "8192 MB RAM"
+        },
+        "deviceSerialNumber": "9AM75GG8V37",
+        "domain": {
+          "name": "Global",
+          "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+          "type": "Domain"
+        },
+        "isMultiInstance": false,
+        "snortVersion": "3.1.53.200-107",
+        "vdbVersion": "Build 416 - 2025-10-07 07:27:06.0",
+        "lspVersion": "lsp-rel-20260323-2001",
+        "clusterBootstrapSupported": true,
+        "universalZeroTrustSupported": false,
+        "coreProfile": "Default"
+      },
+      "snortEngine": "SNORT3",
+      "isMCDManaged": false,
+      "managementState": "MANAGED"
+    },
+    "fizikai_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719489264"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719489264",
+        "name": "GigabitEthernet0/0"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719489265"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719489265",
+        "name": "GigabitEthernet0/1"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719489266"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719489266",
+        "name": "GigabitEthernet0/2"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719489267"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719489267",
+        "name": "GigabitEthernet0/3"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719489268"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719489268",
+        "name": "Management0/0"
+      }
+    ],
+    "szub_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/subinterfaces/005056B3-6BC0-0ed3-0000-068719496516"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719496516"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/subinterfaces/005056B3-6BC0-0ed3-0000-068719496597"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719496597"
+      }
+    ],
+    "redundans_interfeszek": [],
+    "etherchannel_interfeszek": [],
+    "statikus_utvonalak_v4": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/routing/ipv4staticroutes/005056B3-6BC0-0ed3-0000-068719501312",
+          "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/6235afee-fa9b-11f0-88ae-df582d0c2664/routing/staticroutes"
+        },
+        "type": "IPv4StaticRoute",
+        "id": "005056B3-6BC0-0ed3-0000-068719501312"
+      }
+    ],
+    "statikus_utvonalak_v6": []
+  },
+  "ftd6.lab.local": {
+    "alap_adatok": {
+      "deploymentStatus": "DEPLOYED",
+      "id": "fe0121f4-faa7-11f0-a16a-edbf6e3621f3",
+      "type": "Device",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3"
+      },
+      "name": "ftd6.lab.local",
+      "description": "NOT SUPPORTED",
+      "model": "Cisco Firepower Threat Defense for KVM",
+      "modelId": "B",
+      "modelNumber": "75",
+      "modelType": "Sensor",
+      "healthStatus": "red",
+      "healthMessage": "Cisco Support Diagnostics Configuration - failure. Cisco Cloud Configuration - Unable to reach Cisco Cloud from the device. Please check the network connection.. ",
+      "sw_version": "7.4.2",
+      "healthPolicy": {
+        "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+        "name": "Initial_Health_Policy 2024-11-18 16:53:50",
+        "type": "HealthPolicy"
+      },
+      "accessPolicy": {
+        "name": "FTD6-Policy",
+        "id": "005056b3-6bc0-0ed3-0000-068719488458",
+        "type": "AccessPolicy"
+      },
+      "advanced": {
+        "enableOGS": true
+      },
+      "hostName": "10.81.145.16",
+      "license_caps": [
+        "ESSENTIALS",
+        "MALWARE_DEFENSE",
+        "SECURE_CLIENT_PREMIER_ADVANTAGE",
+        "IPS",
+        "URL"
+      ],
+      "performanceTier": "FTDv50",
+      "keepLocalEvents": false,
+      "prohibitPacketTransfer": false,
+      "isConnected": true,
+      "ftdMode": "ROUTED",
+      "analyticsOnly": false,
+      "metadata": {
+        "readOnly": {
+          "state": false
+        },
+        "inventoryData": {
+          "cpuCores": "1 CPU (4 cores)",
+          "cpuType": "CPU Xeon E5 series 2300 MHz",
+          "memoryInMB": "8192 MB RAM"
+        },
+        "deviceSerialNumber": "9A5MLDV3142",
+        "domain": {
+          "name": "Global",
+          "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+          "type": "Domain"
+        },
+        "isMultiInstance": false,
+        "snortVersion": "3.1.53.200-107",
+        "vdbVersion": "Build 416 - 2025-10-07 07:27:06.0",
+        "lspVersion": "lsp-rel-20260323-2001",
+        "clusterBootstrapSupported": true,
+        "universalZeroTrustSupported": false,
+        "coreProfile": "Default"
+      },
+      "snortEngine": "SNORT3",
+      "isMCDManaged": false,
+      "managementState": "MANAGED"
+    },
+    "fizikai_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490788"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490788",
+        "name": "GigabitEthernet0/0"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490789"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490789",
+        "name": "GigabitEthernet0/1"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490790"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490790",
+        "name": "GigabitEthernet0/2"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490791"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490791",
+        "name": "GigabitEthernet0/3"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/physicalinterfaces/005056B3-6BC0-0ed3-0000-068719490792"
+        },
+        "type": "PhysicalInterface",
+        "id": "005056B3-6BC0-0ed3-0000-068719490792",
+        "name": "Management0/0"
+      }
+    ],
+    "szub_interfeszek": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/subinterfaces/005056B3-6BC0-0ed3-0000-068719493493"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719493493"
+      },
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/subinterfaces/005056B3-6BC0-0ed3-0000-068719493494"
+        },
+        "type": "SubInterface",
+        "name": "GigabitEthernet0/1",
+        "id": "005056B3-6BC0-0ed3-0000-068719493494"
+      }
+    ],
+    "redundans_interfeszek": [],
+    "etherchannel_interfeszek": [],
+    "statikus_utvonalak_v4": [
+      {
+        "links": {
+          "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/routing/ipv4staticroutes/005056B3-6BC0-0ed3-0000-068719500960",
+          "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devices/devicerecords/fe0121f4-faa7-11f0-a16a-edbf6e3621f3/routing/staticroutes"
+        },
+        "type": "IPv4StaticRoute",
+        "id": "005056B3-6BC0-0ed3-0000-068719500960"
+      }
+    ],
+    "statikus_utvonalak_v6": []
+  },
+  "_policy_assignments": [
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719487186",
+      "name": "FTD2-Policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719488595",
+      "name": "FTD3-Policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-137438979141",
+      "name": "ElvisRA"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-137438979942",
+      "name": "FTD4_RA_VPN"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719515736",
+      "name": "fd5-nat-policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719486617",
+      "name": "FTD1-Policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719513273",
+      "name": "ftd4-nat-policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719489085",
+      "name": "FTD5-Policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719574303",
+      "name": "FTD-HA-Policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-137438977647",
+      "name": "POD1-RA"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719513505",
+      "name": "NAT POLICY FTD6"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719513762",
+      "name": "ftd3-nat-policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719576514",
+      "name": "ftd1-platform-settings"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719489765",
+      "name": "FTD4-Policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719488458",
+      "name": "FTD6-Policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "005056B3-6BC0-0ed3-0000-068719512331",
+      "name": "ftd1-nat-policy"
+    },
+    {
+      "type": "PolicyAssignment",
+      "id": "af71c302-a5cd-11ef-8e78-c5be302c37ac",
+      "name": "Initial_Health_Policy 2024-11-18 16:53:50"
+    }
+  ],
+  "_ha_pairs": [
+    {
+      "id": "c6addda4-fd19-11f0-8d87-8c0a74898213",
+      "type": "DeviceHAPair",
+      "links": {
+        "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/devicehapairs/ftddevicehapairs/c6addda4-fd19-11f0-8d87-8c0a74898213"
+      },
+      "name": "ftd-ha"
+    }
+  ],
+  "_device_clusters": [],
+  "_deployable_devices": []
+}

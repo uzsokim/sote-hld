@@ -1,0 +1,1150 @@
+{
+  "ftd8.lab.local": {
+    "nat_policies": []
+  },
+  "ftd7.lab.local": {
+    "nat_policies": []
+  },
+  "ftd3.lab.local": {
+    "nat_policies": [
+      {
+        "policy_name": "ftd3-nat-policy",
+        "policy_id": "005056B3-6BC0-0ed3-0000-068719513762",
+        "auto_nat_rules": [
+          {
+            "metadata": {
+              "section": "AUTO",
+              "parentType": "FTDNatRule",
+              "timestamp": 1769590269537,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513762/autonatrules/005056B3-6BC0-0ed3-0000-068719535778",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513762/natrules"
+            },
+            "interfaceInTranslatedNetwork": true,
+            "originalNetwork": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498704",
+              "name": "pod3_Client_network"
+            },
+            "type": "FTDAutoNatRule",
+            "sourceInterface": {
+              "name": "ftd3-client-zone",
+              "id": "26bfd6b4-faab-11f0-bd7d-90e5ce29d0e7",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd3-outside-zone",
+              "id": "e10dda4a-faa9-11f0-a973-9117ee77f855",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "DYNAMIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719535778"
+          }
+        ],
+        "manual_nat_rules": [
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 1,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769524904363,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513762/manualnatrules/005056B3-6BC0-0ed3-0000-068719513772",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513762/natrules"
+            },
+            "originalDestination": {
+              "type": "Host",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719514643",
+              "name": "10.81.145.93"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "cb7116e8-66a6-480b-8f9b-295191a0940a",
+              "name": "any-ipv4"
+            },
+            "translatedDestination": {
+              "type": "Host",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719524075",
+              "name": "ftd3-server"
+            },
+            "originalDestinationPort": {
+              "type": "ProtocolPortObject",
+              "protocol": "TCP",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-051539637513",
+              "name": "TCP-666"
+            },
+            "translatedDestinationPort": {
+              "type": "ProtocolPortObject",
+              "protocol": "TCP",
+              "overridable": false,
+              "id": "1834c890-38bb-11e2-86aa-62f0c593a59a",
+              "name": "SSH"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "cb7116e8-66a6-480b-8f9b-295191a0940a",
+              "name": "any-ipv4"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd3-outside-zone",
+              "id": "e10dda4a-faa9-11f0-a973-9117ee77f855",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd3-server-zone",
+              "id": "439a802c-faab-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719513772"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 2,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769512850465,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513762/manualnatrules/005056B3-6BC0-0ed3-0000-068719513773",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513762/natrules"
+            },
+            "originalDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498747",
+              "name": "pod3_Server_network"
+            },
+            "translatedDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498747",
+              "name": "pod3_Server_network"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd3-server-zone",
+              "id": "439a802c-faab-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd3-outside-zone",
+              "id": "e10dda4a-faa9-11f0-a973-9117ee77f855",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719513773"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 3,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769512850465,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513762/manualnatrules/005056B3-6BC0-0ed3-0000-068719513774",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513762/natrules"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": true,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498747",
+              "name": "pod3_Server_network"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd3-server-zone",
+              "id": "439a802c-faab-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd3-outside-zone",
+              "id": "e10dda4a-faa9-11f0-a973-9117ee77f855",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719513774"
+          }
+        ]
+      }
+    ]
+  },
+  "ftd2.lab.local": {
+    "nat_policies": []
+  },
+  "ftd4.lab.local": {
+    "nat_policies": [
+      {
+        "policy_name": "ftd4-nat-policy",
+        "policy_id": "005056B3-6BC0-0ed3-0000-068719513273",
+        "auto_nat_rules": [
+          {
+            "metadata": {
+              "section": "AUTO",
+              "parentType": "FTDNatRule",
+              "timestamp": 1772209936859,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513273/autonatrules/005056B3-6BC0-0ed3-0000-137438981651",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513273/natrules"
+            },
+            "interfaceInTranslatedNetwork": true,
+            "originalNetwork": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719499336",
+              "name": "pod4_client_network-100.64.104.0"
+            },
+            "type": "FTDAutoNatRule",
+            "sourceInterface": {
+              "name": "ftd4-client-zone",
+              "id": "d01c1e06-faac-11f0-a973-9117ee77f855",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd4-outside-zone",
+              "id": "31cf3b34-faac-11f0-a973-9117ee77f855",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "DYNAMIC",
+            "id": "005056B3-6BC0-0ed3-0000-137438981651"
+          }
+        ],
+        "manual_nat_rules": []
+      }
+    ]
+  },
+  "ftd1.lab.local": {
+    "nat_policies": [
+      {
+        "policy_name": "ftd1-nat-policy",
+        "policy_id": "005056B3-6BC0-0ed3-0000-068719512331",
+        "auto_nat_rules": [
+          {
+            "metadata": {
+              "section": "AUTO",
+              "parentType": "FTDNatRule",
+              "timestamp": 1772137698543,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/autonatrules/005056B3-6BC0-0ed3-0000-068719521641",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/natrules"
+            },
+            "interfaceInTranslatedNetwork": true,
+            "originalNetwork": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498590",
+              "name": "pod1-client-network-100.64.101.0_24"
+            },
+            "type": "FTDAutoNatRule",
+            "sourceInterface": {
+              "name": "ftd1-client-zone",
+              "id": "e7f940a6-faa9-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd1-outside-zone",
+              "id": "3e34e2da-a68d-11ef-872b-a7c4a52657ba",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "DYNAMIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719521641"
+          },
+          {
+            "metadata": {
+              "section": "AUTO",
+              "parentType": "FTDNatRule",
+              "timestamp": 1772137698543,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/autonatrules/005056B3-6BC0-0ed3-0000-068719577082",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/natrules"
+            },
+            "interfaceInTranslatedNetwork": true,
+            "originalNetwork": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498607",
+              "name": "pod1-server-network-100.64.201.0_24"
+            },
+            "type": "FTDAutoNatRule",
+            "sourceInterface": {
+              "name": "ftd1-server-zone",
+              "id": "08367cd0-faaa-11f0-be09-91ae79a30ef7",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd1-outside-zone",
+              "id": "3e34e2da-a68d-11ef-872b-a7c4a52657ba",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "DYNAMIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719577082"
+          }
+        ],
+        "manual_nat_rules": [
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 1,
+              "parentType": "FTDNatRule",
+              "timestamp": 1772140114959,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/manualnatrules/005056B3-6BC0-0ed3-0000-137438967033",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/natrules"
+            },
+            "originalDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-137438966967",
+              "name": "pod2-virtual"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-137438966985",
+              "name": "pod1-virtual"
+            },
+            "translatedDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498590",
+              "name": "pod1-client-network-100.64.101.0_24"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498590",
+              "name": "pod1-client-network-100.64.101.0_24"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "fallThrough": false,
+            "dns": false,
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "description": "Twice-NAT",
+            "id": "005056B3-6BC0-0ed3-0000-137438967033"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 2,
+              "parentType": "FTDNatRule",
+              "timestamp": 1772137698543,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/manualnatrules/005056B3-6BC0-0ed3-0000-068719513602",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/natrules"
+            },
+            "originalDestination": {
+              "type": "Host",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513533",
+              "name": "pod1-ssh-translation-10.81.145.91"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "cb7116e8-66a6-480b-8f9b-295191a0940a",
+              "name": "any-ipv4"
+            },
+            "translatedDestination": {
+              "type": "Host",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513551",
+              "name": "pod1-server-100.64.201.200"
+            },
+            "originalDestinationPort": {
+              "type": "ProtocolPortObject",
+              "protocol": "TCP",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-051539637513",
+              "name": "TCP-666"
+            },
+            "translatedDestinationPort": {
+              "type": "ProtocolPortObject",
+              "protocol": "TCP",
+              "overridable": false,
+              "id": "1834c890-38bb-11e2-86aa-62f0c593a59a",
+              "name": "SSH"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "cb7116e8-66a6-480b-8f9b-295191a0940a",
+              "name": "any-ipv4"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd1-outside-zone",
+              "id": "3e34e2da-a68d-11ef-872b-a7c4a52657ba",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd1-server-zone",
+              "id": "08367cd0-faaa-11f0-be09-91ae79a30ef7",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719513602"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 3,
+              "parentType": "FTDNatRule",
+              "timestamp": 1772137698543,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/manualnatrules/005056B3-6BC0-0ed3-0000-068719513372",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/natrules"
+            },
+            "originalDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498607",
+              "name": "pod1-server-network-100.64.201.0_24"
+            },
+            "translatedDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498607",
+              "name": "pod1-server-network-100.64.201.0_24"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd1-server-zone",
+              "id": "08367cd0-faaa-11f0-be09-91ae79a30ef7",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd1-outside-zone",
+              "id": "3e34e2da-a68d-11ef-872b-a7c4a52657ba",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719513372"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 4,
+              "parentType": "FTDNatRule",
+              "timestamp": 1772137698543,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/manualnatrules/005056B3-6BC0-0ed3-0000-137438965940",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719512331/natrules"
+            },
+            "originalDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498590",
+              "name": "pod1-client-network-100.64.101.0_24"
+            },
+            "translatedDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498590",
+              "name": "pod1-client-network-100.64.101.0_24"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd1-client-zone",
+              "id": "e7f940a6-faa9-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd1-outside-zone",
+              "id": "3e34e2da-a68d-11ef-872b-a7c4a52657ba",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-137438965940"
+          }
+        ]
+      }
+    ]
+  },
+  "ftd5.lab.local": {
+    "nat_policies": [
+      {
+        "policy_name": "fd5-nat-policy",
+        "policy_id": "005056B3-6BC0-0ed3-0000-068719515736",
+        "auto_nat_rules": [
+          {
+            "metadata": {
+              "section": "AUTO",
+              "parentType": "FTDNatRule",
+              "timestamp": 1769588155831,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719515736/autonatrules/005056B3-6BC0-0ed3-0000-068719533989",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719515736/natrules"
+            },
+            "interfaceInTranslatedNetwork": true,
+            "originalNetwork": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719499318",
+              "name": "pod5-client-network-100.64.105.0_24"
+            },
+            "type": "FTDAutoNatRule",
+            "sourceInterface": {
+              "name": "ftd5-client-zone",
+              "id": "43ea1830-faab-11f0-a973-9117ee77f855",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd5-outside-Zone",
+              "id": "00c548e6-fab4-11f0-8eda-adca3b9fc14c",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "DYNAMIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719533989"
+          }
+        ],
+        "manual_nat_rules": [
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 1,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769588112948,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719515736/manualnatrules/005056B3-6BC0-0ed3-0000-068719515746",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719515736/natrules"
+            },
+            "originalDestination": {
+              "type": "Host",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719517936",
+              "name": "10.81.145.95"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719518745",
+              "name": "10.81.145.0_24"
+            },
+            "translatedDestination": {
+              "type": "Host",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719533945",
+              "name": "pod5-server-100.64.205.200"
+            },
+            "originalDestinationPort": {
+              "type": "ProtocolPortObject",
+              "protocol": "TCP",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-051539637513",
+              "name": "TCP-666"
+            },
+            "translatedDestinationPort": {
+              "type": "ProtocolPortObject",
+              "protocol": "TCP",
+              "overridable": false,
+              "id": "1834c890-38bb-11e2-86aa-62f0c593a59a",
+              "name": "SSH"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719518745",
+              "name": "10.81.145.0_24"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd5-outside-Zone",
+              "id": "00c548e6-fab4-11f0-8eda-adca3b9fc14c",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd5-server-zone",
+              "id": "9799c250-faab-11f0-9a41-c561e6b17cc6",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719515746"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 2,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769520069026,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719515736/manualnatrules/005056B3-6BC0-0ed3-0000-068719515747",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719515736/natrules"
+            },
+            "originalDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719499388",
+              "name": "pod5-server-network-100.64.205.0_24"
+            },
+            "translatedDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719499388",
+              "name": "pod5-server-network-100.64.205.0_24"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd5-server-zone",
+              "id": "9799c250-faab-11f0-9a41-c561e6b17cc6",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd5-outside-Zone",
+              "id": "00c548e6-fab4-11f0-8eda-adca3b9fc14c",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719515747"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 3,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769519942174,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719515736/manualnatrules/005056B3-6BC0-0ed3-0000-068719515748",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719515736/natrules"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": true,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719499388",
+              "name": "pod5-server-network-100.64.205.0_24"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd5-server-zone",
+              "id": "9799c250-faab-11f0-9a41-c561e6b17cc6",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd5-outside-Zone",
+              "id": "00c548e6-fab4-11f0-8eda-adca3b9fc14c",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719515748"
+          }
+        ]
+      }
+    ]
+  },
+  "ftd6.lab.local": {
+    "nat_policies": [
+      {
+        "policy_name": "NAT POLICY FTD6",
+        "policy_id": "005056B3-6BC0-0ed3-0000-068719513505",
+        "auto_nat_rules": [],
+        "manual_nat_rules": [
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 1,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769588628803,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513505/manualnatrules/005056B3-6BC0-0ed3-0000-068719534843",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513505/natrules"
+            },
+            "originalDestination": {
+              "type": "Host",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513736",
+              "name": "DSTNAT_pod_test_6"
+            },
+            "translatedSource": {
+              "type": "NetworkGroup",
+              "overridable": false,
+              "id": "69fa2a3a-4487-4e3c-816f-4098f684826e",
+              "name": "any"
+            },
+            "translatedDestination": {
+              "type": "Host",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719514036",
+              "name": "ftd6_pod_server"
+            },
+            "originalDestinationPort": {
+              "type": "ProtocolPortObject",
+              "protocol": "TCP",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-051539637513",
+              "name": "TCP-666"
+            },
+            "translatedDestinationPort": {
+              "type": "ProtocolPortObject",
+              "protocol": "TCP",
+              "overridable": false,
+              "id": "1834c890-38bb-11e2-86aa-62f0c593a59a",
+              "name": "SSH"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "NetworkGroup",
+              "overridable": false,
+              "id": "69fa2a3a-4487-4e3c-816f-4098f684826e",
+              "name": "any"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd6-outside-zone",
+              "id": "6a74cfd0-faac-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd6-server-zone",
+              "id": "b1545084-faab-11f0-be09-91ae79a30ef7",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719534843"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 2,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769588628799,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513505/manualnatrules/005056B3-6BC0-0ed3-0000-068719534865",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513505/natrules"
+            },
+            "originalDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "translatedSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498883",
+              "name": "pod6_server_network_100.64.206.0"
+            },
+            "translatedDestination": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719513324",
+              "name": "LAB-Networks-100.64.0.0_M16"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": false,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498883",
+              "name": "pod6_server_network_100.64.206.0"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd6-server-zone",
+              "id": "b1545084-faab-11f0-be09-91ae79a30ef7",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd6-outside-zone",
+              "id": "6a74cfd0-faac-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719534865"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 3,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769588628803,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513505/manualnatrules/005056B3-6BC0-0ed3-0000-068719513574",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513505/natrules"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": true,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498883",
+              "name": "pod6_server_network_100.64.206.0"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd6-server-zone",
+              "id": "b1545084-faab-11f0-be09-91ae79a30ef7",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd6-outside-zone",
+              "id": "6a74cfd0-faac-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719513574"
+          },
+          {
+            "metadata": {
+              "section": "BEFORE_AUTO",
+              "index": 4,
+              "parentType": "FTDNatRule",
+              "timestamp": 1769588628803,
+              "domain": {
+                "name": "Global",
+                "id": "e276abec-e0f2-11e3-8169-6d9ed49b625f",
+                "type": "Domain"
+              }
+            },
+            "links": {
+              "self": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513505/manualnatrules/005056B3-6BC0-0ed3-0000-068719522791",
+              "parent": "https://10.81.145.10/api/fmc_config/v1/domain/e276abec-e0f2-11e3-8169-6d9ed49b625f/policy/ftdnatpolicies/005056B3-6BC0-0ed3-0000-068719513505/natrules"
+            },
+            "interfaceInOriginalDestination": false,
+            "interfaceInTranslatedSource": true,
+            "originalSource": {
+              "type": "Network",
+              "overridable": false,
+              "id": "005056B3-6BC0-0ed3-0000-068719498865",
+              "name": "pod6_client_pod_net"
+            },
+            "unidirectional": false,
+            "enabled": true,
+            "type": "FTDManualNatRule",
+            "sourceInterface": {
+              "name": "ftd6-client-zone",
+              "id": "79f613b6-faab-11f0-a973-9117ee77f855",
+              "type": "SecurityZone"
+            },
+            "fallThrough": false,
+            "dns": false,
+            "destinationInterface": {
+              "name": "ftd6-outside-zone",
+              "id": "6a74cfd0-faac-11f0-a0a1-f042a3919f78",
+              "type": "SecurityZone"
+            },
+            "interfaceIpv6": false,
+            "netToNet": false,
+            "routeLookup": false,
+            "noProxyArp": false,
+            "natType": "STATIC",
+            "id": "005056B3-6BC0-0ed3-0000-068719522791"
+          }
+        ]
+      }
+    ]
+  }
+}
