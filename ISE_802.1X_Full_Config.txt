@@ -1,0 +1,392 @@
+! ============================================================
+!  Cisco ISE 2.0 – Full 802.1X / MAB Switch Configuration
+!  Critical VLAN policy:
+!    dot1x user  (ISE down) → VLAN 100 (CRITICAL_DOT1X)
+!    MAB user    (ISE down) → VLAN 200 (CRITICAL_MAB)
+!
+!  Platform: Cisco IOS-XE (Cat 3650/3850/9300/9400)
+! ============================================================
+
+
+! ────────────────────────────────────────────────────────────
+! 1. VLANs
+! ────────────────────────────────────────────────────────────
+vlan 10
+ name DATA
+vlan 20
+ name VOICE
+vlan 30
+ name GUEST
+vlan 100
+ name CRITICAL_DOT1X
+vlan 200
+ name CRITICAL_MAB
+vlan 999
+ name QUARANTINE
+
+
+! ────────────────────────────────────────────────────────────
+! 2. AAA – Authentication / Authorization / Accounting
+! ────────────────────────────────────────────────────────────
+aaa new-model
+
+aaa group server radius ISE_GROUP
+ server name ISE_PSN1
+ server name ISE_PSN2
+ deadtime 15
+ ip radius source-interface Vlan10
+
+aaa authentication dot1x default group ISE_GROUP
+aaa authorization network default group ISE_GROUP
+aaa accounting dot1x default start-stop group ISE_GROUP
+aaa accounting update newinfo periodic 1440
+
+! Enable Change of Authorization (CoA) from ISE
+aaa server radius dynamic-author
+ client 10.81.145.11 server-key <COA_KEY>
+ client 10.81.145.12 server-key <COA_KEY>
+ auth-type all
+
+
+! ────────────────────────────────────────────────────────────
+! 3. RADIUS Server Definitions
+! ────────────────────────────────────────────────────────────
+radius server ISE_PSN1
+ address ipv4 10.81.145.11 auth-port 1812 acct-port 1813
+ timeout 5
+ retransmit 3
+ key <RADIUS_KEY>
+
+radius server ISE_PSN2
+ address ipv4 10.81.145.12 auth-port 1812 acct-port 1813
+ timeout 5
+ retransmit 3
+ key <RADIUS_KEY>
+
+! RADIUS global tuning
+radius-server attribute 6 on-for-login-auth
+radius-server attribute 8 include-in-access-req
+radius-server attribute 25 access-request include
+radius-server dead-criteria time 5 tries 3
+radius-server deadtime 15
+ip radius source-interface Vlan10
+
+
+! ────────────────────────────────────────────────────────────
+! 4. dot1x Global
+! ────────────────────────────────────────────────────────────
+dot1x system-auth-control
+dot1x critical eapol
+
+
+! ────────────────────────────────────────────────────────────
+! 5. Service Templates
+! ────────────────────────────────────────────────────────────
+
+! Critical VLAN for dot1x users when ISE is unreachable
+service-template CRITICAL_AUTH_DOT1X
+ description "ISE down - dot1x supplicant → VLAN 100"
+ vlan 100
+ access-group ACL_CRITICAL_DOT1X
+
+! Critical VLAN for MAB users when ISE is unreachable
+service-template CRITICAL_AUTH_MAB
+ description "ISE down - MAB device → VLAN 200"
+ vlan 200
+ access-group ACL_CRITICAL_MAB
+
+! Guest template (optional, for unauthenticated users when ISE is up)
+service-template GUEST_TEMPLATE
+ description "Guest / unauthenticated fallback"
+ vlan 30
+
+! LinkSec helpers (required built-in templates)
+service-template DEFAULT_LINKSEC_POLICY_MUST_SECURE
+ linksec policy must-secure
+
+service-template DEFAULT_LINKSEC_POLICY_SHOULD_SECURE
+ linksec policy should-secure
+
+
+! ────────────────────────────────────────────────────────────
+! 6. ACLs
+! ────────────────────────────────────────────────────────────
+
+! Pre-authentication default port ACL
+ip access-list extended ACL_DEFAULT_PORT
+ remark Allow DHCP and DNS before auth
+ permit udp any any eq 67
+ permit udp any any eq 68
+ permit udp any any eq 53
+ deny   ip any any
+
+! Critical VLAN 100 – dot1x users (ISE down)
+ip access-list extended ACL_CRITICAL_DOT1X
+ remark Allow basic connectivity while ISE is down
+ permit udp any any eq 67
+ permit udp any any eq 68
+ permit udp any any eq 53
+ permit ip any any
+ ! Restrict further as needed (e.g. block internet)
+
+! Critical VLAN 200 – MAB devices (ISE down)
+ip access-list extended ACL_CRITICAL_MAB
+ remark Allow DHCP only for unrecognised MAB devices
+ permit udp any any eq 67
+ permit udp any any eq 68
+ permit udp any any eq 53
+ permit ip any any
+ ! Restrict further as needed
+
+
+! ────────────────────────────────────────────────────────────
+! 7. Class-Maps (C3PL – Control Subscriber Policy)
+! ────────────────────────────────────────────────────────────
+
+! ── ISE/AAA unreachable + NEW (unauthorized) dot1x user ──
+class-map type control subscriber match-all AAA_SVR_DOWN_UNAUTHD_DOT1X
+ match method dot1x
+ match result-type aaa-timeout
+ match authorization-status unauthorized
+
+! ── ISE/AAA unreachable + NEW (unauthorized) MAB device ──
+class-map type control subscriber match-all AAA_SVR_DOWN_UNAUTHD_MAB
+ match method mab
+ match result-type aaa-timeout
+ match authorization-status unauthorized
+
+! ── ISE/AAA unreachable + ALREADY authorized dot1x user ──
+class-map type control subscriber match-all AAA_SVR_DOWN_AUTHD_DOT1X
+ match method dot1x
+ match result-type aaa-timeout
+ match authorization-status authorized
+
+! ── ISE/AAA unreachable + ALREADY authorized MAB device ──
+class-map type control subscriber match-all AAA_SVR_DOWN_AUTHD_MAB
+ match method mab
+ match result-type aaa-timeout
+ match authorization-status authorized
+
+! ── dot1x: no supplicant responding ──
+class-map type control subscriber match-all DOT1X_NO_RESP
+ match method dot1x
+ match result-type method dot1x agent-not-found
+
+! ── dot1x: supplicant timeout ──
+class-map type control subscriber match-all DOT1X_TIMEOUT
+ match method dot1x
+ match result-type method dot1x timeout
+
+! ── dot1x: hard failure (credentials rejected) ──
+class-map type control subscriber match-all DOT1X_FAILED
+ match method dot1x
+ match result-type method dot1x authoritative
+
+! ── MAB: hard failure (MAC not in ISE) ──
+class-map type control subscriber match-all MAB_FAILED
+ match method mab
+ match result-type method mab authoritative
+
+
+! ────────────────────────────────────────────────────────────
+! 8. Policy-Map – ISE_POLICY
+!    This is the core C3PL policy with differentiated
+!    critical VLAN assignment (dot1x=100, MAB=200)
+! ────────────────────────────────────────────────────────────
+policy-map type control subscriber ISE_POLICY
+
+ ! ── Session start: initiate dot1x first ──────────────────
+ event session-started match-all
+  10 class always do-until-failure
+   10 authenticate using dot1x priority 10
+
+ ! ── Authentication failure handling ──────────────────────
+ event authentication-failure match-first
+
+  ! [PRIORITY 10] ISE down + NEW dot1x user → CRITICAL VLAN 100
+  10 class AAA_SVR_DOWN_UNAUTHD_DOT1X do-until-failure
+   10 activate service-template CRITICAL_AUTH_DOT1X
+   20 authorize
+   30 pause reauthentication
+
+  ! [PRIORITY 20] ISE down + NEW MAB device → CRITICAL VLAN 200
+  20 class AAA_SVR_DOWN_UNAUTHD_MAB do-until-failure
+   10 activate service-template CRITICAL_AUTH_MAB
+   20 authorize
+   30 pause reauthentication
+
+  ! [PRIORITY 30] ISE down + re-auth of existing dot1x user → keep on VLAN 100
+  30 class AAA_SVR_DOWN_AUTHD_DOT1X do-until-failure
+   10 activate service-template CRITICAL_AUTH_DOT1X
+   20 pause reauthentication
+
+  ! [PRIORITY 40] ISE down + re-auth of existing MAB device → keep on VLAN 200
+  40 class AAA_SVR_DOWN_AUTHD_MAB do-until-failure
+   10 activate service-template CRITICAL_AUTH_MAB
+   20 pause reauthentication
+
+  ! [PRIORITY 50] dot1x: no supplicant → fall back to MAB
+  50 class DOT1X_NO_RESP do-until-failure
+   10 terminate dot1x
+   20 authenticate using mab priority 20
+
+  ! [PRIORITY 60] dot1x: timeout → fall back to MAB
+  60 class DOT1X_TIMEOUT do-until-failure
+   10 terminate dot1x
+   20 authenticate using mab priority 20
+
+  ! [PRIORITY 70] dot1x: rejected by ISE → fall back to MAB
+  70 class DOT1X_FAILED do-until-failure
+   10 terminate dot1x
+   20 authenticate using mab priority 20
+
+  ! [PRIORITY 80] MAB: MAC not found in ISE → restart after 60s
+  80 class MAB_FAILED do-until-failure
+   10 terminate mab
+   20 authentication-restart 60
+
+  ! [PRIORITY 90] Catch-all – terminate and restart
+  90 class always do-until-failure
+   10 terminate dot1x
+   20 terminate mab
+   30 authentication-restart 60
+
+ ! ── dot1x supplicant found mid-session (was doing MAB) ───
+ event agent-found match-all
+  10 class always do-until-failure
+   10 terminate mab
+   20 authenticate using dot1x priority 10
+
+ ! ── Port security violation (unexpected MAC) ─────────────
+ event violation match-all
+  10 class always do-until-failure
+   10 restrict
+
+ ! ── ISE comes back online → trigger re-authentication ────
+ event aaa-available match-all
+  10 class always do-until-failure
+   10 clear-session
+
+
+! ────────────────────────────────────────────────────────────
+! 9. Interface Template (apply to all access ports)
+! ────────────────────────────────────────────────────────────
+template ISE_ACCESS_PORT
+ description ISE 802.1X/MAB Access Port
+ switchport mode access
+ switchport nonegotiate
+ dot1x pae authenticator
+ dot1x timeout tx-period 7
+ dot1x timeout supp-timeout 7
+ dot1x max-reauth-req 3
+ dot1x critical eapol
+ mab
+ mab eap
+ access-session closed
+ access-session control auto
+ access-session host-mode multi-auth
+ access-session port-control auto
+ ip access-group ACL_DEFAULT_PORT in
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+ ip dhcp snooping limit rate 15
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ service-policy type control subscriber ISE_POLICY
+
+
+! ────────────────────────────────────────────────────────────
+! 10. Access Port Interface Configuration
+! ────────────────────────────────────────────────────────────
+interface range GigabitEthernet1/0/1 - 48
+ description ISE_DOT1X_MAB
+ switchport mode access
+ switchport access vlan 10
+ switchport voice vlan 20
+ source template ISE_ACCESS_PORT
+
+
+! ────────────────────────────────────────────────────────────
+! 11. Uplink / Trunk Ports (exclude from dot1x)
+! ────────────────────────────────────────────────────────────
+interface GigabitEthernet1/0/49
+ description UPLINK_TO_DISTRIBUTION
+ switchport mode trunk
+ switchport trunk allowed vlan 10,20,30,100,200,999
+ spanning-tree guard root
+ no service-policy type control subscriber ISE_POLICY
+
+
+! ────────────────────────────────────────────────────────────
+! 12. Device Sensor – DHCP / CDP / LLDP (ISE Profiling)
+! ────────────────────────────────────────────────────────────
+cdp run
+lldp run
+
+device-sensor filter-list dhcp list DHCP_SENSOR
+ option name host-name
+ option name requested-address
+ option name parameter-request-list
+ option name class-identifier
+ option name client-identifier
+
+device-sensor filter-list cdp list CDP_SENSOR
+ tlv name device-name
+ tlv name address-type
+ tlv name capabilities-type
+ tlv name platform-type
+
+device-sensor filter-list lldp list LLDP_SENSOR
+ tlv name system-name
+ tlv name system-description
+ tlv name system-capabilities
+
+device-sensor filter-spec dhcp include list DHCP_SENSOR
+device-sensor filter-spec cdp  include list CDP_SENSOR
+device-sensor filter-spec lldp include list LLDP_SENSOR
+device-sensor notify all-changes
+
+
+! ────────────────────────────────────────────────────────────
+! 13. DHCP Snooping
+! ────────────────────────────────────────────────────────────
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,30,100,200
+no ip dhcp snooping information option
+
+
+! ────────────────────────────────────────────────────────────
+! 14. SNMP (ISE uses SNMP for profiling)
+! ────────────────────────────────────────────────────────────
+snmp-server community <SNMP_RO_COMMUNITY> RO
+snmp-server host 10.81.145.11 version 2c <SNMP_RO_COMMUNITY>
+snmp-server host 10.81.145.12 version 2c <SNMP_RO_COMMUNITY>
+snmp-server enable traps dot1x
+snmp-server enable traps mac-notification
+
+
+! ────────────────────────────────────────────────────────────
+! 15. Syslog
+! ────────────────────────────────────────────────────────────
+logging host 10.81.145.11
+logging trap informational
+logging source-interface Vlan10
+
+
+! ════════════════════════════════════════════════════════════
+!  CRITICAL VLAN LOGIC – SUMMARY
+! ════════════════════════════════════════════════════════════
+!
+!  ISE állapot  │ Felhasználó típusa │ VLAN │ Viselkedés
+!  ─────────────┼────────────────────┼──────┼───────────────────────────────
+!  UP           │ dot1x – sikeres    │  10  │ ISE által visszaküldött VLAN
+!  UP           │ dot1x – sikertelen │  –   │ MAB fallback → majd VLAN 10/30
+!  UP           │ MAB   – sikeres    │  10  │ ISE által visszaküldött VLAN
+!  UP           │ MAB   – sikertelen │  –   │ 60s restart
+!  DOWN         │ dot1x – ÚJ user    │ 100  │ CRITICAL_AUTH_DOT1X template
+!  DOWN         │ MAB   – ÚJ device  │ 200  │ CRITICAL_AUTH_MAB template
+!  DOWN         │ dot1x – már authed │ 100  │ Megtartja, reauthentication pause
+!  DOWN         │ MAB   – már authed │ 200  │ Megtartja, reauthentication pause
+!  VISSZATÉRT   │ bármely            │  –   │ clear-session → újra ISE-hez megy
+!
+! ════════════════════════════════════════════════════════════
