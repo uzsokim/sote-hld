@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cisco ISE Device Dashboard</title>
+  <style>
+    :root {
+      --bg: #eef3f5;
+      --bg-accent: #d7e3e8;
+      --surface: rgba(252, 254, 255, 0.88);
+      --surface-strong: #ffffff;
+      --ink: #12202a;
+      --muted: #53616d;
+      --line: rgba(18, 32, 42, 0.12);
+      --brand: #005f73;
+      --brand-strong: #0a3d52;
+      --ok: #2b6e5a;
+      --shadow: 0 18px 50px rgba(18, 52, 78, 0.10);
+      --radius: 22px;
+      --mono: "Consolas", "Courier New", monospace;
+      --sans: "Segoe UI", "Trebuchet MS", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(0, 95, 115, 0.14), transparent 26%),
+        radial-gradient(circle at top right, rgba(215, 227, 232, 0.95), transparent 28%),
+        linear-gradient(180deg, #fbfdfe 0%, var(--bg) 100%);
+    }
+    .shell {
+      width: min(1400px, calc(100% - 32px));
+      margin: 24px auto 48px;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(236,245,247,0.94));
+      border: 1px solid var(--line);
+      border-radius: calc(var(--radius) + 6px);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -60px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,95,115,0.20), transparent 70%);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.1;
+    }
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      max-width: 11ch;
+    }
+    .hero p {
+      max-width: 74ch;
+      color: var(--muted);
+    }
+    .top-grid, .band {
+      display: grid;
+      gap: 16px;
+    }
+    .top-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 22px;
+    }
+    .band {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin: 22px 0;
+    }
+    .stat, .panel, .device-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .stat {
+      padding: 16px;
+    }
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+    .stat strong {
+      font-size: 1.9rem;
+      color: var(--brand-strong);
+    }
+    .panel, .device-card {
+      padding: 18px;
+    }
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(0, 95, 115, 0.08);
+      color: var(--brand-strong);
+      font-size: 0.92rem;
+    }
+    .badge span {
+      background: rgba(0, 95, 115, 0.12);
+      border-radius: 999px;
+      padding: 2px 8px;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin: 24px 0 16px;
+    }
+    .toolbar input, .toolbar select {
+      appearance: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.88);
+      color: var(--ink);
+      padding: 12px 14px;
+      border-radius: 14px;
+      min-width: 210px;
+      font: inherit;
+    }
+    .toolbar .count {
+      margin-left: auto;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .device-list {
+      display: grid;
+      gap: 18px;
+    }
+    .device-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: start;
+    }
+    .meta-line {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+    .status-pill {
+      white-space: nowrap;
+      border-radius: 999px;
+      background: rgba(43,110,90,0.12);
+      color: var(--ok);
+      padding: 10px 14px;
+      font-weight: 700;
+      border: 1px solid rgba(43,110,90,0.15);
+    }
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin: 18px 0 8px;
+    }
+    .quick-grid div {
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(255,255,255,0.74);
+      border: 1px solid var(--line);
+    }
+    .quick-grid span {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    details {
+      margin-top: 10px;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--brand-strong);
+      padding: 8px 0;
+    }
+    .table-wrap {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    th, td {
+      text-align: left;
+      border-bottom: 1px solid rgba(18, 32, 42, 0.10);
+      padding: 10px 8px;
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+    pre {
+      margin: 12px 0 0;
+      padding: 14px;
+      border-radius: 16px;
+      background: #12202a;
+      color: #dfeff7;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.86rem;
+    }
+    .muted {
+      color: var(--muted);
+    }
+    .warnings {
+      background: rgba(0, 95, 115, 0.08);
+      border: 1px solid rgba(0, 95, 115, 0.14);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin: 20px 0;
+    }
+    .warnings ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+    }
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100% - 18px, 100%);
+      }
+      .hero, .panel, .device-card {
+        border-radius: 18px;
+        padding: 16px;
+      }
+      .toolbar .count {
+        width: 100%;
+        margin-left: 0;
+      }
+      .device-header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Cisco Identity Services Engine</p>
+      <h1>ISE Inventory Dashboard</h1>
+      <p>Detailed inventory report for Cisco ISE host 10.8.11.101. The page includes searchable network device cards, ISE node inventory, network device groups, and raw JSON sections for troubleshooting.</p>
+      <div class="top-grid">
+        <div class="stat"><span>Total network devices</span><strong>0</strong></div>
+        <div class="stat"><span>ISE nodes</span><strong>0</strong></div>
+        <div class="stat"><span>Device groups</span><strong>0</strong></div>
+        <div class="stat"><span>Generated</span><strong>2026-04-01T21:37:04</strong></div>
+      </div>
+    </section>
+
+    <section class="band">
+      <section class="panel">
+        <h2>Report metadata</h2>
+        <p class="muted">Generated against 10.8.11.101 with user admin.</p>
+      </section>
+      <section class="panel">
+        <h2>Top profiles</h2>
+        <div class="badge-row"><span class="muted">No data</span></div>
+      </section>
+      <section class="panel">
+        <h2>Top device groups</h2>
+        <div class="badge-row"><span class="muted">No data</span></div>
+      </section>
+      <section class="panel">
+        <h2>SNMP versions</h2>
+        <div class="badge-row"><span class="muted">No data</span></div>
+      </section>
+    </section>
+
+    <section class="warnings"><h2>Warnings</h2><ul><li>Network device query failed: Non-JSON response from /ers/config/networkdevice (status=200, content-type=text/html;charset=UTF-8): &lt;!doctype html&gt; &lt;!--**************************************************--&gt; &lt;!-- Copyright (c) 2017 Cisco Systems, Inc.--&gt; &lt;!-- All rights reserved.--&gt; &lt;!--**************************************************--&gt;               &lt;html class=&quot;login false-gpc&quot;&gt; 	&lt;head&gt;     &lt;meta charset=&quot;UTF-8&quot;&gt; 		&lt;meta http</li><li>Node query failed: Non-JSON response from /ers/config/node (status=200, content-type=text/html;charset=UTF-8): &lt;!doctype html&gt; &lt;!--**************************************************--&gt; &lt;!-- Copyright (c) 2017 Cisco Systems, Inc.--&gt; &lt;!-- All rights reserved.--&gt; &lt;!--**************************************************--&gt;               &lt;html class=&quot;login false-gpc&quot;&gt; 	&lt;head&gt;     &lt;meta charset=&quot;UTF-8&quot;&gt; 		&lt;meta http</li><li>Network device group query failed: Non-JSON response from /ers/config/networkdevicegroup (status=200, content-type=text/html;charset=UTF-8): &lt;!doctype html&gt; &lt;!--**************************************************--&gt; &lt;!-- Copyright (c) 2017 Cisco Systems, Inc.--&gt; &lt;!-- All rights reserved.--&gt; &lt;!--**************************************************--&gt;               &lt;html class=&quot;login false-gpc&quot;&gt; 	&lt;head&gt;     &lt;meta charset=&quot;UTF-8&quot;&gt; 		&lt;meta http</li></ul></section>
+
+    <section class="toolbar">
+      <input id="searchBox" type="search" placeholder="Search device, IP, profile, group, SNMP...">
+      <select id="profileFilter">
+        <option value="">All profiles</option>
+      </select>
+      <select id="snmpFilter">
+        <option value="">All SNMP versions</option>
+      </select>
+      <div class="count"><span id="visibleCount">0</span> visible devices</div>
+    </section>
+
+    <section id="deviceList" class="device-list">
+      
+    </section>
+
+    <section class="band">
+      <section class="panel"><h3>ISE Nodes</h3><p class="muted">No data returned from the API for this section.</p></section>
+      <section class="panel"><h3>Network Device Groups</h3><p class="muted">No data returned from the API for this section.</p></section>
+    </section>
+  </main>
+
+  <script>
+    const cards = Array.from(document.querySelectorAll('.device-card'));
+    const searchBox = document.getElementById('searchBox');
+    const profileFilter = document.getElementById('profileFilter');
+    const snmpFilter = document.getElementById('snmpFilter');
+    const visibleCount = document.getElementById('visibleCount');
+
+    function uniqueValues(attribute) {
+      const values = new Set();
+      cards.forEach(card => {
+        const value = (card.dataset[attribute] || '').trim();
+        if (value) values.add(value);
+      });
+      return Array.from(values).sort();
+    }
+
+    function fillSelect(select, values) {
+      values.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+    }
+
+    fillSelect(profileFilter, uniqueValues('profile'));
+    fillSelect(snmpFilter, uniqueValues('snmp'));
+
+    function applyFilters() {
+      const query = searchBox.value.trim().toLowerCase();
+      const profile = profileFilter.value;
+      const snmp = snmpFilter.value;
+      let visible = 0;
+
+      cards.forEach(card => {
+        const matchesQuery = !query || card.dataset.search.includes(query);
+        const matchesProfile = !profile || card.dataset.profile === profile;
+        const matchesSnmp = !snmp || card.dataset.snmp === snmp;
+        const show = matchesQuery && matchesProfile && matchesSnmp;
+        card.style.display = show ? '' : 'none';
+        if (show) visible += 1;
+      });
+
+      visibleCount.textContent = visible;
+    }
+
+    [searchBox, profileFilter, snmpFilter].forEach(element => {
+      element.addEventListener('input', applyFilters);
+      element.addEventListener('change', applyFilters);
+    });
+  </script>
+</body>
+</html>
