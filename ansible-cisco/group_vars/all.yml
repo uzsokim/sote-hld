@@ -1,0 +1,8 @@
+# Credentials are read from environment variables to avoid hardcoding secrets in repo.
+ansible_user: "{{ lookup('env', 'ANSIBLE_USER') | default('admin', true) }}"
+ansible_password: "{{ lookup('env', 'ANSIBLE_PASSWORD') }}"
+
+# Optional: enable if your devices require enable mode.
+# ansible_become: true
+# ansible_become_method: enable
+# ansible_become_password: "{{ lookup('env', 'ANSIBLE_ENABLE_PASSWORD') }}"

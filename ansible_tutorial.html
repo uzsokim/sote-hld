@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ansible Tutorial – Hálózati Automatizálás</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #222635;
+      --border: #2e3347;
+      --accent: #e8412a;
+      --accent2: #ff6b35;
+      --blue: #4a9eff;
+      --green: #3ecf8e;
+      --yellow: #f5c542;
+      --purple: #a78bfa;
+      --text: #e2e8f0;
+      --text-muted: #8892a4;
+      --code-bg: #141720;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1a1d27 0%, #0f1117 60%, #1a0a05 100%);
+      border-bottom: 2px solid var(--accent);
+      padding: 48px 40px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(232,65,42,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .header-badge {
+      display: inline-block;
+      background: rgba(232,65,42,0.15);
+      border: 1px solid rgba(232,65,42,0.4);
+      color: var(--accent2);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-size: 2.4em;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    header h1 span { color: var(--accent); }
+    header p {
+      color: var(--text-muted);
+      font-size: 1.05em;
+      max-width: 600px;
+      margin-bottom: 24px;
+    }
+    .header-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+    .meta-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    /* LAYOUT */
+    .layout {
+      display: flex;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* SIDEBAR */
+    nav.sidebar {
+      width: 260px;
+      min-width: 260px;
+      padding: 32px 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+    }
+    nav.sidebar::-webkit-scrollbar { width: 4px; }
+    nav.sidebar::-webkit-scrollbar-track { background: transparent; }
+    nav.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .nav-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 20px 0 8px;
+    }
+    nav.sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      border-radius: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      transition: all 0.15s;
+      margin-bottom: 2px;
+    }
+    nav.sidebar a:hover {
+      background: var(--surface2);
+      color: var(--text);
+    }
+    nav.sidebar a.active {
+      background: rgba(232,65,42,0.12);
+      color: var(--accent2);
+      border-left: 2px solid var(--accent);
+      padding-left: 10px;
+    }
+    .nav-icon { font-size: 14px; opacity: 0.7; }
+
+    /* MAIN CONTENT */
+    main {
+      flex: 1;
+      padding: 40px 48px;
+      max-width: 960px;
+    }
+
+    /* SECTIONS */
+    .section {
+      margin-bottom: 64px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-number {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #fff;
+    }
+    .section-header .section-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    h3 {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--blue);
+      margin: 28px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h3::before {
+      content: '';
+      display: inline-block;
+      width: 3px; height: 16px;
+      background: var(--blue);
+      border-radius: 2px;
+    }
+
+    p { margin-bottom: 12px; color: var(--text); }
+
+    /* CODE BLOCKS */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+    .code-header {
+      background: var(--surface);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .code-lang {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .code-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .code-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    pre {
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    pre::-webkit-scrollbar { height: 4px; }
+    pre::-webkit-scrollbar-track { background: transparent; }
+    pre::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* SYNTAX HIGHLIGHT HELPERS */
+    .kw { color: #ff6b9d; }
+    .str { color: var(--green); }
+    .comment { color: #4a5568; font-style: italic; }
+    .key { color: var(--blue); }
+    .val { color: var(--yellow); }
+    .var { color: var(--purple); }
+    .op { color: var(--accent2); }
+    .num { color: var(--accent2); }
+
+    /* INLINE CODE */
+    code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--green);
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-family: 'Cascadia Code', monospace;
+      font-size: 12.5px;
+    }
+
+    /* CARDS */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .card p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .card.accent { border-color: rgba(232,65,42,0.4); }
+    .card.blue { border-color: rgba(74,158,255,0.4); }
+    .card.green { border-color: rgba(62,207,142,0.4); }
+    .card.yellow { border-color: rgba(245,197,66,0.4); }
+
+    /* ALERT BOXES */
+    .alert {
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .alert-body { flex: 1; }
+    .alert-body strong { display: block; margin-bottom: 4px; font-size: 13px; }
+    .alert-body p { font-size: 13px; color: inherit; margin: 0; }
+    .alert.info { background: rgba(74,158,255,0.08); border: 1px solid rgba(74,158,255,0.3); color: #93c5fd; }
+    .alert.success { background: rgba(62,207,142,0.08); border: 1px solid rgba(62,207,142,0.3); color: #6ee7b7; }
+    .alert.warning { background: rgba(245,197,66,0.08); border: 1px solid rgba(245,197,66,0.3); color: #fde68a; }
+    .alert.tip { background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.3); color: #c4b5fd; }
+
+    /* DIAGRAM */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .diagram-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      row-gap: 16px;
+    }
+    .flow-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .flow-box.red { border-color: var(--accent); color: var(--accent2); background: rgba(232,65,42,0.1); }
+    .flow-box.blue { border-color: var(--blue); color: var(--blue); background: rgba(74,158,255,0.1); }
+    .flow-box.green { border-color: var(--green); color: var(--green); background: rgba(62,207,142,0.1); }
+    .flow-arrow {
+      color: var(--text-muted);
+      font-size: 20px;
+      padding: 0 8px;
+    }
+
+    /* STEPS */
+    .steps {
+      counter-reset: step;
+      margin: 20px 0;
+    }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .step-num {
+      width: 32px; height: 32px;
+      min-width: 32px;
+      background: var(--surface2);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--accent2);
+      margin-top: 2px;
+    }
+    .step-body h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .step-body p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 13.5px;
+    }
+    th {
+      background: var(--surface2);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+
+    /* VSCODE SECTION */
+    .vscode-block {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    .vscode-titlebar {
+      background: #3c3c3c;
+      padding: 8px 14px;
+      font-size: 12px;
+      color: #cccccc;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .vscode-titlebar::before {
+      content: '⬛';
+      font-size: 16px;
+      color: #007acc;
+    }
+    .vscode-body { padding: 20px; }
+
+    /* KEYBOARD SHORTCUTS */
+    kbd {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-bottom: 2px solid #1a1d27;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    /* BADGE */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge.red { background: rgba(232,65,42,0.15); color: var(--accent2); border: 1px solid rgba(232,65,42,0.3); }
+    .badge.blue { background: rgba(74,158,255,0.15); color: var(--blue); border: 1px solid rgba(74,158,255,0.3); }
+    .badge.green { background: rgba(62,207,142,0.15); color: var(--green); border: 1px solid rgba(62,207,142,0.3); }
+    .badge.yellow { background: rgba(245,197,66,0.15); color: var(--yellow); border: 1px solid rgba(245,197,66,0.3); }
+
+    /* CHECKLIST */
+    .checklist { list-style: none; margin: 12px 0; }
+    .checklist li {
+      padding: 6px 0;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .checklist li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 32px 0;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      color: var(--text-muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+
+    @media (max-width: 900px) {
+      nav.sidebar { display: none; }
+      main { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-badge">Hálózati Automatizálás</div>
+  <h1>Ansible <span>Tutorial</span></h1>
+  <p>Teljes útmutató a hálózati eszközök automatizálásához — az alapoktól a VSCode-os munkafolyamatig.</p>
+  <div class="header-meta">
+    <div class="meta-item"><div class="meta-dot" style="background:#3ecf8e"></div>Cisco IOS / NX-OS</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#4a9eff"></div>VSCode integráció</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#f5c542"></div>Ansible 2.15+</div>
+    <div class="meta-item"><div class="meta-dot" style="background:#a78bfa"></div>Claude Code workflow</div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="nav-section-label">Alapok</div>
+    <a href="#mi-az-ansible" class="active"><span class="nav-icon">📦</span> Mi az Ansible?</a>
+    <a href="#hogyan-mukodik"><span class="nav-icon">⚙️</span> Hogyan működik?</a>
+    <a href="#komponensek"><span class="nav-icon">🧩</span> Kulcskomponensek</a>
+
+    <div class="nav-section-label">Konfiguráció</div>
+    <a href="#inventory"><span class="nav-icon">📋</span> Inventory</a>
+    <a href="#playbook"><span class="nav-icon">📜</span> Playbook</a>
+    <a href="#variables"><span class="nav-icon">🔧</span> Változók</a>
+    <a href="#roles"><span class="nav-icon">📁</span> Roles</a>
+
+    <div class="nav-section-label">Hálózat</div>
+    <a href="#cisco-modulok"><span class="nav-icon">🔌</span> Cisco modulok</a>
+    <a href="#pelda-konfig"><span class="nav-icon">💡</span> Példa konfig</a>
+
+    <div class="nav-section-label">VSCode</div>
+    <a href="#vscode-setup"><span class="nav-icon">🖥️</span> VSCode beállítás</a>
+    <a href="#claude-workflow"><span class="nav-icon">🤖</span> Claude workflow</a>
+    <a href="#gyors-referencia"><span class="nav-icon">⚡</span> Gyors referencia</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- SECTION 1: MI AZ ANSIBLE -->
+    <div class="section" id="mi-az-ansible">
+      <div class="section-header">
+        <div class="section-number">1</div>
+        <div>
+          <h2>Mi az Ansible?</h2>
+          <div class="section-desc">A lényeg egyszerűen</div>
+        </div>
+      </div>
+
+      <p>Az Ansible egy <strong>agentless</strong> automatizálási eszköz, ami azt jelenti, hogy a hálózati eszközökre <em>semmit nem kell telepíteni</em>. A vezérlés SSH-n (vagy NETCONF-on) keresztül történik, közvetlenül a meglévő protokollokat használva.</p>
+
+      <div class="alert info">
+        <div class="alert-icon">💡</div>
+        <div class="alert-body">
+          <strong>Egy mondatban:</strong>
+          <p>Ansible = Emberi nyelven megírt utasítások, amiket automatikusan végrehajt sok eszközön egyszerre.</p>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="card accent">
+          <div class="card-icon">🚫</div>
+          <h4>Nincs agent</h4>
+          <p>Nem kell semmit telepíteni a switchekre, routerekre. SSH elég.</p>
+        </div>
+        <div class="card blue">
+          <div class="card-icon">📖</div>
+          <h4>Olvasható szintaxis</h4>
+          <p>YAML formátum — közel annyira érthető, mint egy angol mondat.</p>
+        </div>
+        <div class="card green">
+          <div class="card-icon">🔁</div>
+          <h4>Idempotens</h4>
+          <p>Futtathatod 10x — csak az fog változni, aminek változnia kell.</p>
+        </div>
+        <div class="card yellow">
+          <div class="card-icon">📦</div>
+          <h4>Moduláris</h4>
+          <p>Cisco IOS, NX-OS, ASA, Juniper — mind elérhető modulokkal.</p>
+        </div>
+      </div>
+
+      <h3>Mire használjuk hálózatnál?</h3>
+      <ul class="checklist">
+        <li>VLAN-ok konfigurálása egyszerre 50 switchen</li>
+        <li>Interface leírások tömeges frissítése</li>
+        <li>ACL-ek, routing protokollok deploy-olása</li>
+        <li>Konfiguráció backup és compliance ellenőrzés</li>
+        <li>NTP, DNS, AAA beállítások egységesítése</li>
+        <li>Változások dokumentálása (mi változott, mikor, ki futtatta)</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 2: HOGYAN MŰKÖDIK -->
+    <div class="section" id="hogyan-mukodik">
+      <div class="section-header">
+        <div class="section-number">2</div>
+        <div>
+          <h2>Hogyan működik?</h2>
+          <div class="section-desc">Az Ansible belső logikája</div>
+        </div>
+      </div>
+
+      <div class="diagram">
+        <p style="color:var(--text-muted); font-size:12px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">Végrehajtási folyamat</p>
+        <div class="diagram-flow">
+          <div class="flow-box red">Te (VSCode)<br/><small style="opacity:.6">playbook.yml</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box blue">Ansible<br/><small style="opacity:.6">ansible-playbook</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box green">SSH kapcsolat<br/><small style="opacity:.6">port 22</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box" style="border-color:var(--yellow);color:var(--yellow);background:rgba(245,197,66,0.1)">Cisco eszközök<br/><small style="opacity:.6">SW01, SW02...</small></div>
+        </div>
+      </div>
+
+      <h3>A végrehajtás lépései</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Inventory olvasás</h4>
+            <p>Ansible beolvassa, hogy mely eszközöket kell elérni és milyen csoportokban vannak (pl. "core_switches", "access_layer").</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Playbook feldolgozás</h4>
+            <p>Beolvassa a YAML fájlt — milyen feladatokat kell elvégezni, milyen sorrendben, milyen feltételekkel.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>SSH kapcsolat felépítése</h4>
+            <p>Párhuzamosan csatlakozik az összes érintett eszközhöz (forks=5 alapbeállítás: 5 egyszerre).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Task végrehajtás</h4>
+            <p>Minden task-ot lefuttat az eszközön — pl. <code>cisco.ios.ios_vlans</code> modul kiad IOS parancsokat.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Eredmény visszajelzés</h4>
+            <p>Terminálban látod: <span class="badge green">ok</span> <span class="badge yellow">changed</span> <span class="badge red">failed</span> — minden eszközre egyenként.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: KOMPONENSEK -->
+    <div class="section" id="komponensek">
+      <div class="section-header">
+        <div class="section-number">3</div>
+        <div>
+          <h2>Kulcskomponensek</h2>
+          <div class="section-desc">A 4 dolog, amit tudni kell</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Fájl / Fogalom</th>
+            <th>Mi ez?</th>
+            <th>Analógia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>inventory</code></td>
+            <td>Az eszközök listája IP-kkel, csoportokkal</td>
+            <td>Mint egy telefonkönyv</td>
+          </tr>
+          <tr>
+            <td><code>playbook.yml</code></td>
+            <td>A végrehajtandó feladatok listája</td>
+            <td>Mint egy recept</td>
+          </tr>
+          <tr>
+            <td><code>task</code></td>
+            <td>Egy konkrét lépés (pl. VLAN létrehozása)</td>
+            <td>Mint egy recept egyik sora</td>
+          </tr>
+          <tr>
+            <td><code>module</code></td>
+            <td>Az eszköz, ami a feladatot elvégzi</td>
+            <td>Mint egy szerszám a toolboxból</td>
+          </tr>
+          <tr>
+            <td><code>ansible.cfg</code></td>
+            <td>Globális beállítások</td>
+            <td>Mint egy config fájl</td>
+          </tr>
+          <tr>
+            <td><code>vars</code></td>
+            <td>Változók — IP-k, VLAN ID-k, jelszavak</td>
+            <td>Mint egy Excel tábla adatai</td>
+          </tr>
+          <tr>
+            <td><code>role</code></td>
+            <td>Újrafelhasználható feladatcsomagok</td>
+            <td>Mint egy függvény a programozásban</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 4: INVENTORY -->
+    <div class="section" id="inventory">
+      <div class="section-header">
+        <div class="section-number">4</div>
+        <div>
+          <h2>Inventory — Az eszközlista</h2>
+          <div class="section-desc">Kinek adjuk ki a parancsokat?</div>
+        </div>
+      </div>
+
+      <p>Az inventory megmondja az Ansible-nek, hogy <strong>mely eszközöket</strong> kell elérni. Két formátum létezik: INI és YAML. Hálózatnál a YAML ajánlott, mert több opció fér el tisztán.</p>
+
+      <h3>INI formátum (egyszerű)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">INI — inventory/hosts.ini</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment"># Core réteg switchek</span>
+[core_switches]
+core-sw01 ansible_host=<span class="num">10.10.1.1</span>
+core-sw02 ansible_host=<span class="num">10.10.1.2</span>
+
+<span class="comment"># Access réteg switchek</span>
+[access_switches]
+acc-sw01  ansible_host=<span class="num">10.10.2.1</span>
+acc-sw02  ansible_host=<span class="num">10.10.2.2</span>
+acc-sw03  ansible_host=<span class="num">10.10.2.3</span>
+
+<span class="comment"># Minden switch együtt</span>
+[all_switches:children]
+core_switches
+access_switches
+
+<span class="comment"># Csoportos változók</span>
+[all_switches:vars]
+ansible_network_os=<span class="str">cisco.ios.ios</span>
+ansible_connection=<span class="str">network_cli</span>
+ansible_user=<span class="str">admin</span>
+ansible_ssh_pass=<span class="str">{{ vault_ssh_pass }}</span></pre>
+      </div>
+
+      <h3>YAML formátum (ajánlott)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">YAML — inventory/hosts.yml</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="key">all</span>:
+  <span class="key">children</span>:
+    <span class="key">core_switches</span>:
+      <span class="key">hosts</span>:
+        <span class="key">core-sw01</span>:
+          <span class="key">ansible_host</span>: <span class="num">10.10.1.1</span>
+        <span class="key">core-sw02</span>:
+          <span class="key">ansible_host</span>: <span class="num">10.10.1.2</span>
+      <span class="key">vars</span>:
+        <span class="key">ansible_network_os</span>: <span class="str">cisco.ios.ios</span>
+        <span class="key">ansible_connection</span>: <span class="str">network_cli</span>
+
+    <span class="key">access_switches</span>:
+      <span class="key">hosts</span>:
+        <span class="key">acc-sw01</span>:
+          <span class="key">ansible_host</span>: <span class="num">10.10.2.1</span>
+        <span class="key">acc-sw02</span>:
+          <span class="key">ansible_host</span>: <span class="num">10.10.2.2</span></pre>
+      </div>
+
+      <div class="alert success">
+        <div class="alert-icon">✅</div>
+        <div class="alert-body">
+          <strong>Tipp: inventory tesztelése</strong>
+          <p>Futtasd le: <code>ansible-inventory -i inventory/hosts.yml --list</code> — megmutatja az összes eszközt és csoportot JSON formában.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: PLAYBOOK -->
+    <div class="section" id="playbook">
+      <div class="section-header">
+        <div class="section-number">5</div>
+        <div>
+          <h2>Playbook — A recept</h2>
+          <div class="section-desc">Mit csináljon az Ansible?</div>
+        </div>
+      </div>
+
+      <p>A playbook egy YAML fájl, amiben <strong>play</strong>-ek vannak. Minden play megmondja: <em>ezen az eszközcsoporton, ezeket a feladatokat hajtsad végre</em>.</p>
+
+      <h3>Playbook anatómia</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">YAML — vlan_deploy.yml</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment">---
+# Ez a "play" fejléce:</span>
+- <span class="key">name</span>: <span class="str">VLAN-ok konfigurálása az access switcheken</span>   <span class="comment"># Leírás</span>
+  <span class="key">hosts</span>: <span class="str">access_switches</span>                              <span class="comment"># Kiken fut?</span>
+  <span class="key">gather_facts</span>: <span class="kw">false</span>                                 <span class="comment"># Hálózatnál mindig false</span>
+
+  <span class="key">vars</span>:                                                <span class="comment"># Helyi változók</span>
+    <span class="key">vlans_to_configure</span>:
+      - { <span class="key">vlan_id</span>: <span class="num">10</span>, <span class="key">name</span>: <span class="str">Management</span> }
+      - { <span class="key">vlan_id</span>: <span class="num">20</span>, <span class="key">name</span>: <span class="str">Data</span> }
+      - { <span class="key">vlan_id</span>: <span class="num">30</span>, <span class="key">name</span>: <span class="str">Voice</span> }
+
+  <span class="key">tasks</span>:                                               <span class="comment"># A feladatok listája</span>
+    - <span class="key">name</span>: <span class="str">VLAN-ok létrehozása</span>                       <span class="comment"># Task neve (logban látszik)</span>
+      <span class="key">cisco.ios.ios_vlans</span>:                             <span class="comment"># Melyik modult használjuk</span>
+        <span class="key">config</span>:                                        <span class="comment"># A modul paraméterei</span>
+          - <span class="key">vlan_id</span>: <span class="str">"{{ item.vlan_id }}"</span>
+            <span class="key">name</span>: <span class="str">"{{ item.name }}"</span>
+            <span class="key">state</span>: <span class="str">active</span>
+        <span class="key">state</span>: <span class="str">merged</span>
+      <span class="key">loop</span>: <span class="str">"{{ vlans_to_configure }}"</span>                 <span class="comment"># Végigmegy a listán</span>
+
+    - <span class="key">name</span>: <span class="str">Konfiguráció mentése</span>
+      <span class="key">cisco.ios.ios_command</span>:
+        <span class="key">commands</span>: <span class="str">write memory</span></pre>
+      </div>
+
+      <h3>A YAML szintaxis alapjai</h3>
+      <div class="card-grid">
+        <div class="card">
+          <h4>Behúzás = struktúra</h4>
+          <p>2 szóköz = egy szint. Tab TILOS. Ez a leggyakoribb hiba!</p>
+        </div>
+        <div class="card">
+          <h4><code>---</code> a fájl eleje</h4>
+          <p>Minden YAML playbook ezzel kezdődik — jelzi, hogy lista következik.</p>
+        </div>
+        <div class="card">
+          <h4><code>- </code> listaelem</h4>
+          <p>Kötőjel + szóköz = új listaelem. Tasks, hosts, vars mind lista.</p>
+        </div>
+        <div class="card">
+          <h4><code>{{ változó }}</code></h4>
+          <p>Jinja2 template — dinamikus értékek. Idézőjelbe kell ha a sor elején van.</p>
+        </div>
+      </div>
+
+      <div class="alert warning">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-body">
+          <strong>Leggyakoribb YAML hiba</strong>
+          <p>Tab karakter behúzásban. VSCode-ban állítsd be: <em>Spaces: 2</em> a státuszsorban, és kapcsold be a "Render Whitespace" opciót.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 6: VARIABLES -->
+    <div class="section" id="variables">
+      <div class="section-header">
+        <div class="section-number">6</div>
+        <div>
+          <h2>Változók kezelése</h2>
+          <div class="section-desc">Adatok és titkok elválasztása</div>
+        </div>
+      </div>
+
+      <p>A változókat <strong>soha ne hardcode-old</strong> be a playbookba — különösen jelszavakat. Az Ansible-nek van egy titkosítási rendszere: az <strong>Ansible Vault</strong>.</p>
+
+      <h3>Változók prioritási sorrendje (legmagasabbtól)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Prioritás</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment"># 1. Extra vars (parancssori -e flag) — legmagasabb prioritás</span>
+ansible-playbook playbook.yml <span class="op">-e</span> <span class="str">"vlan_id=100"</span>
+
+<span class="comment"># 2. Task vars (a task-ban definiált vars:)</span>
+<span class="comment"># 3. Play vars (a play-ben definiált vars:)</span>
+<span class="comment"># 4. host_vars/hostname.yml — egy adott eszköz változói</span>
+<span class="comment"># 5. group_vars/groupname.yml — egy csoport változói</span>
+<span class="comment"># 6. inventory változók</span>
+<span class="comment"># 7. Role defaults — legalacsonyabb prioritás</span></pre>
+      </div>
+
+      <h3>group_vars struktúra (ajánlott)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Könyvtárstruktúra</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre>ansible-cisco/
+├── inventory/
+│   └── hosts.yml
+├── group_vars/
+│   ├── all/
+│   │   ├── vars.yml          <span class="comment"># Közös változók</span>
+│   │   └── vault.yml         <span class="comment"># Titkosított jelszavak</span>
+│   ├── core_switches/
+│   │   └── vars.yml          <span class="comment"># Core-specifikus változók</span>
+│   └── access_switches/
+│       └── vars.yml          <span class="comment"># Access-specifikus változók</span>
+├── host_vars/
+│   └── core-sw01/
+│       └── vars.yml          <span class="comment"># Eszközspecifikus változók</span>
+└── playbooks/
+    └── vlan_deploy.yml</pre>
+      </div>
+
+      <h3>Ansible Vault — Jelszavak titkosítása</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Bash — Terminal parancsok</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment"># Vault fájl létrehozása (kér egy master jelszót)</span>
+ansible-vault create group_vars/all/vault.yml
+
+<span class="comment"># Szerkesztés</span>
+ansible-vault edit group_vars/all/vault.yml
+
+<span class="comment"># Playbook futtatás vault jelszóval</span>
+ansible-playbook playbook.yml --ask-vault-pass
+
+<span class="comment"># Vagy jelszó fájlból (.gitignore-ban kell lennie!)</span>
+ansible-playbook playbook.yml --vault-password-file .vault_pass</pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">YAML — group_vars/all/vault.yml (titkosítva tárolt)</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment"># Nyers tartalom (vault titkosítja ezt a fájlt):</span>
+<span class="key">vault_ssh_pass</span>: <span class="str">SzuperTitkosJelszo123!</span>
+<span class="key">vault_enable_pass</span>: <span class="str">EnableJelszo456!</span></pre>
+      </div>
+    </div>
+
+    <!-- SECTION 7: ROLES -->
+    <div class="section" id="roles">
+      <div class="section-header">
+        <div class="section-number">7</div>
+        <div>
+          <h2>Roles — Újrafelhasználható modulok</h2>
+          <div class="section-desc">DRY elv az automatizálásban</div>
+        </div>
+      </div>
+
+      <p>A role egy előre meghatározott könyvtárstruktúra, ami egy feladatot (pl. "NTP konfigurálás") önálló csomagba rendez. Egyszer megírod, mindenhol újrahasználod.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Role könyvtárstruktúra</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre>roles/
+└── ntp_config/
+    ├── tasks/
+    │   └── main.yml      <span class="comment"># A feladatok (kötelező)</span>
+    ├── vars/
+    │   └── main.yml      <span class="comment"># Role-specifikus változók</span>
+    ├── defaults/
+    │   └── main.yml      <span class="comment"># Alapértelmezett változók (felülírhatók)</span>
+    ├── templates/
+    │   └── ntp.j2        <span class="comment"># Jinja2 sablonok</span>
+    └── handlers/
+        └── main.yml      <span class="comment"># Esemény-alapú feladatok (pl. reload)</span></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">YAML — Role használata playbookban</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment">---</span>
+- <span class="key">name</span>: <span class="str">Alap konfiguráció minden switchen</span>
+  <span class="key">hosts</span>: <span class="str">all_switches</span>
+  <span class="key">gather_facts</span>: <span class="kw">false</span>
+  <span class="key">roles</span>:
+    - <span class="str">ntp_config</span>       <span class="comment"># roles/ntp_config/ mappa</span>
+    - <span class="str">syslog_config</span>    <span class="comment"># roles/syslog_config/ mappa</span>
+    - <span class="str">snmp_config</span>      <span class="comment"># roles/snmp_config/ mappa</span></pre>
+      </div>
+    </div>
+
+    <!-- SECTION 8: CISCO MODULOK -->
+    <div class="section" id="cisco-modulok">
+      <div class="section-header">
+        <div class="section-number">8</div>
+        <div>
+          <h2>Cisco Modulok</h2>
+          <div class="section-desc">cisco.ios collection — a legfontosabbak</div>
+        </div>
+      </div>
+
+      <div class="alert info">
+        <div class="alert-icon">📦</div>
+        <div class="alert-body">
+          <strong>Collection telepítése</strong>
+          <p><code>ansible-galaxy collection install cisco.ios</code> — ez tartalmaz minden Cisco IOS modult.</p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Modul</th>
+            <th>Mire való?</th>
+            <th>State opciók</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>cisco.ios.ios_vlans</code></td>
+            <td>VLAN-ok kezelése</td>
+            <td>merged, replaced, deleted</td>
+          </tr>
+          <tr>
+            <td><code>cisco.ios.ios_interfaces</code></td>
+            <td>Interface beállítások (leírás, speed, duplex)</td>
+            <td>merged, replaced, deleted</td>
+          </tr>
+          <tr>
+            <td><code>cisco.ios.ios_l2_interfaces</code></td>
+            <td>L2 port mód (access/trunk), VLAN tagek</td>
+            <td>merged, replaced, deleted</td>
+          </tr>
+          <tr>
+            <td><code>cisco.ios.ios_l3_interfaces</code></td>
+            <td>IP cím konfigurálás</td>
+            <td>merged, replaced, deleted</td>
+          </tr>
+          <tr>
+            <td><code>cisco.ios.ios_command</code></td>
+            <td>Tetszőleges IOS parancs futtatása</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><code>cisco.ios.ios_config</code></td>
+            <td>Nyers IOS konfig blokkok alkalmazása</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><code>cisco.ios.ios_facts</code></td>
+            <td>Eszközadatok lekérése (verzió, interfacek, stb.)</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><code>cisco.ios.ios_ntp_global</code></td>
+            <td>NTP szerver konfiguráció</td>
+            <td>merged, replaced, deleted</td>
+          </tr>
+          <tr>
+            <td><code>cisco.ios.ios_banner</code></td>
+            <td>Login banner beállítása</td>
+            <td>present, absent</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>State opciók magyarázata</h3>
+      <div class="card-grid">
+        <div class="card green">
+          <h4>merged</h4>
+          <p>Hozzáadja, ami hiányzik. Ami már megvan, nem változik. <strong>Legtöbbször ezt használjuk.</strong></p>
+        </div>
+        <div class="card blue">
+          <h4>replaced</h4>
+          <p>Az adott erőforrást (pl. egy interface) teljes egészében lecseréli a megadottra.</p>
+        </div>
+        <div class="card accent">
+          <h4>deleted</h4>
+          <p>Törli a megadott konfigurációt az eszközről.</p>
+        </div>
+        <div class="card yellow">
+          <h4>gathered</h4>
+          <p>Csak lekéri az aktuális konfigurációt, nem változtat semmit. Audit-hoz.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 9: PÉLDA KONFIG -->
+    <div class="section" id="pelda-konfig">
+      <div class="section-header">
+        <div class="section-number">9</div>
+        <div>
+          <h2>Teljes példa konfiguráció</h2>
+          <div class="section-desc">Valós use-case: Access switch alap konfig</div>
+        </div>
+      </div>
+
+      <p>Egy access switch alap konfigurációja: VLAN-ok, interface leírások, NTP, syslog. Ez egy teljes, működő playbook.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">YAML — playbooks/access_switch_baseline.yml</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment">---</span>
+- <span class="key">name</span>: <span class="str">Access switch alap konfiguráció</span>
+  <span class="key">hosts</span>: <span class="str">access_switches</span>
+  <span class="key">gather_facts</span>: <span class="kw">false</span>
+  <span class="key">connection</span>: <span class="str">network_cli</span>
+
+  <span class="key">vars</span>:
+    <span class="key">ntp_servers</span>:
+      - <span class="str">10.0.0.1</span>
+      - <span class="str">10.0.0.2</span>
+    <span class="key">syslog_server</span>: <span class="str">10.0.0.100</span>
+    <span class="key">vlans</span>:
+      - { <span class="key">id</span>: <span class="num">10</span>,  <span class="key">name</span>: <span class="str">Management</span> }
+      - { <span class="key">id</span>: <span class="num">20</span>,  <span class="key">name</span>: <span class="str">Data</span>       }
+      - { <span class="key">id</span>: <span class="num">30</span>,  <span class="key">name</span>: <span class="str">Voice</span>      }
+      - { <span class="key">id</span>: <span class="num">100</span>, <span class="key">name</span>: <span class="str">Native</span>     }
+
+  <span class="key">tasks</span>:
+    <span class="comment"># --- VLAN-ok ---</span>
+    - <span class="key">name</span>: <span class="str">VLAN-ok létrehozása</span>
+      <span class="key">cisco.ios.ios_vlans</span>:
+        <span class="key">config</span>:
+          - <span class="key">vlan_id</span>: <span class="str">"{{ item.id }}"</span>
+            <span class="key">name</span>: <span class="str">"{{ item.name }}"</span>
+            <span class="key">state</span>: <span class="str">active</span>
+        <span class="key">state</span>: <span class="str">merged</span>
+      <span class="key">loop</span>: <span class="str">"{{ vlans }}"</span>
+
+    <span class="comment"># --- NTP ---</span>
+    - <span class="key">name</span>: <span class="str">NTP szerverek beállítása</span>
+      <span class="key">cisco.ios.ios_ntp_global</span>:
+        <span class="key">config</span>:
+          <span class="key">servers</span>:
+            - <span class="key">server</span>: <span class="str">"{{ item }}"</span>
+        <span class="key">state</span>: <span class="str">merged</span>
+      <span class="key">loop</span>: <span class="str">"{{ ntp_servers }}"</span>
+
+    <span class="comment"># --- Syslog ---</span>
+    - <span class="key">name</span>: <span class="str">Syslog szerver konfigurálása</span>
+      <span class="key">cisco.ios.ios_logging_global</span>:
+        <span class="key">config</span>:
+          <span class="key">hosts</span>:
+            - <span class="key">hostname</span>: <span class="str">"{{ syslog_server }}"</span>
+        <span class="key">state</span>: <span class="str">merged</span>
+
+    <span class="comment"># --- Mentés ---</span>
+    - <span class="key">name</span>: <span class="str">Running config mentése</span>
+      <span class="key">cisco.ios.ios_command</span>:
+        <span class="key">commands</span>: <span class="str">write memory</span>
+
+    <span class="comment"># --- Visszaellenőrzés ---</span>
+    - <span class="key">name</span>: <span class="str">VLAN adatbázis ellenőrzése</span>
+      <span class="key">cisco.ios.ios_command</span>:
+        <span class="key">commands</span>: <span class="str">show vlan brief</span>
+      <span class="key">register</span>: <span class="var">vlan_output</span>
+
+    - <span class="key">name</span>: <span class="str">VLAN output megjelenítése</span>
+      <span class="key">debug</span>:
+        <span class="key">var</span>: <span class="var">vlan_output.stdout_lines</span></pre>
+      </div>
+
+      <h3>Futtatás</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Bash — Terminal</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment"># Dry run — csak megmutatja, mi változna (nem hajt végre semmit!)</span>
+ansible-playbook -i inventory/hosts.yml playbooks/access_switch_baseline.yml <span class="op">--check</span>
+
+<span class="comment"># Csak egy eszközön (teszt előtt)</span>
+ansible-playbook -i inventory/hosts.yml playbooks/access_switch_baseline.yml <span class="op">--limit</span> acc-sw01
+
+<span class="comment"># Éles futtatás</span>
+ansible-playbook -i inventory/hosts.yml playbooks/access_switch_baseline.yml
+
+<span class="comment"># Részletes kimenet (debug)</span>
+ansible-playbook -i inventory/hosts.yml playbooks/access_switch_baseline.yml <span class="op">-v</span>   <span class="comment"># verbose</span>
+ansible-playbook -i inventory/hosts.yml playbooks/access_switch_baseline.yml <span class="op">-vvv</span> <span class="comment"># nagyon részletes</span></pre>
+      </div>
+    </div>
+
+    <!-- SECTION 10: VSCODE -->
+    <div class="section" id="vscode-setup">
+      <div class="section-header">
+        <div class="section-number">10</div>
+        <div>
+          <h2>VSCode beállítás</h2>
+          <div class="section-desc">Hatékony munkakörnyezet kialakítása</div>
+        </div>
+      </div>
+
+      <h3>Szükséges extensions</h3>
+      <div class="card-grid">
+        <div class="card blue">
+          <div class="card-icon">🔵</div>
+          <h4>Ansible (Red Hat)</h4>
+          <p>Szintaxis highlight, autocomplete, linting YAML fájlokhoz. Extension ID: <code>redhat.ansible</code></p>
+        </div>
+        <div class="card green">
+          <div class="card-icon">📝</div>
+          <h4>YAML (Red Hat)</h4>
+          <p>Általános YAML szerkesztő, schema validáció. Extension ID: <code>redhat.vscode-yaml</code></p>
+        </div>
+        <div class="card yellow">
+          <div class="card-icon">🔐</div>
+          <h4>Ansible Vault Inline</h4>
+          <p>Vault értékek szerkesztése VSCode-ból közvetlenül. Extension ID: <code>wolfmah.ansible-vault-inline</code></p>
+        </div>
+        <div class="card accent">
+          <div class="card-icon">🌳</div>
+          <h4>GitLens</h4>
+          <p>Konfiguráció változások követése, ki mit változtatott.</p>
+        </div>
+      </div>
+
+      <h3>Extension telepítése</h3>
+      <div class="vscode-block">
+        <div class="vscode-titlebar">VSCode — Extensions panel</div>
+        <div class="vscode-body">
+          <p style="color:#cccccc; font-size:13px; margin-bottom:12px;">Nyisd meg az Extensions panelt: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>X</kbd></p>
+          <p style="color:#858585; font-size:13px; margin-bottom:8px;">Keress rá:</p>
+          <div style="background:#2d2d2d; padding:10px 14px; border-radius:4px; margin-bottom:8px;">
+            <code style="background:transparent; border:none; color:#ce9178; font-size:13px;">redhat.ansible</code>
+          </div>
+          <div style="background:#2d2d2d; padding:10px 14px; border-radius:4px; margin-bottom:8px;">
+            <code style="background:transparent; border:none; color:#ce9178; font-size:13px;">redhat.vscode-yaml</code>
+          </div>
+          <p style="color:#858585; font-size:12px; margin-top:12px;">Vagy terminálból: <code>code --install-extension redhat.ansible</code></p>
+        </div>
+      </div>
+
+      <h3>VSCode settings.json beállítások</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">JSON — .vscode/settings.json (projekt szintű)</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre>{
+  <span class="key">"ansible.python.interpreterPath"</span>: <span class="str">"/usr/bin/python3"</span>,
+  <span class="key">"ansible.validation.enabled"</span>: <span class="kw">true</span>,
+  <span class="key">"ansible.validation.lint.enabled"</span>: <span class="kw">true</span>,
+  <span class="key">"editor.tabSize"</span>: <span class="num">2</span>,
+  <span class="key">"editor.insertSpaces"</span>: <span class="kw">true</span>,
+  <span class="key">"editor.renderWhitespace"</span>: <span class="str">"boundary"</span>,
+  <span class="key">"files.associations"</span>: {
+    <span class="key">"*.yml"</span>: <span class="str">"ansible"</span>,
+    <span class="key">"*.yaml"</span>: <span class="str">"ansible"</span>
+  },
+  <span class="key">"[ansible]"</span>: {
+    <span class="key">"editor.autoIndent"</span>: <span class="str">"full"</span>,
+    <span class="key">"editor.formatOnSave"</span>: <span class="kw">false</span>
+  }
+}</pre>
+      </div>
+
+      <h3>Hasznos billentyűkombinációk</h3>
+      <table>
+        <thead>
+          <tr><th>Kombináció</th><th>Funkció</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd></td><td>Terminál megnyitása (itt futtatod az ansible-playbook parancsot)</td></tr>
+          <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></td><td>Command palette — minden VSCode funkció</td></tr>
+          <tr><td><kbd>F12</kbd></td><td>Definition ugrás (role-okhoz hasznos)</td></tr>
+          <tr><td><kbd>Ctrl</kbd> + <kbd>Space</kbd></td><td>Autocomplete kényszerítése (Ansible extension kelll)</td></tr>
+          <tr><td><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></td><td>YAML formázás</td></tr>
+          <tr><td><kbd>Ctrl</kbd> + <kbd>K</kbd> <kbd>V</kbd></td><td>Markdown preview (ha README-t írsz)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 11: CLAUDE WORKFLOW -->
+    <div class="section" id="claude-workflow">
+      <div class="section-header">
+        <div class="section-number">11</div>
+        <div>
+          <h2>Claude Code + Ansible Workflow</h2>
+          <div class="section-desc">Hogyan dolgozzunk együtt hatékonyan?</div>
+        </div>
+      </div>
+
+      <p>A leghatékonyabb workflow, ha a Claude Code és a VSCode terminál szoros együttműködésben dolgoznak. Íme a bevált folyamat:</p>
+
+      <div class="diagram">
+        <p style="color:var(--text-muted); font-size:12px; margin-bottom:20px; text-transform:uppercase; letter-spacing:1px;">Közös munkamódszer</p>
+        <div class="diagram-flow">
+          <div class="flow-box red">Leírod a célt<br/><small style="opacity:.6">Claude Chatben</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box blue">Claude megírja<br/><small style="opacity:.6">a playbookot</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box green">Te futtatod<br/><small style="opacity:.6">--check módban</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box" style="border-color:var(--yellow);color:var(--yellow);background:rgba(245,197,66,0.1)">Output visszaadod<br/><small style="opacity:.6">Claudenak</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-box red">Éles futtatás<br/><small style="opacity:.6">Ha minden OK</small></div>
+        </div>
+      </div>
+
+      <h3>Praktikus tippek a közös munkához</h3>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Nyisd meg a releváns fájlokat VSCode-ban</h4>
+            <p>Ha az inventory fájlt megnyitod, Claude látja a tartalmát és pontosan arra a struktúrára írja a playbookot, ami neked van.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Mindig <code>--check</code> először</h4>
+            <p>Futtasd dry-run módban, másold be a terminál outputot Claude Chatbe. Claude megmagyarázza, mi fog történni és figyelmeztet ha valami nem stimmel.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Hiba esetén másold be a teljes hibaüzenetet</h4>
+            <p>Az Ansible hibaüzenetek pontosan megmondják, melyik task, melyik eszközön bukott el. Claude ebből azonnal diagnosztizál.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Commit minden futtatás előtt</h4>
+            <p><code>git commit</code> a playbookra — így mindig vissza tudsz állni, ha valami elromlik. Claude segít a commit message megírásában is.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Hasznos kérdések Claude-nak</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Példa promptok</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment"># Playbook generálás</span>
+<span class="str">"Írj egy Ansible playbookot, ami a hosts.yml-ben lévő
+ access switcheken létrehozza a 10, 20, 30-as VLAN-okat"</span>
+
+<span class="comment"># Hiba debug</span>
+<span class="str">"Ez a hibaüzenet jött: [ide bemásolod]. Mi a probléma?"</span>
+
+<span class="comment"># Existing config audit</span>
+<span class="str">"Írj egy playbookot ami lekéri a show running-config
+ kimenetét és elmenti fájlba eszközönként"</span>
+
+<span class="comment"># Módosítás</span>
+<span class="str">"Ez a playbook [ide bemásolod] csak az acc-sw01-en fusson,
+ és adjon hozzá verbose debug outputot minden taskhoz"</span></pre>
+      </div>
+
+      <div class="alert tip">
+        <div class="alert-icon">🤖</div>
+        <div class="alert-body">
+          <strong>Pro tipp: Kontextus adás</strong>
+          <p>Ha a VSCode-ban nyitva van az <code>ansible.cfg</code> vagy az <code>inventory/hosts.yml</code>, Claude látja ezeket és nem kell magyaráznod a struktúrát — egyből rá tud hangolódni a projektedre.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 12: GYORS REFERENCIA -->
+    <div class="section" id="gyors-referencia">
+      <div class="section-header">
+        <div class="section-number">12</div>
+        <div>
+          <h2>Gyors referencia</h2>
+          <div class="section-desc">Mindennapi parancsok</div>
+        </div>
+      </div>
+
+      <h3>Telepítés (WSL / Linux)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Bash — Ansible telepítés</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment"># Ubuntu / Debian</span>
+sudo apt update && sudo apt install -y ansible python3-pip
+
+<span class="comment"># Vagy pip-pel (legfrissebb verzió)</span>
+pip3 install ansible
+
+<span class="comment"># Cisco collection telepítése</span>
+ansible-galaxy collection install cisco.ios
+ansible-galaxy collection install cisco.nxos   <span class="comment"># NX-OS esetén</span>
+
+<span class="comment"># Netmiko (ha ios_command helyett közvetlen SSH kell)</span>
+pip3 install netmiko paramiko
+
+<span class="comment"># Verzió ellenőrzés</span>
+ansible --version</pre>
+      </div>
+
+      <div class="alert warning">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-body">
+          <strong>Windows megjegyzés</strong>
+          <p>Az Ansible nem fut natívan Windowson. Használj <strong>WSL2</strong>-t (Windows Subsystem for Linux) — VSCode automatikusan tud WSL-ben dolgozni a Remote - WSL extension segítségével.</p>
+        </div>
+      </div>
+
+      <h3>Leggyakoribb parancsok</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Bash — Cheatsheet</span>
+          <div class="code-dots">
+            <div class="code-dot" style="background:#ff5f57"></div>
+            <div class="code-dot" style="background:#febc2e"></div>
+            <div class="code-dot" style="background:#28c840"></div>
+          </div>
+        </div>
+        <pre><span class="comment"># Inventory ellenőrzés</span>
+ansible-inventory -i hosts.yml --list
+ansible-inventory -i hosts.yml --graph
+
+<span class="comment"># Ping teszt (elérhető-e az eszköz?)</span>
+ansible -i hosts.yml all -m ping
+ansible -i hosts.yml access_switches -m ping
+
+<span class="comment"># Ad-hoc parancs futtatása (playbook nélkül)</span>
+ansible -i hosts.yml sw01 -m cisco.ios.ios_command -a "commands='show version'"
+
+<span class="comment"># Playbook futtatás</span>
+ansible-playbook -i hosts.yml playbook.yml              <span class="comment"># normál</span>
+ansible-playbook -i hosts.yml playbook.yml --check      <span class="comment"># dry run</span>
+ansible-playbook -i hosts.yml playbook.yml --diff       <span class="comment"># változások diff-je</span>
+ansible-playbook -i hosts.yml playbook.yml --limit sw01 <span class="comment"># csak egy eszköz</span>
+ansible-playbook -i hosts.yml playbook.yml --tags vlan  <span class="comment"># csak tagged taskok</span>
+ansible-playbook -i hosts.yml playbook.yml -v           <span class="comment"># verbose</span>
+
+<span class="comment"># Vault</span>
+ansible-vault create secrets.yml
+ansible-vault edit secrets.yml
+ansible-vault view secrets.yml
+ansible-playbook playbook.yml --ask-vault-pass
+
+<span class="comment"># Syntax ellenőrzés</span>
+ansible-playbook playbook.yml --syntax-check
+
+<span class="comment"># Lint (kód minőség)</span>
+ansible-lint playbook.yml</pre>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="alert success">
+        <div class="alert-icon">🚀</div>
+        <div class="alert-body">
+          <strong>Következő lépés</strong>
+          <p>Ha megértetted az alapokat, gyere vissza és együtt konfigurálunk egy valós eszközt! Ajánlott első feladat: VLAN-ok deploy-olása az egyik access switchedre <code>--check</code> módban, hogy lássuk mi történne.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div>
+    <strong>Ansible Tutorial</strong> — Semmelweis Hálózatfejlesztés<br/>
+    <span style="font-size:12px">Generálta: Claude Code (claude-sonnet-4-6) · 2026-04-02</span>
+  </div>
+  <div style="text-align:right; font-size:12px; color:var(--text-muted)">
+    Ansible Docs: <a href="#">docs.ansible.com</a> ·
+    Cisco IOS Collection: <a href="#">galaxy.ansible.com</a>
+  </div>
+</footer>
+
+<script>
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('nav.sidebar a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
